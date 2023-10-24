@@ -1,4 +1,4 @@
-package com.jaam.myapplication;
+package com.jaam.transittrack;
 
 import org.junit.Test;
 
