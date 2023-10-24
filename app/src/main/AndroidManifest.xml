@@ -26,11 +26,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-<<<<<<< HEAD
-            android:value="AIzaSyDo5tPeFQ4t-kilIYdUlMLyplsoDQi4cp4" />
-=======
             android:value="${MAPS_KEY}" />
->>>>>>> 506d2fa... wip: prototype for authenicating user
     </application>
 
 </manifest>
