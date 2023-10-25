@@ -14,6 +14,7 @@ public class CalendarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
         getGoogleCalendarButton = findViewById(R.id.googleCalendarButton);
+        uploadCalendarFileButton = findViewById(R.id.uploadFileButton);
 
     }
 }
