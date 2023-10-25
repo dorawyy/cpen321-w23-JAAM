@@ -56,6 +56,12 @@ public class MainActivity extends AppCompatActivity {
     });
 
     private void updateUI(GoogleSignInAccount account) {
+        if(account == null){
+            return;
+        }
+        else{
+            //do something
+        }
     }
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
@@ -63,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
 
             // Signed in successfully, show authenticated UI.
             updateUI(account);
-            Intent serverInfoIntent = new Intent(MainActivity.this, MapsActivity.class);
-            startActivity(serverInfoIntent);
+            Intent mapsIntent = new Intent(MainActivity.this, MapsActivity.class);
+            startActivity(mapsIntent);
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.

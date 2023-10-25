@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">TransitTrack</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="calendar_button_text">Calendar</string>
+    <string name="get_google_calendar_button_text">Get Google Calendar</string>
+    <string name="upload_file_button_text">Upload Calendar File</string>
 </resources>
