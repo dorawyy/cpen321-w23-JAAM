@@ -25,6 +25,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
 
     final static String TAG = "MainActivity";
@@ -102,6 +107,12 @@ public class MainActivity extends AppCompatActivity {
 
             // Signed in successfully, show authenticated UI.
             updateUI(account);
+            JSONObject user = new JSONObject();
+            user.put("firstName", account.getGivenName());
+            user.put("lastName", account.getFamilyName());
+            user.put("email", account.getEmail());
+            OkHTTPHelper.createUser(user);
+
             Intent mapsIntent = new Intent(MainActivity.this, MapsActivity.class);
             startActivity(mapsIntent);
         } catch (ApiException e) {
@@ -109,6 +120,10 @@ public class MainActivity extends AppCompatActivity {
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
             updateUI(null);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
     /**
