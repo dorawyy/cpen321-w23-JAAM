@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         checkLocationPermissions();
         checkInternetPerms();
         // Configure sign-in to request the user's ID, email address, and basic
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
             if (result.getResultCode() == RESULT_OK) {
                 Intent data = result.getData();
                 Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                Log.d(TAG, "handling sign in result");
                 handleSignInResult(task);
 
             }
@@ -74,6 +76,9 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             //do something
+            Log.d(TAG, "Starting Route Intent");
+            Intent mapsIntent = new Intent(MainActivity.this, RouteActivity.class);
+            startActivity(mapsIntent);
         }
     }
     /**
@@ -104,17 +109,16 @@ public class MainActivity extends AppCompatActivity {
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-
-            // Signed in successfully, show authenticated UI.
+            if(account != null) {
+                // Signed in successfully, show authenticated UI.
+                JSONObject user = new JSONObject();
+                user.put("firstName", account.getGivenName());
+                user.put("lastName", account.getFamilyName());
+                user.put("email", account.getEmail());
+                //OkHTTPHelper.createUser(user);
+            }
             updateUI(account);
-            JSONObject user = new JSONObject();
-            user.put("firstName", account.getGivenName());
-            user.put("lastName", account.getFamilyName());
-            user.put("email", account.getEmail());
-            OkHTTPHelper.createUser(user);
 
-            Intent mapsIntent = new Intent(MainActivity.this, MapsActivity.class);
-            startActivity(mapsIntent);
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
@@ -122,9 +126,10 @@ public class MainActivity extends AppCompatActivity {
             updateUI(null);
         } catch (JSONException e) {
             throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
     }
     /**
      * Checks and requests location permissions if not granted.

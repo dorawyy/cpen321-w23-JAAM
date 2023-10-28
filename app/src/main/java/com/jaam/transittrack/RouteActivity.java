@@ -11,9 +11,13 @@ import android.location.Location;
 import android.location.Geocoder;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -27,7 +31,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class RouteActivity extends AppCompatActivity implements LocationListener {
 
@@ -36,19 +43,21 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
     private Location currLocation;
 
     private ListView stopListView;
-    private ArrayList<String> stops;
+    private static ArrayList<String> stops = new ArrayList<String>();
 
     private String board, disembark;
 
     protected LocationManager locationManager;
     protected LocationListener locationListener;
-
+    final static String TAG = "RouteActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_route);
-
+        Log.d(TAG, "In Route Activity");
         locationManager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -97,19 +106,47 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
             @Override
             public void onClick(View v) {
                 try {
-                    JSONArray route = new JSONArray(getRoute(currLocation, String.valueOf(searchTextView.getText())));
+                    stops.clear();
+                    final JSONArray[] routeArray = new JSONArray[1];
                     JSONObject start, end;
-                    for(int i = 0; i < route.length(); i++){
-                        start = route.getJSONObject(i).getJSONObject("Start");
-                        end = route.getJSONObject(i).getJSONObject("End");
-                        board = start.getString("Time") +": Board "+ start.getString("Bus")+  " @ " + start.getString("Stop");
-                        disembark = end.get("Time") + ": Disembark " + end.getString("Bus")+ " @ " + end.getString("Stop");
-                        stops.add(board);
-                        stops.add(disembark);
+                    executor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                String routeString = getRoute(currLocation, String.valueOf(searchTextView.getText()));
+                                Log.d(TAG, routeString);
+                                routeArray[0] = new JSONArray(routeString);
+                                Log.d(TAG, Arrays.toString(routeArray));
+                                Log.d(TAG, String.valueOf(routeArray[0]));
+                                Log.d(TAG, String.valueOf(routeArray[0].length()));
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+
+                        }
+                    });
+                    JSONArray route = null;
+                    if(routeArray != null){
+                         route = routeArray[0];
+                    }
+                    if(route != null) {
+                        for (int i = 0; i < route.length(); i++) {
+                            Log.d(TAG, "Adding route" + i);
+                            start = route.getJSONObject(i).getJSONObject("Start");
+                            end = route.getJSONObject(i).getJSONObject("End");
+                            board = start.getString("Time") + ": Board " + start.getString("Bus") + " @ " + start.getString("Stop");
+                            disembark = end.get("Time") + ": Disembark " + end.getString("Bus") + " @ " + end.getString("Stop");
+                            stops.add(board);
+                            stops.add(disembark);
+                            findViewById(R.id.routeLoadingProgressBar).setVisibility(View.INVISIBLE);
+                        }
+                    }
+                    else{
+                        Log.d(TAG,"Route empty");
                     }
                 } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             }
@@ -155,8 +192,12 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
         JSONObject endPoints = new JSONObject();
         endPoints.put("start", new double[]{currLocation.getLatitude(), currLocation.getLongitude()});
         List<Address> addressList = geocoder.getFromLocationName(search, 1);
-        Address address = addressList.get(0);
-        endPoints.put("end", new double[]{address.getLatitude(), address.getLongitude()});
+        Address address;
+        if(addressList.size() > 0){
+             address = addressList.get(0);
+            endPoints.put("end", new double[]{address.getLatitude(), address.getLongitude()});
+        }
         return OkHTTPHelper.getRoute(endPoints);
     }
+
 }
