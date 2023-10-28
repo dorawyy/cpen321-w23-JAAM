@@ -28,4 +28,13 @@ public class OkHTTPHelper {
         return response.body().string();
 
     }
+    static String getRoute(JSONObject endPoints) throws IOException{
+        RequestBody requestBody = RequestBody.create(endPoints.toString(), JSON);
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/createUser")
+                .post(requestBody)
+                .build();
+        Response response = client.newCall(request).execute();
+        return response.body().string();
+    }
 }
