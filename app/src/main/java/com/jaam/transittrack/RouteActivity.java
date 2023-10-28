@@ -120,7 +120,36 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
     public void onLocationChanged(@NonNull Location location) {
         currLocation = location;
     }
-
+    /**
+     * Retrieves a route between the current location and a destination using a geocoder and an HTTP request.
+     *
+     * This method takes the current location and a destination address as input, geocodes the address to obtain its
+     * latitude and longitude, and then sends an HTTP request to a server to obtain a route between the current location
+     * and the destination. The route information is returned as a JSON string.
+     *
+     * @param currLocation The current location from which the route will start.
+     * @param search The destination address or place to which the route is needed.
+     * @return A JSON string containing route information between the current location and the destination.
+     *
+     * @throws JSONException If there are issues with JSON parsing.
+     * @throws IOException If there are network or I/O-related issues.
+     *
+     * Usage:
+     * - Call this method to obtain a route between the current location and a destination.
+     * - Ensure that the device has an internet connection for geocoding and making HTTP requests.
+     *
+     * Example usage:
+     * ```
+     * Location currentLocation = // Get the current location from a LocationProvider.
+     * String destination = "1600 Amphitheatre Parkway, Mountain View, CA"; // Destination address or place.
+     * String routeJson = getRoute(currentLocation, destination);
+     * // Process the routeJson to display the route information on a map, for example.
+     * ```
+     *
+     * Note:
+     * - This method assumes that the `OkHTTPHelper.getRoute` method is implemented and functioning as expected.
+     * - It also assumes that the `BASE_URL` and JSON format are correctly configured in the `OkHTTPHelper` class.
+     */
     private String getRoute(Location currLocation, String search) throws JSONException, IOException {
         Geocoder geocoder = new Geocoder(this);
         JSONObject endPoints = new JSONObject();
