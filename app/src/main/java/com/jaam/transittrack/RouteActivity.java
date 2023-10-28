@@ -15,6 +15,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.StrictMode;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -35,6 +36,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Semaphore;
 
 public class RouteActivity extends AppCompatActivity implements LocationListener {
 
@@ -46,6 +48,7 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
     private static ArrayList<String> stops = new ArrayList<String>();
 
     private String board, disembark;
+    private Semaphore stopSem = new Semaphore(1);
 
     protected LocationManager locationManager;
     protected LocationListener locationListener;
@@ -54,6 +57,8 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_route);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         Log.d(TAG, "In Route Activity");
         locationManager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -73,7 +78,7 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
         searchButton = findViewById(R.id.searchButton);
         searchTextView = findViewById(R.id.searchTextField);
         stopListView = findViewById(R.id.stopList);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_route, stops);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.route_layout,R.id.textView2, stops);
         stopListView.setAdapter(arrayAdapter);
 
 
@@ -106,46 +111,40 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
             @Override
             public void onClick(View v) {
                 try {
-                    stops.clear();
-                    final JSONArray[] routeArray = new JSONArray[1];
+                    //stops.clear();
+                    JSONArray[] routeArray = new JSONArray[1];
                     JSONObject start, end;
-                    executor.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                String routeString = getRoute(currLocation, String.valueOf(searchTextView.getText()));
-                                Log.d(TAG, routeString);
-                                routeArray[0] = new JSONArray(routeString);
-                                Log.d(TAG, Arrays.toString(routeArray));
-                                Log.d(TAG, String.valueOf(routeArray[0]));
-                                Log.d(TAG, String.valueOf(routeArray[0].length()));
-                            } catch (JSONException e) {
-                                throw new RuntimeException(e);
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
 
-                        }
-                    });
-                    JSONArray route = null;
-                    if(routeArray != null){
-                         route = routeArray[0];
+                    String routeString = null;
+                    try {
+                        routeString = getRoute(currLocation, String.valueOf(searchTextView.getText()));
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
-                    if(route != null) {
+                    Log.d(TAG, routeString);
+                    try {
+                        routeArray[0] = new JSONArray(routeString);
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                    Log.d(TAG, Arrays.toString(routeArray));
+                    Log.d(TAG, String.valueOf(routeArray[0]));
+                    Log.d(TAG, String.valueOf(routeArray[0].length()));
+                    JSONArray route = routeArray[0];
                         for (int i = 0; i < route.length(); i++) {
                             Log.d(TAG, "Adding route" + i);
                             start = route.getJSONObject(i).getJSONObject("Start");
                             end = route.getJSONObject(i).getJSONObject("End");
                             board = start.getString("Time") + ": Board " + start.getString("Bus") + " @ " + start.getString("Stop");
                             disembark = end.get("Time") + ": Disembark " + end.getString("Bus") + " @ " + end.getString("Stop");
-                            stops.add(board);
-                            stops.add(disembark);
+                            arrayAdapter.add(board);
+                            arrayAdapter.add(disembark);
+                            arrayAdapter.notifyDataSetChanged();
                             findViewById(R.id.routeLoadingProgressBar).setVisibility(View.INVISIBLE);
                         }
-                    }
-                    else{
-                        Log.d(TAG,"Route empty");
-                    }
+
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
