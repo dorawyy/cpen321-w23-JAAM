@@ -5,13 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Location;
 import android.location.Geocoder;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -36,7 +36,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Semaphore;
 
 public class RouteActivity extends AppCompatActivity implements LocationListener {
 
@@ -48,15 +47,15 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
     private static ArrayList<String> stops = new ArrayList<String>();
 
     private String board, disembark;
-    private Semaphore stopSem = new Semaphore(1);
 
     protected LocationManager locationManager;
-    protected LocationListener locationListener;
     final static String TAG = "RouteActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_route);
+        //work around for not running http requests off main thread. really don't want to deal with race conditions/synchronization
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         Log.d(TAG, "In Route Activity");
@@ -78,7 +77,16 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
         searchButton = findViewById(R.id.searchButton);
         searchTextView = findViewById(R.id.searchTextField);
         stopListView = findViewById(R.id.stopList);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.route_layout,R.id.textView2, stops);
+        findViewById(R.id.routeLoadingProgressBar).setVisibility(View.INVISIBLE);
+        findViewById(R.id.calendarActivityButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent calendarIntent = new Intent(RouteActivity.this, CalendarActivity.class);
+                startActivity(calendarIntent);
+            }
+        });
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.route_layout, R.id.textView2, stops);
         stopListView.setAdapter(arrayAdapter);
 
 
@@ -91,12 +99,11 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()<1){
+                if (s.length() < 1) {
                     searchButton.setAlpha(.5f);
                     searchButton.setClickable(false);
 
-                }
-                else{
+                } else {
                     searchButton.setAlpha(1f);
                     searchButton.setClickable(true);
                 }
@@ -110,8 +117,10 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //TODO put this in its own function
                 try {
-                    //stops.clear();
+                    findViewById(R.id.routeLoadingProgressBar).setVisibility(View.VISIBLE);
+                    stops.clear();
                     JSONArray[] routeArray = new JSONArray[1];
                     JSONObject start, end;
 
@@ -133,21 +142,22 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
                     Log.d(TAG, String.valueOf(routeArray[0]));
                     Log.d(TAG, String.valueOf(routeArray[0].length()));
                     JSONArray route = routeArray[0];
-                        for (int i = 0; i < route.length(); i++) {
-                            Log.d(TAG, "Adding route" + i);
-                            start = route.getJSONObject(i).getJSONObject("Start");
-                            end = route.getJSONObject(i).getJSONObject("End");
-                            board = start.getString("Time") + ": Board " + start.getString("Bus") + " @ " + start.getString("Stop");
-                            disembark = end.get("Time") + ": Disembark " + end.getString("Bus") + " @ " + end.getString("Stop");
-                            arrayAdapter.add(board);
-                            arrayAdapter.add(disembark);
-                            arrayAdapter.notifyDataSetChanged();
-                            findViewById(R.id.routeLoadingProgressBar).setVisibility(View.INVISIBLE);
-                        }
+                    for (int i = 0; i < route.length(); i++) {
+                        Log.d(TAG, "Adding route" + i);
+                        start = route.getJSONObject(i).getJSONObject("Start");
+                        end = route.getJSONObject(i).getJSONObject("End");
+                        board = start.getString("Time") + ": Board " + start.getString("Bus") + " @ " + start.getString("Stop");
+                        disembark = end.get("Time") + ": Disembark " + end.getString("Bus") + " @ " + end.getString("Stop");
+                        arrayAdapter.add(board);
+                        arrayAdapter.add(disembark);
+                        arrayAdapter.notifyDataSetChanged();
+
+                    }
 
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
+                findViewById(R.id.routeLoadingProgressBar).setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -156,35 +166,35 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
     public void onLocationChanged(@NonNull Location location) {
         currLocation = location;
     }
+
     /**
      * Retrieves a route between the current location and a destination using a geocoder and an HTTP request.
-     *
+     * <p>
      * This method takes the current location and a destination address as input, geocodes the address to obtain its
      * latitude and longitude, and then sends an HTTP request to a server to obtain a route between the current location
      * and the destination. The route information is returned as a JSON string.
      *
      * @param currLocation The current location from which the route will start.
-     * @param search The destination address or place to which the route is needed.
+     * @param search       The destination address or place to which the route is needed.
      * @return A JSON string containing route information between the current location and the destination.
-     *
      * @throws JSONException If there are issues with JSON parsing.
-     * @throws IOException If there are network or I/O-related issues.
-     *
-     * Usage:
-     * - Call this method to obtain a route between the current location and a destination.
-     * - Ensure that the device has an internet connection for geocoding and making HTTP requests.
-     *
-     * Example usage:
-     * ```
-     * Location currentLocation = // Get the current location from a LocationProvider.
-     * String destination = "1600 Amphitheatre Parkway, Mountain View, CA"; // Destination address or place.
-     * String routeJson = getRoute(currentLocation, destination);
-     * // Process the routeJson to display the route information on a map, for example.
-     * ```
-     *
-     * Note:
-     * - This method assumes that the `OkHTTPHelper.getRoute` method is implemented and functioning as expected.
-     * - It also assumes that the `BASE_URL` and JSON format are correctly configured in the `OkHTTPHelper` class.
+     * @throws IOException   If there are network or I/O-related issues.
+     *                       <p>
+     *                       Usage:
+     *                       - Call this method to obtain a route between the current location and a destination.
+     *                       - Ensure that the device has an internet connection for geocoding and making HTTP requests.
+     *                       <p>
+     *                       Example usage:
+     *                       ```
+     *                       Location currentLocation = // Get the current location from a LocationProvider.
+     *                       String destination = "1600 Amphitheatre Parkway, Mountain View, CA"; // Destination address or place.
+     *                       String routeJson = getRoute(currentLocation, destination);
+     *                       // Process the routeJson to display the route information on a map, for example.
+     *                       ```
+     *                       <p>
+     *                       Note:
+     *                       - This method assumes that the `OkHTTPHelper.getRoute` method is implemented and functioning as expected.
+     *                       - It also assumes that the `BASE_URL` and JSON format are correctly configured in the `OkHTTPHelper` class.
      */
     private String getRoute(Location currLocation, String search) throws JSONException, IOException {
         Geocoder geocoder = new Geocoder(this);
@@ -192,8 +202,8 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
         endPoints.put("start", new double[]{currLocation.getLatitude(), currLocation.getLongitude()});
         List<Address> addressList = geocoder.getFromLocationName(search, 1);
         Address address;
-        if(addressList.size() > 0){
-             address = addressList.get(0);
+        if (addressList.size() > 0) {
+            address = addressList.get(0);
             endPoints.put("end", new double[]{address.getLatitude(), address.getLongitude()});
         }
         return OkHTTPHelper.getRoute(endPoints);

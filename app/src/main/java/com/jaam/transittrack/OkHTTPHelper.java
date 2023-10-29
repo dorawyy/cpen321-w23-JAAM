@@ -19,6 +19,7 @@ public class OkHTTPHelper {
             = MediaType.parse("application/json");
 
     static OkHttpClient client = new OkHttpClient();
+
     //@POST
     static void createUser(JSONObject user) throws IOException {
         RequestBody requestBody = RequestBody.create(user.toString(), JSON);
@@ -26,10 +27,11 @@ public class OkHTTPHelper {
                 .url(BASE_URL + "/createUser")
                 .post(requestBody)
                 .build();
-        Response response = client.newCall(request).execute();
+        client.newCall(request).execute();
 
     }
-    static String getRoute(JSONObject endPoints) throws IOException{
+
+    static String getRoute(JSONObject endPoints) throws IOException {
         RequestBody requestBody = RequestBody.create(endPoints.toString(), JSON);
         Request request = new Request.Builder()
                 .url(BASE_URL + "/route")

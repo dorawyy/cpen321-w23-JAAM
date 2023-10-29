@@ -8,6 +8,17 @@
     android:gravity="center"
     tools:context=".RouteActivity">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/calendarActivityButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:contentDescription="Launches calendar"
+        android:src="@android:drawable/ic_menu_my_calendar"
+        app:fabSize="auto"
+        app:layout_constraintBottom_toBottomOf="@+id/stopList"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <ProgressBar
         android:id="@+id/routeLoadingProgressBar"
         style="?android:attr/progressBarStyle"
