@@ -3,10 +3,11 @@ package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-
+import android.util.Base64;
 import java.io.IOException;
 
 import okhttp3.FormBody;
@@ -14,11 +15,16 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.internal.http.RetryAndFollowUpInterceptor;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        String username = "963";
+        String credentials1 = username;
+        String base64Credentials = Base64.encodeToString(credentials1.getBytes(), Base64.NO_WRAP);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         EditText field = findViewById(R.id.addFriendInput);
@@ -31,9 +37,13 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("BUTTON", "Field is:" + String.valueOf(field2.getText()));
                 OkHttpClient client = new OkHttpClient();
 
+                StrictMode.ThreadPolicy gfgPolicy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(gfgPolicy);
+
                 RequestBody requestBody = new FormBody.Builder()
-                        .add("friend_email", String.valueOf(field.getText()))
-                        .add("requester_email", String.valueOf(field2.getText()))
+//                        .addHeader("Authorization", "Basic " + base64Credentials)
+                        .add("friendEmail", String.valueOf(field.getText()))
+                        .add("userEmail", String.valueOf(field2.getText()))
                         .build();
 
                 Request postRequest = new Request.Builder()
@@ -42,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
                         .build();
 
                 try {
+                    Log.d("RESPONSE", "BEFORE");
                     Response response = client.newCall(postRequest).execute();
                     Log.d("REPSONSE", response.body().string());
                 } catch (IOException e) {
