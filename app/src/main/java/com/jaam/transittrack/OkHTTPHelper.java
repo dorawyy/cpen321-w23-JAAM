@@ -14,7 +14,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class OkHTTPHelper {
-    static final private String BASE_URL = "http://10.0.2.2:3000";
+    static final private String BASE_URL = "http://4.205.17.106:8081";
     public static final MediaType JSON
             = MediaType.parse("application/json");
 
@@ -24,7 +24,7 @@ public class OkHTTPHelper {
     static void createUser(JSONObject user) throws IOException {
         RequestBody requestBody = RequestBody.create(user.toString(), JSON);
         Request request = new Request.Builder()
-                .url("http://4.205.17.106:8081" + "/createUser")
+                .url(BASE_URL + "/createUser")
                 .post(requestBody)
                 .build();
         client.newCall(request).execute();
@@ -34,8 +34,24 @@ public class OkHTTPHelper {
     static String getRoute(JSONObject endPoints) throws IOException {
         RequestBody requestBody = RequestBody.create(endPoints.toString(), JSON);
         Request request = new Request.Builder()
-                .url(BASE_URL + "/route")
+                .url("http://10.0.2.2:3000" + "/route")
                 .post(requestBody)
+                .build();
+        Response response = client.newCall(request).execute();
+        return response.body().string();
+    }
+
+    static String getChatHistory() throws IOException{
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/api/chat/history")
+                .build();
+        Response response = client.newCall(request).execute();
+        return response.body().string();
+    }
+
+    static String getLastMessage() throws IOException{
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/getLastMessage")
                 .build();
         Response response = client.newCall(request).execute();
         return response.body().string();

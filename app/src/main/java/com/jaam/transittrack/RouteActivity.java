@@ -41,6 +41,9 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
 
     private EditText searchTextView;
     private FloatingActionButton searchButton;
+
+    private FloatingActionButton chatButton;
+    private FloatingActionButton friendListButton;
     private Location currLocation;
 
     private ListView stopListView;
@@ -78,6 +81,11 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
         searchTextView = findViewById(R.id.searchTextField);
         stopListView = findViewById(R.id.stopList);
         findViewById(R.id.routeLoadingProgressBar).setVisibility(View.INVISIBLE);
+
+        chatButton = findViewById(R.id.chatButton);
+        friendListButton = findViewById(R.id.friendListButton);
+
+
         findViewById(R.id.calendarActivityButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,7 +97,6 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.route_layout, R.id.textView2, stops);
         stopListView.setAdapter(arrayAdapter);
 
-
         searchTextView.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -99,6 +106,7 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //TODO maybe put in its own function
                 if (s.length() < 1) {
                     searchButton.setAlpha(.5f);
                     searchButton.setClickable(false);
@@ -160,6 +168,16 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
                 findViewById(R.id.routeLoadingProgressBar).setVisibility(View.INVISIBLE);
             }
         });
+
+        chatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent chatIntent = new Intent(RouteActivity.this, ChatActivity.class);
+                startActivity(chatIntent);
+
+            }
+        });
+
     }
 
     @Override

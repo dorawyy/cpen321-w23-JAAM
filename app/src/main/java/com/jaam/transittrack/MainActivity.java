@@ -4,6 +4,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -24,7 +25,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
         //work around for not running http requests off main thread. really don't want to deal with race conditions/synchronization
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+
+        FirebaseApp.initializeApp(this);
         // Configure sign-in to request the user's ID, email address, and basic
 // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -120,16 +126,49 @@ public class MainActivity extends AppCompatActivity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             if (account != null) {
+
+
                 // Signed in successfully, show authenticated UI.
                 Log.d(TAG, "Signed in sucessfully");
                 JSONObject user = new JSONObject();
-                String uidKey = account.getGivenName()+account.getFamilyName()+account.getEmail();
-                String uuidString = UUID.nameUUIDFromBytes(uidKey.getBytes()).toString();
-                Log.d(TAG, "UUID:"+ uuidString);
-                user.put("UUID", uuidString);
-                user.put("email", account.getEmail());
-                Log.d(TAG, user.toString());
-                OkHTTPHelper.createUser(user);
+                final String[] deviceToken = {""};
+                FirebaseMessaging.getInstance().getToken()
+                        .addOnCompleteListener(new OnCompleteListener<String>() {
+                            @Override
+                            public void onComplete(@NonNull Task<String> task) {
+                                if (!task.isSuccessful()) {
+                                    Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                                    return;
+                                }
+
+                                // Get new FCM registration token
+                                deviceToken[0] = task.getResult();
+                                try {
+                                    user.put("deviceToken", deviceToken[0]);
+                                    String uidKey = account.getGivenName()+account.getFamilyName()+account.getEmail();
+                                    String uuidString = UUID.nameUUIDFromBytes(uidKey.getBytes()).toString();
+                                    Log.d(TAG, "UUID:"+ uuidString);
+                                    user.put("UUID", uuidString);
+                                    user.put("email", account.getEmail());
+                                    Log.d(TAG, user.toString());
+                                    OkHTTPHelper.createUser(user);
+                                } catch (JSONException e) {
+                                    throw new RuntimeException(e);
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+
+                                // Log and toast
+//                        String msg = getString(R.string.msg_token_fmt, token);
+                                Log.d(TAG, "FCM Device Registration Token: "+deviceToken[0]);
+
+//                        TOKEN
+
+//                        fNgnfEh4RumbR4af-LLGkR:APA91bFb4pNSVMx80FugZSt8u4aLj4Z-LnlTSUC-xpFsqUO1gfLOVBhMElmbYiE76mC_ceyK7j8Db-HsxWrfS6BhW0YLRx3s4b7rwfCYjT537oDkQ69_T1Vm-zVhfWq99XZODm_sWeXO
+//                        Toast.makeText(MainActivity.this, "FCM Device Registration Token: "+token, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
             }
             updateUI(account);
 
@@ -138,10 +177,6 @@ public class MainActivity extends AppCompatActivity {
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
             updateUI(null);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
