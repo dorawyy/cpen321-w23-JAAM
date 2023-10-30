@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="button_text">Press to add friend!</string>
+    <string name="field_background">Friend\'s Email!</string>
+    <string name="field2_background">Your Email!</string>
+</resources>
