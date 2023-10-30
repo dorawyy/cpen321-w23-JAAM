@@ -1,4 +1,4 @@
-﻿trip_id,pattern_id,pattern_name
+trip_id,pattern_id,pattern_name
 13465439,282084,E1
 13465440,282084,E1
 13465444,282084,E1

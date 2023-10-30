@@ -1,4 +1,4 @@
-﻿direction,direction_id,route_id,route_short_name
+direction,direction_id,route_id,route_short_name
 EAST,0,6612,002
 WEST,1,6612,002
 NORTH,0,6613,003
