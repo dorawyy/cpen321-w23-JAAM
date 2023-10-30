@@ -2,7 +2,6 @@ const fs = require('fs');
 const routesPath = 'translink_data/routes.txt';
 const calendarDatesPath = 'translink_data/calendar_dates.txt';
 const calendarPath = 'translink_data/calendar.txt';
-const directionNamesExceptionsPath = 'translink_data/direction_names_exceptions.txt';
 const directionsPath = 'translink_data/directions.txt';
 const patternIdPath = 'translink_data/pattern_id.txt';
 const shapesPath = 'translink_data/shapes.txt';
@@ -15,22 +14,22 @@ const tripsPath = 'translink_data/trips.txt';
 
 
 async function main() {
-    var routes = parseFile(routesPath);
+    var routes = await parseFile(routesPath);
     var calendar = parseFile(calendarPath);
     var calendarDates = parseFile(calendarDatesPath);
-    var directionNamesExceptions = parseFile(directionNamesExceptionsPath);
-    var directions = parseFile(directionsPath);
+    var directions = await parseFile(directionsPath);
     var patternId = parseFile(patternIdPath);
-    var shapes = parseFile(shapesPath);
-    shapes = combineShapes(await shapes);
+    var shapes = await parseFile(shapesPath);
+    shapes = combineShapes(shapes);
     var stopOrderExceptions = parseFile(stopOrderExceptionsPath);
     var stops = parseFile(stopsPath);
     var stopTimes = parseFile(stopTimesPath);
     var transfers = parseFile(transfersPath);
     var trips = await parseFile(tripsPath);
     addShapesToTrips(shapes, trips);
-    addTripsToRoutes(trips, await routes)
-    // console.log(await trips);
+    addDirectionsToRoutes(directions, trips);
+    addTripsToRoutes(trips, routes);
+    // console.log(routes);
 }
 
 
@@ -58,7 +57,7 @@ function parseFile(path)  {
                     temp[titles[j]] = words[j];
                 }
                 output.push(temp);
-            }
+            }'﻿direction'
         
             resolve(output);
         });
@@ -87,6 +86,19 @@ function addShapesToTrips(shapes, trips) {
     });
 }
 
+function addDirectionsToRoutes(directions, trips) {
+    trips.forEach(trip => {
+        for (var i = 0; i < directions.length; i++) {
+            if (directions[i].route_id == trip.route_id && directions[i].direction_id == trip.direction_id) {
+                trip.direction = directions[i].direction;
+                if (trip.route_id == 6705) {
+                    console.log(trip);
+                }
+            }
+        }
+    });
+}
+
 function addTripsToRoutes(trips, routes) {
     routes.forEach(route => {
         route.trips = [];
@@ -97,7 +109,6 @@ function addTripsToRoutes(trips, routes) {
             }
         }
     });
-    console.log(routes[0].trips.length);
 }
 
 main();
