@@ -30,6 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d(TAG, "launching sign in intent");
                 Intent signInIntent = mGoogleSignInClient.getSignInIntent();
                 signInLauncher.launch(signInIntent);
             }
@@ -66,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
     ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
+            Log.d(TAG, "got sign in result");
             if (result.getResultCode() == RESULT_OK) {
                 Intent data = result.getData();
                 Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
@@ -73,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
                 handleSignInResult(task);
 
             }
+            Log.d(TAG, "result: "+ result.getResultCode());
+
         }
     });
 
@@ -111,13 +116,17 @@ public class MainActivity extends AppCompatActivity {
      * .addOnCompleteListener(this, new OnCompleteListener<GoogleSignInAccount>() {
      */
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        Log.d(TAG, "getting account");
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             if (account != null) {
                 // Signed in successfully, show authenticated UI.
+                Log.d(TAG, "Signed in sucessfully");
                 JSONObject user = new JSONObject();
-                user.put("firstName", account.getGivenName());
-                user.put("lastName", account.getFamilyName());
+                String uidKey = account.getGivenName()+account.getFamilyName()+account.getEmail();
+                String uuidString = UUID.nameUUIDFromBytes(uidKey.getBytes()).toString();
+                Log.d(TAG, "UUID:"+ uuidString);
+                user.put("UUID", uuidString);
                 user.put("email", account.getEmail());
                 Log.d(TAG, user.toString());
                 OkHTTPHelper.createUser(user);
@@ -129,7 +138,9 @@ public class MainActivity extends AppCompatActivity {
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
             updateUI(null);
-        } catch (JSONException | IOException e) {
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

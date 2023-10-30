@@ -24,7 +24,7 @@ public class OkHTTPHelper {
     static void createUser(JSONObject user) throws IOException {
         RequestBody requestBody = RequestBody.create(user.toString(), JSON);
         Request request = new Request.Builder()
-                .url(BASE_URL + "/createUser")
+                .url("http://4.205.17.106:8081" + "/createUser")
                 .post(requestBody)
                 .build();
         client.newCall(request).execute();
