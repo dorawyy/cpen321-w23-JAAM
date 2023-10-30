@@ -27,8 +27,9 @@ async function main() {
     var stops = parseFile(stopsPath);
     var stopTimes = parseFile(stopTimesPath);
     var transfers = parseFile(transfersPath);
-    var trips = parseFile(tripsPath);
-    addShapesToTrips(shapes ,await trips);
+    var trips = await parseFile(tripsPath);
+    addShapesToTrips(shapes, trips);
+    addTripsToRoutes(trips, await routes)
     // console.log(await trips);
 }
 
@@ -84,7 +85,19 @@ function addShapesToTrips(shapes, trips) {
     trips.forEach(trip => {
         trip.shape = shapes[trip.shape_id];
     });
-    console.log(trips[0]);
+}
+
+function addTripsToRoutes(trips, routes) {
+    routes.forEach(route => {
+        route.trips = [];
+        for (var i = trips.length - 1; i >= 0; i--) {
+            if (trips[i].route_id == route.route_id) {
+                route.trips.push(trips[i]);
+                trips.splice(i, 1);
+            }
+        }
+    });
+    console.log(routes[0].trips.length);
 }
 
 main();
