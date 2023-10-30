@@ -30,7 +30,7 @@ async function main() {
     addShapesToTrips(shapes, trips);
     addDirectionsToTrips(directions, trips);
     addTripsToRoutes(trips, routes);
-    addStopTimesToTrips(stop_times, trips);
+    addStopsToTrips(stops, stop_times, trips);
     // console.log(routes);
 }
 
@@ -135,15 +135,23 @@ function addTripsToRoutes(trips, routes) {
     });
 }
 
-// Holy **** this approach is too slow, maybe do stop centric instead of trip centric organization?
-function addStopTimesToTrips(stop_times, trips) {
+// Holy **** this approach is too slow, maybe do stop centric instead of trip centric organization? Instead maybe only look up times if routes are okay?
+function addStopsToTrips(stops, stop_times, trips) {
     if (LOG) {
         console.log("Adding Stop Times to Trips");
     }
-    for (var j = 0; j < trips.length; j++) {
-        trips[j].stop_times = [];
+    for (var i = 0; i < trips.length; i++) {
+        trips[i].stop_times = [];
+    }
+    for (var i = 0; i < stops.length; i++) {
+        stops[i].stop_times = [];
     }
     for (var i = 0; i < stop_times.length; i++) {
+        for (var j = 0; j < stops.length; j++) {
+            if (stop_times[i].stop_id == stops[j].stop_id) {
+                stops[j].stop_times.push(stop_times[i]);
+            }
+        }
         for (var j = 0; j < trips.length; j++) {
             if (stop_times[i].trip_id == trips[j].trip_id) {
                 trips[j].stop_times.push(stop_times[i]);
