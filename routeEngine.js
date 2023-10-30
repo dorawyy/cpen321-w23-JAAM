@@ -1,42 +1,67 @@
 const fs = require('fs');
-const routes_path = 'translink_data/routes.txt';
-const calendar_dates_path = 'translink_data/calendar_dates.txt';
-const calendar_path = 'translink_data/calendar.txt';
-const directions_path = 'translink_data/directions.txt';
-const pattern_id_path = 'translink_data/pattern_id.txt';
-const shapes_path = 'translink_data/shapes.txt';
-const stop_order_exceptions_path = 'translink_data/stop_order_exceptions.txt';
-const stops_path = 'translink_data/stops.txt';
-const stop_times_path = 'translink_data/stop_times.txt';
-const transfers_path = 'translink_data/transfers.txt';
-const trips_path = 'translink_data/trips.txt';
 const LOG = true;  
 
 
 
 async function main() {
-    var routes = await parseFile(routes_path);
-    var calendar = parseFile(calendar_path);
-    var calender_dates = parseFile(calendar_dates_path);
-    var directions = await parseFile(directions_path);
-    var pattern_id = parseFile(pattern_id_path);
-    var shapes = await parseFile(shapes_path);
-    shapes = combineShapes(shapes);
-    var stop_order_exceptions = parseFile(stop_order_exceptions_path);
-    var stops = parseFile(stops_path);
-    var stop_times = await parseFile(stop_times_path);
-    var transfers = parseFile(transfers_path);
-    var trips = await parseFile(trips_path);
-    addShapesToTrips(shapes, trips);
-    addDirectionsToTrips(directions, trips);
-    addTripsToRoutes(trips, routes);
-    addStopsToTrips(stops, stop_times, trips);
+    var routes_path = 'routes.json';
+    var stops_path = 'stops.json';
+    var trips_path = 'trips.json';
+    var stop_times_path = 'stop_times.path';
+    if (fs.existsSync(stops_path) && fs.existsSync(routes_path) && fs.existsSync(trips_path) && fs.existsSync(stop_times_path)) {
+        if (LOG) {
+            console.log("Files exist");
+        }
+    } else {
+        if (LOG) {
+            console.log("Files not found");
+        }
+
+        routes_path = 'translink_data/routes.txt';
+        stops_path = 'translink_data/stops.txt';
+        trips_path = 'translink_data/trips.txt';
+        stop_times_path = 'translink_data/stop_times.txt';
+    }
+
+    // var routes_path = 'translink_data/routes.txt';
+    // var calendar_dates_path = 'translink_data/calendar_dates.txt';
+    // var calendar_path = 'translink_data/calendar.txt';
+    // var directions_path = 'translink_data/directions.txt';
+    // var pattern_id_path = 'translink_data/pattern_id.txt';
+    // var shapes_path = 'translink_data/shapes.txt';
+    // var stop_order_exceptions_path = 'translink_data/stop_order_exceptions.txt';
+    // var stops_path = 'translink_data/stops.txt';
+    // var stop_times_path = 'translink_data/stop_times.txt';
+    // var transfers_path = 'translink_data/transfers.txt';
+    // var trips_path = 'translink_data/trips.txt';
+
+    // var routes = await parseTranslinkFile(routes_path);
+    // // var calendar = parseFile(calendar_path);
+    // // var calender_dates = parseFile(calendar_dates_path);
+    // var directions = await parseTranslinkFile(directions_path);
+    // // var pattern_id = parseFile(pattern_id_path);
+    // var shapes = await parseTranslinkFile(shapes_path);
+    // shapes = combineShapes(shapes);
+    // // var stop_order_exceptions = parseFile(stop_order_exceptions_path);
+    // var stops = await parseTranslinkFile(stops_path);
+    // var stop_times = await parseTranslinkFile(stop_times_path);
+    // // var transfers = parseFile(transfers_path);
+    // var trips = await parseTranslinkFile(trips_path);
+    // addShapesToTrips(shapes, trips);
+    // addDirectionsToTrips(directions, trips);
+    // addTripsToRoutes(trips, routes);
+    // addStopsToTrips(stop_times, trips);
+    // addStopTimestoStops(stop_times, stops);
+    // fs.writeFileSync('./stops.json', JSON.stringify(stops, null, 2) , 'utf-8');
+    // fs.writeFileSync('./trips.json', JSON.stringify(trips, null, 2) , 'utf-8');
+    // fs.writeFileSync('./routes.json', JSON.stringify(routes, null, 2) , 'utf-8');
+    // fs.writeFileSync('./stop_times.json', JSON.stringify(stop_times, null, 2) , 'utf-8');
     // console.log(routes);
 }
 
 
 
-function parseFile(path)  {
+function parseTranslinkFile(path)  {
     return new Promise(function(resolve, reject) {
         fs.readFile(path, 'utf8', (err, data) => {
             if (err) {
@@ -136,31 +161,45 @@ function addTripsToRoutes(trips, routes) {
 }
 
 // Holy **** this approach is too slow, maybe do stop centric instead of trip centric organization? Instead maybe only look up times if routes are okay?
-function addStopsToTrips(stops, stop_times, trips) {
+function addStopsToTrips(stop_times, trips) {
     if (LOG) {
         console.log("Adding Stop Times to Trips");
     }
+    
+    var stop_times_copy = [...stop_times];
     for (var i = 0; i < trips.length; i++) {
         trips[i].stop_times = [];
+        for (var j = stop_times_copy.length - 1; j >= 0; j--) {
+            if (trips[i].trip_id == stop_times_copy[j].trip_id) {
+                trips[i].stop_times.push(stop_times_copy[j]);
+                stop_times_copy[j].short_id = trips[i].short_id;
+                stop_times_copy.slice(j, 1);
+            }
+        }
     }
+
+    console.log(trips[0]);
+}
+
+function addStopTimestoStops(stop_times, stops) {
+    if (LOG) {
+        console.log("Adding Stop Times to Stops");
+    }
+
+    var stop_times_copy = [...stop_times];
+
     for (var i = 0; i < stops.length; i++) {
         stops[i].stop_times = [];
-    }
-    for (var i = 0; i < stop_times.length; i++) {
-        for (var j = 0; j < stops.length; j++) {
-            if (stop_times[i].stop_id == stops[j].stop_id) {
-                stops[j].stop_times.push(stop_times[i]);
+        for (var j = stop_times_copy.length - 1; j >= 0; j--) {
+            if (stop_times_copy[j].stop_id == stops[i].stop_id) {
+                stops[i].stop_times.push(stop_times_copy[j]);
+                stop_times_copy.slice(j, 1);
             }
         }
-        for (var j = 0; j < trips.length; j++) {
-            if (stop_times[i].trip_id == trips[j].trip_id) {
-                trips[j].stop_times.push(stop_times[i]);
-                stop_times[i].route = trips.route_id;
-                break;
-            }
+        if (stops[i].stop_id == 5455) {
+            console.log(stops[i]);
         }
     }
-    console.log(trips[0]);
 }
 
 main();
