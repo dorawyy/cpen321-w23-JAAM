@@ -28,7 +28,8 @@ async function main() {
     var stopTimes = parseFile(stopTimesPath);
     var transfers = parseFile(transfersPath);
     var trips = parseFile(tripsPath);
-    console.log(shapes);
+    addShapesToTrips(shapes ,await trips);
+    // console.log(await trips);
 }
 
 
@@ -77,6 +78,13 @@ function combineShapes(shapes) {
         outputShapes[point.shape_id][parseInt(point.shape_pt_sequence)-1] = temp;
     });
     return outputShapes;
+}
+
+function addShapesToTrips(shapes, trips) {
+    trips.forEach(trip => {
+        trip.shape = shapes[trip.shape_id];
+    });
+    console.log(trips[0]);
 }
 
 main();
