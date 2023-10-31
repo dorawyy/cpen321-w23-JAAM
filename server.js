@@ -37,13 +37,6 @@ const {MongoClient} = require("mongodb");
 const uri = "mongodb://127.0.0.1:27017";
 const client = new MongoClient(uri);
 
-// var admin = require("firebase-admin");
-// var serviceAccount = require('./chatcomponent321-firebase-adminsdk-d4mco-7f2d456053.json');
-// admin.initializeApp({
-// credential: admin.credential.cert(serviceAccount),
-// databaseURL: ""
-// });
-
 app.get("/", (req, res) => {
     res.send("Hello World!")
 })
@@ -51,22 +44,41 @@ app.get("/", (req, res) => {
 
 app.post("/createUser", async (req, res) => {
   try {
-      await client.connect()
-      const db = client.db("userDB")
-      const collection = db.collection("userInfo")
+    await client.connect()
+    const db = client.db("userDB")
+    const collection = db.collection("userInfo")
 
-      const result = await collection.insertOne(req.body)
-      console.log("User data inserted into database: ", result.insertedId)
-      res.status(200).send("User data inserted into database")
+    // Check if the user already exists based on a unique identifier, such as an email
+    const existingUser = await collection.findOne({ email: req.body.email });
+
+    if (existingUser) {
+      // If the user already exists, update their information
+      const updateResult = await collection.updateOne(
+        { email: req.body.email },
+        { $set: req.body }
+      );
+
+      if (updateResult.modifiedCount > 0) {
+        console.log("User data updated in the database: ", req.body);
+        res.status(200).send("User data updated in the database");
+      } else {
+        console.log("User data not updated. No changes were made.");
+        res.status(200).send("User data not updated. No changes were made.");
+      }
+    } else {
+      // If the user doesn't exist, insert a new user record
+      const result = await collection.insertOne(req.body);
+      console.log("New user data inserted into the database: ", result.insertedId);
+      res.status(200).send("New user data inserted into the database");
+    }
+  } catch (error) {
+    console.error("Error inserting/updating user data into the database: ", error);
+    res.status(500).send("Error inserting/updating user data into the database");
+  } finally {
+    await client.close();
   }
-  catch (error) {
-      console.error("Error inserting user data into database: ", error)
-      res.status(500).send("error inserting user data into database")
-  }
-  finally {
-      await client.close()
-  }
-})
+});
+
 
 // Broadcast method for WebSocket connections
 wsServer.broadcast = (data) => {
@@ -77,20 +89,18 @@ wsServer.broadcast = (data) => {
   });
 };
 
-
 app.post("/addFriend", async (req, res) => {
   try {
     await client.connect();
     const db = client.db("userDB");
     const collection = db.collection("userInfo");
 
-    const userEmail = req.body.userEmail; // Assuming you have userEmail in the request
-    const friendEmail = req.body.friendEmail; // Assuming you have friendEmail in the request
+    const userEmail = req.body.userEmail;
+    const friendEmail = req.body.friendEmail;
 
     const userExists = await collection.findOne({ email: userEmail });
 
     if (userExists) {
-      // Add friend to the user's FriendList
       const userFilter = { email: userEmail };
       const userUpdate = {
         $addToSet: { FriendsList: friendEmail },
@@ -104,7 +114,6 @@ app.post("/addFriend", async (req, res) => {
         console.log("Friend already added to the user's FriendsList.");
       }
 
-      // Now add the user to the friend's FriendList
       const friendExists = await collection.findOne({ email: friendEmail });
 
       if (friendExists) {
@@ -134,6 +143,113 @@ app.post("/addFriend", async (req, res) => {
     res.status(500).send("Error adding friend.");
   } finally {
     await client.close();
+  }
+});
+
+const data = [
+  [
+    {
+      'Start': {
+        'Stop': 'Northbound King George Blvd @ 60 Ave',
+        'Lat': 49.112374,
+        'Long': -122.840708,
+        'Time': '07:30', // Example time in "HH:mm" format
+        'Bus': '394'
+      }
+    },
+    {
+      'Start': {
+        'Stop': 'Northbound King George Blvd @ 60 Ave',
+        'Lat': 49.112374,
+        'Long': -122.840708,
+        'Time': '08:30', // Example time in "HH:mm" format
+        'Bus': '394'
+      }
+    },
+    // Other entries...
+  ]
+];
+
+function getFormattedSubtractedTime(dataItem, subtractMinutes) {
+  if (dataItem.Start && dataItem.Start.Time) {
+    // Parse the input time into hours and minutes
+    const [hours, minutes] = dataItem.Start.Time.split(':');
+  
+    // Convert hours and minutes to minutes and subtract the specified duration
+    let totalMinutes = parseInt(hours, 10) * 60 + parseInt(minutes, 10);
+    totalMinutes -= subtractMinutes;
+  
+    // Handle cases where the totalMinutes becomes negative
+    if (totalMinutes < 0) {
+      totalMinutes += 24 * 60; // Add a day's worth of minutes (1440 minutes) to handle crossing midnight
+    }
+  
+    // Calculate the hours and minutes for the new time
+    const newHours = Math.floor(totalMinutes / 60);
+    const newMinutes = totalMinutes % 60;
+  
+    // Format the new time as HH:mm
+    const hoursPart = newHours.toString().padStart(2, '0');
+    const minutesPart = newMinutes.toString().padStart(2, '0');
+    const formattedTime = `${hoursPart}:${minutesPart}`;
+  
+    return formattedTime;
+  } else {
+    console.error('Invalid data structure:', dataItem);
+    return null; // Return null if the data structure is invalid
+  }
+}
+
+const subtractedMinutes = 10;
+
+app.post('/getFormattedSubtractedTime', (req, res) => {
+  const eventData = req.body;
+  const dataItem = data[0];
+
+  if (dataItem && dataItem.length > 0) {
+    const formattedSubtractedTimes = dataItem.map((item) => {
+      if (item.Start && item.Start.Time) {
+        const formattedSubtractedTime = getFormattedSubtractedTime(item, subtractedMinutes);
+        return formattedSubtractedTime;
+      }
+      return null;
+    });
+
+    if (formattedSubtractedTimes.length > 0) {
+      res.json({ times: formattedSubtractedTimes });
+    } else {
+      res.status(400).send('Invalid or missing data');
+    }
+  } else {
+    res.status(400).send('Invalid data structure or missing data');
+  }
+});
+
+app.get('/getLastMessage', async (req, res) => {
+  try {
+    await client.connect();
+
+    const db = client.db('chatDB');
+    const collection = db.collection('messages');
+
+    const latestEntry = await collection.find().sort({ timestamp: -1 }).limit(1).toArray();
+
+    if (latestEntry.length > 0) {
+      res.json([
+        {
+          text: latestEntry[0].text,
+          senderEmail: latestEntry[0].senderEmail,
+          receiverEmail: latestEntry[0].receiverEmail
+        }
+      ]);
+    } else {
+      res.status(404).json({ message: 'No entries found in the collection.' });
+    }
+
+    client.close();
+  } catch (err) {
+    console.error('Error:', err);
+    res.status(500).json({ message: 'An error occurred while fetching the last entry.' });
   }
 });
 
