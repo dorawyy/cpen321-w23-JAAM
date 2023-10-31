@@ -1,10 +1,12 @@
 const fs = require('fs');
+const { parse } = require('path');
 const LOG = true;  
 const stops_exclude = ["stop_desc", "stop_url", "parent_station", "stop_code", "zone_id", "location_type", "stop_code"];
 const stop_times_exclude = ["arrival_time", "stop_headsign", "pickup_type", "drop_off_type", "shape_dist_traveled"];
 const trips_exclude = ["trip_short_name", "block_id", "wheelchair_accessible", "bikes_allowed"];
 const routes_exclude = ["agency_id", "route_desc", "route_type", "route_url", "route_color", "route_text_color"];
 const calendar_exclude = ["start_date", "end_date"];
+const scan_range = 100;
 
 routes_path = 'translink_data/routes.txt';
 stops_path = 'translink_data/stops.txt';
@@ -23,11 +25,27 @@ async function main() {
             console.log("Files exist");
         }
         var stops = await parseGeneratedFile(stops_path);
-        var inRange = getAllStopsWithinRange(stops, 150, 49.11911765982382, -122.84566472658649);
-        inRange.forEach(stop => {
-            console.log(stop);
-            console.log(stops.stop_name[stop]);
-        })
+        var routes = await parseGeneratedFile(routes_path);
+        var stop_times = await parseGeneratedFile(stop_times_path);
+        var trips = await parseGeneratedFile(trips_path);
+        for (var i = 0; i < routes.route_id.length; i++) {
+            routes.stop_id_set[i] = new Set(routes.stop_id_set[i]);
+            // if (routes.route_short_name[i] == "321") {
+            //     console.log("Stops: ", routes.stop_id_set[i]);
+            //     break;
+            // }
+        }
+        for (var i = 0; i < stops.route_set.length; i++) {
+            stops.route_set[i] = new Set(stops.route_set[i]);
+        }
+
+        console.log(getRoute(49.1118986, -122.84032176, 49.13400639947651, -122.8791423478073, "08:00:00", stops, routes, trips, stop_times));
+        // console.log(routes);
+        //var inRange = getAllStopsWithinRange(stops, 150, 49.11911765982382, -122.84566472658649);
+        //inRange.forEach(stop => {
+         //   console.log(stop);
+          //      console.log(stops.stop_name[stop]);
+        //   })
 
     } else {
         if (LOG) {
@@ -63,12 +81,13 @@ async function main() {
         addShapesToTrips(shapes, trips);
         addDirectionsToTrips(directions, trips);
         addTripsToRoutes(trips, routes);
-        addStopTimestoStops(stop_times, stops);
         addStopTimesToTrips(stop_times, trips);
-        fs.writeFileSync('./stops.json', JSON.stringify(stops, null, 2) , 'utf-8');
-        fs.writeFileSync('./trips.json', JSON.stringify(trips, null, 2) , 'utf-8');
-        fs.writeFileSync('./routes.json', JSON.stringify(routes, null, 2) , 'utf-8');
-        fs.writeFileSync('./stop_times.json', JSON.stringify(stop_times, null, 2) , 'utf-8');
+        addStopTimestoStops(stop_times, stops);
+        addRoutestoStops(routes, stops, trips);
+        fs.writeFileSync('generated/stops.json', JSON.stringify(stops, null, 2) , 'utf-8');
+        fs.writeFileSync('generated/trips.json', JSON.stringify(trips, null, 2) , 'utf-8');
+        fs.writeFileSync('generated/routes.json', JSON.stringify(routes, null, 2) , 'utf-8');
+        fs.writeFileSync('generated/stop_times.json', JSON.stringify(stop_times, null, 2) , 'utf-8');
         
         console.log(stops);
         for (keys in stops) {
@@ -139,9 +158,9 @@ function parseTranslinkFile(path)  {
 
             for (i = 0; i < titles.length; i++) {
                 if (excludeArray.includes(titles[i])) {
-                    excludeIndex.push(i);
+                    excludeIndex.push(i.valueOf());
                 } else {
-                    includeIndex.push(i);
+                    includeIndex.push(i.valueOf());
                 }
             }
     
@@ -235,7 +254,7 @@ function addTripsToRoutes(trips, routes) {
         routes.trip_indexes[i] = [];
         for (var j = 0; j < trips.route_id.length; j++) {
             if (routes.route_id[i] == trips.route_id[j]) {
-                routes.trip_indexes[i].push(j);
+                routes.trip_indexes[i].push(j.valueOf());
             }
         }
     }
@@ -247,21 +266,66 @@ function addStopTimesToTrips(stop_times, trips) {
         console.log("Adding Stop Times to Trips");
     }
 
-    trips.stop_times_indexes = [];
-    stop_times.trips_index = [];
+    trips.stop_times_index = [];
+    trips.stop_id = [];
+    stop_times.trip_index = [];
     for (var i = 0; i < trips.trip_id.length; i++) {
         trips.stop_times_index[i] = [];
+        // trips.stop_id[i] = [];
     }
 
     for (var i = 0; i < stop_times.trip_id.length; i++) {
         for (var j = 0; j < trips.trip_id.length; j++) {
             if (stop_times.trip_id[i] == trips.trip_id[j]) {
-                trips.stop_times_indexes[j].push(i);
-                stop_times.trips_index[i] = j;
+                trips.stop_times_index[j].push(i.valueOf());
+                stop_times.trip_index[i] = j;
+                if (!trips.stop_id[j].includes(stop_times.stop_id[i])) {
+                    trips.stop_id[j].push(stop_times.stop_id[i]);
+                }
                 break;
             }
         }
     }
+}
+
+function addRoutestoStops(routes, stops, trips) {
+    if (LOG) {
+        console.log("Adding Routes to Stops (and vice versa)");
+    }
+
+    if (LOG) {
+        console.log("Using Trips as an inbetween");
+    }
+    
+    stops.route_index = [];
+    stops.route_set = [];
+    routes.stop_index = [];
+    routes.stop_id_set = []
+    for (var i = 0; i < routes.route_id.length; i++) {
+        routes.stop_index[i] = [];
+        routes.stop_id_set[i] = new Set();
+    }
+
+
+    for (var i = 0; i < stops.trip_index.length; i++) {
+        stops.route_set[i] = new Set();
+        for (var j = 0; j < stops.trip_index[i].length; j++) {
+            stops.route_set[i].add(trips.route_id[stops.trip_index[i][j]]);
+        }
+        stops.route_index[i] = [];
+        for (var j = 0; j < routes.route_id.length; j++) {
+            if (stops.route_set[i].has(routes.route_id[j])) {
+                routes.stop_index[j].push(i.valueOf());
+                routes.stop_id_set[j].add(stops.stop_id[i]);
+                stops.route_index[i].push(j.valueOf());
+            }
+        }
+        stops.route_set[i] = Array.from(stops.route_set[i]);
+    }
+    
+  for (var i = 0; i < routes.stop_id_set.length; i++) {
+    routes.stop_id_set[i] = Array.from(routes.stop_id_set[i]);
+  }
 }
 
 function addStopTimestoStops(stop_times, stops) {
@@ -269,19 +333,22 @@ function addStopTimestoStops(stop_times, stops) {
         console.log("Adding Stop Times to Stops");
     }
     stops.stop_times_index = [];
+    stops.trip_index = [];
 
     for (var i = 0; i < stops.stop_id.length; i++) {
         stops.stop_times_index[i] = [];
+        stops.trip_index[i] = [];
         for (var j = 0; j < stop_times.stop_id.length; j++) {
             if (stops.stop_id[i] == stop_times.stop_id[j]) {
-                stops.stop_times_index[i].push(j);
+                stops.stop_times_index[i].push(j.valueOf());
+                stops.trip_index[i].push(stop_times.trip_index[j]);
             }
         }
     }
 }
 
 function getAllStopsWithinRange(stops, range, lat, long) {
-    var inRange = [];
+    var inRange = new Set();
     var xRange =  range / 111320;
     var yRange = 360 * range / (40075000 * Math.cos(lat));
     var xMax = long + xRange;
@@ -290,12 +357,228 @@ function getAllStopsWithinRange(stops, range, lat, long) {
     var yMin = lat - yRange;
 
     for (var i = 0; i < stops.stop_id.length; i++) {
-        if (xMin < stops.stop_lon[i] && stops.stop_lon[i] < xMax
-            && yMin < stops.stop_lat[i] && stops.stop_lat[i] < yMax) {
-                inRange.push(i);
+        if (parseFloat(stops.stop_lon[i]) > xMin && parseFloat(stops.stop_lon[i]) < xMax
+            && parseFloat(stops.stop_lat[i])> yMin && parseFloat(stops.stop_lat[i]) < yMax) {
+                inRange.add(i.valueOf());
             }
-    }
+        }
     return inRange;
+}
+
+function findStopsNearStop(stops, range, stop) {
+    return getAllStopsWithinRange(stops, scan_range, stops.stop_lat[stop], stops.stop_lon[stop]);
+}
+
+function getStopsOfRoute(routes, route) {
+    return routes.stop_index[route];
+}
+
+function getRoutesOfStops(stops, stop) {
+    return stops.route_index[stop];
+}
+
+function getStopsAccesibleSoon(stops, stop_times, stop, time) {
+    var accesible_stops = new Set();
+    var base_time = convert24HrToSeconds(time);
+    for (var i = 0; i < stops.stop_times_index[stop].length; i++) {
+        temp_time = convert24HrToSeconds(stop_times.departure_time[stops.stop_times_index[stop][i]]);
+        if (temp_time - base_time < 3600 && temp_time - base_time > 0) {
+            var currentStop = stop_times.stop_sequence[stops.stop_times_index[stop][i]];
+            var currentTrip = stop_times.trip_index[stops.stop_times_index[stop][i]];
+            var index = 1;
+
+            while (stop_times.trip_index[stops.stop_times_index[stop][i] + index] == currentTrip &&
+                    stop_times.stop_sequence[stops.stop_times_index[stop][i] + index] > currentStop) {
+                        accesible_stops.add(stop_times.stop_id[stops.stop_times_index[stop][i] + index]);
+                        index++;
+                }
+        }
+    }
+    return getIndexesFromStopIds(stops, accesible_stops);
+}
+
+function getIndexesFromStopIds(stops, stop_ids) {
+    stop_indexes = new Set();
+    stop_ids.forEach(id => {
+        stop_indexes.add(stops.stop_id.indexOf(id));
+    })
+    return stop_indexes;
+}
+
+function convert24HrToSeconds(time) {
+    var times = time.split(":");
+    return (+times[2]) + 60*(+times[1]) + 3600*(+times[0]);
+}
+
+function commonRouteBetweenStops(stops, routes, stop1, stop2) {
+    for (var i = 0; i < stops.route_index[stop1].length; i++) {
+        for (var j = 0; j < stops.route_index[stop2].length; j++) {
+            if (stops.route_index[stop1][i] == stops.route_index[stop2][j]) {
+                return stops.route_index[stop1][i];
+            }
+        }
+    }
+}
+
+function findAllNewReachableStopsWithoutTransfer(stops, routes, trips, stop_times, time, stop, alrReached) {
+    var possibleStops = new Set();
+        getStopsAccesibleSoon(stops, stop_times, stop, time).forEach(stop_temp => {
+            if (!alrReached.has(stop_temp)) {
+                possibleStops.add(stop_temp);
+                alrReached.add(stop_temp);
+            }
+        });
+    
+    possibleStops.forEach(stop_temp => {
+        findStopsNearStop(stops, scan_range, stop_temp).forEach(stop_temp2 => {
+            if (!alrReached.has(stop_temp2)) {
+                possibleStops.add(stop_temp2);
+                alrReached.add(stop_temp);
+            }
+        });
+    });
+
+    return possibleStops;
+}
+
+function findIntersectionSet(set1, set2) {
+    var common;
+    set1.forEach(element1 => {
+        set2.forEach(element2 => {
+            if (element2 == element1) {
+                common = element1;
+            }
+        })
+    });
+    return common;
+}
+
+function findIntersectionArray(arr1, arr2) {
+    for (var i = 0; i < arr1.length; i++) {
+        for (var j = 0; j < arr2.length; j++) {
+            if (arr1[i] == arr2[j]) {
+                return arr1[i];
+            }
+        }
+    }
+}
+
+function joinPath(start_path, end_path, intersection) {
+    var output = [];
+    for (i = 0; i < start_path.length; i++) {
+        output.push(start_path[i]);
+        if (start_path[i] == intersection) {
+            break;
+        }
+    }
+    var found = false;
+    for (i = 0; i < end_path.length; i++) {
+        if (found) {
+            output.push(end_path[i]);
+        }
+        if (end_path[i] == intersection) {
+            found = true;
+        }
+    }
+    return output;
+
+
+}
+
+function getPathBetweenStops(stops, routes, stop1, stop2, time, trips, stop_times) {
+    var commonRoute = commonRouteBetweenStops(stops, routes, stop1, stop2);
+    if (commonRoute != undefined) {
+        return [stop1,
+                stop2];
+    }
+
+    var reached_start = new Set([stop1]);
+    var reached_end = new Set([stop2]);
+    var start_paths = new Set();
+    var end_paths = new Set();
+    start_paths.add([stop1]);
+    end_paths.add([stop2]);
+    var intersection = findIntersectionSet(reached_start, reached_end);
+    
+    while (intersection === undefined) {
+        var start_paths_temp = new Set();
+        start_paths.forEach(start_path => {
+            findAllNewReachableStopsWithoutTransfer(stops, routes, trips, stop_times, time, start_path[start_path.length-1], reached_start).forEach(new_stop => {
+                start_paths_temp.add([...start_path, new_stop]);
+            });
+        });
+        start_paths = start_paths_temp;
+
+        var end_paths_temp = new Set();
+        end_paths.forEach(end_path => {
+            findAllNewReachableStopsWithoutTransfer(stops, routes, trips, stop_times, time, end_path[0], reached_end).forEach(new_stop => {
+                end_paths_temp.add([new_stop, ...end_path]);
+            });
+        });
+        end_paths = end_paths_temp;
+
+        intersection = findIntersectionSet(reached_start, reached_end);
+    }
+
+    // Intersection has been found
+    var valid_start;
+    var valid_end;
+    start_paths.forEach(path => {
+        if (path.includes(intersection)) {
+            valid_start = path;
+        }
+    });
+    end_paths.forEach(path => {
+        if (path.includes(intersection)) {
+            valid_end = path;
+        }
+    });
+    
+    var path = joinPath(valid_start, valid_end, intersection);
+    return path;
+}
+
+
+function getRoute(startLat, startLon, endLat, endLon, startTime, stops, routes, trips, stop_times) {
+    var startStops = new Set();
+    var endStops = new Set();
+
+    var range = 50;
+    while (startStops.size == 0) {
+        startStops = getAllStopsWithinRange(stops, range, startLat, startLon);
+        range *= 1.5;
+    }
+
+    while (endStops.size == 0) {
+        endStops = getAllStopsWithinRange(stops, range, endLat, endLon);
+        range *= 1.5;
+    }
+    var commonStop;
+    var path = [];
+
+    startStops = Array.from(startStops);
+    endStops = Array.from(endStops);
+
+    path = getPathBetweenStops(stops, routes, startStops[0], endStops[0], startTime, trips, stop_times);
+    console.log(path);
+
+    for (var i = 0; i < path.length; i++) {
+        console.log(stops.stop_name[path[i]]);
+
+    }
+
+
+    for (var i = 1; i < path.length; i++) {
+        console.log(routes.route_long_name[commonRouteBetweenStops(stops, routes, path[i-1], path[i])]);
+
+    }
+
+
+
+    // path.forEach(stop => console.log(stop));
+
+    // Find next time after start time
+    // Find end time for that trip
 }
 
 main();
