@@ -280,15 +280,11 @@ public class CalendarActivity extends AppCompatActivity {
                     start = event.getStart().getDate();
                 }
                 Log.d(TAG,event.getSummary() + " (" + start+ ") @ " +loc);
-                //TODO post to backend
                 String times = OkHTTPHelper.sendCalendar(calendarEvents);
+                Toast.makeText(this, "Successfully synced calendar with server!", Toast.LENGTH_SHORT);
                 checkNotificationPerms();
                 parseTimeJSON(times);
                 alertTransitNotification(alarmHours.get(0), alarmMinutes.get(0));
-
-
-
-                System.out.printf("%s (%s)\n", event.getSummary(), start);
             }
         }
     }
