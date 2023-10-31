@@ -8,4 +8,6 @@
     <string name="add_friend_button_text">Add Friend</string>
     <string name="welcome_text">Welcome to TransitTrack!</string>
     <string name="address_edit_text_hint">Please Enter a Default Address.</string>
+    <string name="friend_direct_message_button_text">Chat</string>
+    <string name="friend_route_button_text">Route</string>
 </resources>

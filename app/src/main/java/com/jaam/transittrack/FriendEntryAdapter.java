@@ -61,6 +61,7 @@ public class FriendEntryAdapter extends BaseAdapter implements ListAdapter {
                 context.startActivity(chatIntent);
             }
         });
+        //TODO implement friendRouteButton functionality
 
         return view;
     }
