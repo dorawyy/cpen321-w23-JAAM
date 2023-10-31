@@ -46,12 +46,8 @@
             </intent-filter>
         </service>
         <receiver
-            android:name=".BusRouteProcessor$NotificationReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.example.chatcomponent321.NOTIFICATION_ACTION" />
-            </intent-filter>
-        </receiver>
+            android:name=".AlarmNotification"
+        />
     </application>
 
 </manifest>

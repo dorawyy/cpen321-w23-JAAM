@@ -28,6 +28,20 @@
         android:background="@color/design_default_color_primary_dark"
         android:id="@+id/enterBtn"/>
 
+    <Button
+        android:id="@+id/alarmButton"
+        android:layout_width="236dp"
+        android:layout_height="82dp"
+        android:layout_below="@+id/enterBtn"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="85dp"
+        android:layout_marginTop="225dp"
+        android:layout_marginEnd="89dp"
+        android:layout_marginBottom="299dp"
+        android:text="Send Alarm Notification" />
+
 </RelativeLayout>
 
 
