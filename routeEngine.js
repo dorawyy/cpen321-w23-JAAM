@@ -3,7 +3,7 @@ const { parse } = require('path');
 const LOG = true;  
 const stops_exclude = ["stop_desc", "stop_url", "parent_station", "stop_code", "zone_id", "location_type", "stop_code"];
 const stop_times_exclude = ["arrival_time", "stop_headsign", "pickup_type", "drop_off_type", "shape_dist_traveled"];
-const trips_exclude = ["trip_short_name", "block_id", "wheelchair_accessible", "bikes_allowed"];
+const trips_exclude = ["route_id", "direction_id", "shape_id", "trip_short_name", "block_id", "wheelchair_accessible", "bikes_allowed"];
 const routes_exclude = ["agency_id", "route_desc", "route_type", "route_url", "route_color", "route_text_color"];
 const calendar_exclude = ["start_date", "end_date"];
 const scan_range = 500;
@@ -16,30 +16,37 @@ stop_times_path = 'translink_data/stop_times.txt';
 
 
 async function main() {
-    var routes_path = 'generated/routes.json';
+    // var routes_path = 'generated/routes.json';
     var stops_path = 'generated/stops.json';
     var trips_path = 'generated/trips.json';
-    var stop_times_path = 'generated/stop_times.json';
-    if (fs.existsSync(stops_path) && fs.existsSync(routes_path) && fs.existsSync(trips_path) && fs.existsSync(stop_times_path)) {
+    // var stop_times_path = 'generated/stop_times.json';
+    if (fs.existsSync(stops_path) && fs.existsSync(routes_path)) {
         if (LOG) {
             console.log("Files exist");
         }
         var stops = await parseGeneratedFile(stops_path);
-        var routes = await parseGeneratedFile(routes_path);
-        var stop_times = await parseGeneratedFile(stop_times_path);
+        // var routes = await parseGeneratedFile(routes_path);
+        // var stop_times = await parseGeneratedFile(stop_times_path);
         var trips = await parseGeneratedFile(trips_path);
-        for (var i = 0; i < routes.route_id.length; i++) {
-            routes.stop_id_set[i] = new Set(routes.stop_id_set[i]);
+        // for (var i = 0; i < routes.route_id.length; i++) {
+        //     routes.stop_id_set[i] = new Set(routes.stop_id_set[i]);
             // if (routes.route_short_name[i] == "321") {
             //     console.log("Stops: ", routes.stop_id_set[i]);
             //     break;
             // }
+        // }
+        // for (var i = 0; i < stops.route_set.length; i++) {
+        //     stops.route_set[i] = new Set(stops.route_set[i]);
+        // }
+        console.log("STOPS")
+        for (key in stops) {
+            console.log(key);
         }
-        for (var i = 0; i < stops.route_set.length; i++) {
-            stops.route_set[i] = new Set(stops.route_set[i]);
+        console.log("TRIPS")
+        for (key in trips) {
+            console.log(key);
         }
-
-        console.log(getRoute(49.1118986, -122.84032176, 49.13400639947651, -122.8791423478073, "08:00:00", stops, routes, trips, stop_times));
+        // console.log(getRoute(49.1118986, -122.84032176, 49.13400639947651, -122.8791423478073, "08:00:00", stops, routes, trips, stop_times));
         // console.log(routes);
         //var inRange = getAllStopsWithinRange(stops, 150, 49.11911765982382, -122.84566472658649);
         //inRange.forEach(stop => {
@@ -56,41 +63,42 @@ async function main() {
         stops_path = 'translink_data/stops.txt';
         trips_path = 'translink_data/trips.txt';
 
-        var calendar_dates_path = 'translink_data/calendar_dates.txt';
-        var calendar_path = 'translink_data/calendar.txt';
-        var directions_path = 'translink_data/directions.txt';
-        var pattern_id_path = 'translink_data/pattern_id.txt';
-        var shapes_path = 'translink_data/shapes.txt';
-        var stop_order_exceptions_path = 'translink_data/stop_order_exceptions.txt';
+        // var calendar_dates_path = 'translink_data/calendar_dates.txt';
+        // var calendar_path = 'translink_data/calendar.txt';
+        // var directions_path = 'translink_data/directions.txt';
+        // var pattern_id_path = 'translink_data/pattern_id.txt';
+        // var shapes_path = 'translink_data/shapes.txt';
+        // var stop_order_exceptions_path = 'translink_data/stop_order_exceptions.txt';
         var stop_times_path = 'translink_data/stop_times.txt';
-        var transfers_path = 'translink_data/transfers.txt';
+        // var transfers_path = 'translink_data/transfers.txt';
         var trips_path = 'translink_data/trips.txt';
 
-        var routes = await parseTranslinkFile(routes_path);
+        // var routes = await parseTranslinkFile(routes_path);
         // var calendar = parseTranslinkFile(calendar_path);
         // var calender_dates = parseTranslinkFile(calendar_dates_path);
-        var directions = await parseTranslinkFile(directions_path);
+        // var directions = await parseTranslinkFile(directions_path);
         // var pattern_id = parseTranslinkFile(pattern_id_path);
-        var shapes = await parseTranslinkFile(shapes_path);
-        shapes = combineShapes(shapes);
+        // var shapes = await parseTranslinkFile(shapes_path);
+        // shapes = combineShapes(shapes);
         // var stop_order_exceptions = parseTranslinkFile(stop_order_exceptions_path);
         var stops = await parseTranslinkFile(stops_path);
         var stop_times = await parseTranslinkFile(stop_times_path);
         // var transfers = parseTranslinkFile(transfers_path);
         var trips = await parseTranslinkFile(trips_path);
-        addShapesToTrips(shapes, trips);
-        addDirectionsToTrips(directions, trips);
-        addTripsToRoutes(trips, routes);
+        // addShapesToTrips(shapes, trips);
+        // addDirectionsToTrips(directions, trips);
+        // addTripsToRoutes(trips, routes);
         addStopTimesToTrips(stop_times, trips);
-        addStopTimestoStops(stop_times, stops);
-        addRoutestoStops(routes, stops, trips);
+        addTripsToStops(trips, stops);
+        // addStopTimestoStops(stop_times, stops);
+        // addRoutestoStops(routes, stops, trips);
         fs.writeFileSync('generated/stops.json', JSON.stringify(stops, null, 2) , 'utf-8');
         fs.writeFileSync('generated/trips.json', JSON.stringify(trips, null, 2) , 'utf-8');
-        fs.writeFileSync('generated/routes.json', JSON.stringify(routes, null, 2) , 'utf-8');
-        fs.writeFileSync('generated/stop_times.json', JSON.stringify(stop_times, null, 2) , 'utf-8');
+        // fs.writeFileSync('generated/routes.json', JSON.stringify(routes, null, 2) , 'utf-8');
+        // fs.writeFileSync('generated/stop_times.json', JSON.stringify(stop_times, null, 2) , 'utf-8');
         
-        console.log(stops);
-        for (keys in stops) {
+        console.log(trips);
+        for (keys in trips) {
             console.log(keys);
         }
     }
@@ -176,6 +184,36 @@ function parseTranslinkFile(path)  {
             resolve(output);
         });
     });
+}
+
+function addTripsToStops(trips, stops) {
+    stops.trips = [];
+    stops.trip_pos = [];
+    stops.id = stops.stop_id;
+    stops.stop_id = undefined;
+    stops.lat = stops.stop_lat;
+    stops.stop_lat = undefined;
+    stops.lon = stops.stop_lon;
+    stops.stop_lon = undefined;
+
+    for (var i = 0; i < stops.id.length; i++) {
+        stops.trips[i] = [];
+        stops.trip_pos[i] = [];
+    }
+
+    for (var i = 0; i < trips.stops.length; i++) {
+        for (var j = 0; j < trips.stops[i].length; j++) {
+            for (var k = 0; k < stops.id.length; k++) {
+                if (trips.stops[i][j] == stops.id[k]) {
+                    trips.stops[i][j] = k;
+                    stops.trips[k].push(i);
+                    stops.trip_pos[k].push(j);
+                    break;
+                }
+            }
+        }
+    }
+
 }
 
 function combineShapes(shapes) {
@@ -265,23 +303,31 @@ function addStopTimesToTrips(stop_times, trips) {
     if (LOG) {
         console.log("Adding Stop Times to Trips");
     }
+    trips.name = trips.trip_headsign;
+    trips.trip_headsign = undefined;
+    trips.id = trips.trip_id;
+    trips.trip_id = undefined;
 
-    trips.stop_times_index = [];
-    trips.stop_id = [];
-    stop_times.trip_index = [];
-    for (var i = 0; i < trips.trip_id.length; i++) {
-        trips.stop_times_index[i] = [];
+
+    trips.stop_times = [];
+    trips.stops = [];
+    
+    // stop_times.trip_index = [];
+    for (var i = 0; i < trips.id.length; i++) {
+        trips.stop_times[i] = [];
+        trips.stops[i] = [];
         // trips.stop_id[i] = [];
     }
 
     for (var i = 0; i < stop_times.trip_id.length; i++) {
-        for (var j = 0; j < trips.trip_id.length; j++) {
-            if (stop_times.trip_id[i] == trips.trip_id[j]) {
-                trips.stop_times_index[j].push(i.valueOf());
-                stop_times.trip_index[i] = j;
-                if (!trips.stop_id[j].includes(stop_times.stop_id[i])) {
-                    trips.stop_id[j].push(stop_times.stop_id[i]);
-                }
+        for (var j = 0; j < trips.id.length; j++) {
+            if (stop_times.trip_id[i] == trips.id[j]) {
+                trips.stop_times[j][stop_times.stop_sequence[i]-1] = stop_times.departure_time[i];
+                trips.stops[j][stop_times.stop_sequence[i]-1] = stop_times.stop_id[i];
+                // stop_times.trip_index[i] = j;
+                // if (!trips.stop_id[j].includes(stop_times.stop_id[i])) {
+                //     trips.stop_id[j].push(stop_times.stop_id[i]);
+                // }
                 break;
             }
         }
