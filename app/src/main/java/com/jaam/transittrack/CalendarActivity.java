@@ -4,18 +4,24 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.ConnectivityManager;
@@ -276,12 +282,43 @@ public class CalendarActivity extends AppCompatActivity {
                 Log.d(TAG,event.getSummary() + " (" + start+ ") @ " +loc);
                 //TODO post to backend
                 String times = OkHTTPHelper.sendCalendar(calendarEvents);
+                checkNotificationPerms();
                 parseTimeJSON(times);
                 alertTransitNotification(alarmHours.get(0), alarmMinutes.get(0));
 
 
 
                 System.out.printf("%s (%s)\n", event.getSummary(), start);
+            }
+        }
+    }
+
+    private void checkNotificationPerms() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SET_ALARM) == PackageManager.PERMISSION_GRANTED) {
+            //Toast.makeText(MainActivity.this, "We have these permissions yay! :) ", Toast.LENGTH_LONG).show();
+            Log.d(TAG, "Notification Permissions Granted!");
+        } else {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.SET_ALARM)) {
+                Log.d(TAG, "Alarm Notifications Denied!");
+                new AlertDialog.Builder(CalendarActivity.this)
+                        .setTitle("Need Location Permissions")
+                        .setMessage("We need the location permissions to mark your location on a map")
+                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Toast.makeText(CalendarActivity.this, "We need notification permissions to send departure reminders!", Toast.LENGTH_LONG).show();
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                ActivityCompat.requestPermissions(CalendarActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+
+                            }
+                        }).create().show();
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SET_ALARM}, 1);
             }
         }
     }
