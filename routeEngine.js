@@ -6,7 +6,7 @@ const stop_times_exclude = ["arrival_time", "stop_headsign", "pickup_type", "dro
 const trips_exclude = ["trip_short_name", "block_id", "wheelchair_accessible", "bikes_allowed"];
 const routes_exclude = ["agency_id", "route_desc", "route_type", "route_url", "route_color", "route_text_color"];
 const calendar_exclude = ["start_date", "end_date"];
-const scan_range = 100;
+const scan_range = 500;
 
 routes_path = 'translink_data/routes.txt';
 stops_path = 'translink_data/stops.txt';
@@ -387,11 +387,12 @@ function getStopsAccesibleSoon(stops, stop_times, stop, time) {
             var currentTrip = stop_times.trip_index[stops.stop_times_index[stop][i]];
             var index = 1;
 
-            while (stop_times.trip_index[stops.stop_times_index[stop][i] + index] == currentTrip &&
-                    stop_times.stop_sequence[stops.stop_times_index[stop][i] + index] > currentStop) {
-                        accesible_stops.add(stop_times.stop_id[stops.stop_times_index[stop][i] + index]);
-                        index++;
+            while (stop_times.trip_index[stops.stop_times_index[stop][i] + index] == currentTrip) {
+                if (stop_times.stop_sequence[stops.stop_times_index[stop][i] + index] > currentStop) {
+                    accesible_stops.add(stop_times.stop_id[stops.stop_times_index[stop][i] + index]);
+                    index++;
                 }
+            }
         }
     }
     return getIndexesFromStopIds(stops, accesible_stops);
@@ -521,18 +522,46 @@ function getPathBetweenStops(stops, routes, stop1, stop2, time, trips, stop_time
     }
 
     // Intersection has been found
-    var valid_start;
-    var valid_end;
+    var valid_starts = [];
+    var valid_ends = [];
     start_paths.forEach(path => {
         if (path.includes(intersection)) {
-            valid_start = path;
+            valid_starts.push(path);
         }
     });
     end_paths.forEach(path => {
         if (path.includes(intersection)) {
-            valid_end = path;
+            valid_ends.push(path);
         }
     });
+    var valid_start;
+    var valid_end;
+    // Find earliest intersection
+    for (var i = 0; i < valid_starts[0].length; i++) {
+        if (valid_start != undefined) {
+            break;
+        }
+        for (var j = 0; j < valid_starts.length; j++) {
+            if (valid_starts[j][i] == intersection) {
+                valid_start = valid_starts[j];
+                break;
+            }
+        }
+    }
+
+    // Find latest intersection
+    for (var i = 0; i < valid_ends[0].length; i++) {
+        if (valid_end != undefined) {
+            break;
+        }
+        for (var j = 0; j < valid_ends.length; j++) {
+            if (valid_ends[j][i] == intersection) {
+                valid_end = valid_ends[j];
+                break;
+            }
+        }
+    }
+
     
     var path = joinPath(valid_start, valid_end, intersection);
     return path;
