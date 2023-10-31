@@ -56,4 +56,13 @@ public class OkHTTPHelper {
         Response response = client.newCall(request).execute();
         return response.body().string();
     }
+
+    static void sendFriendRequest(JSONObject body) throws IOException{
+        RequestBody reqBody = RequestBody.create(body.toString(), JSON);
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/addFriend")
+                .post(reqBody)
+                .build();
+        Response response = client.newCall(request).execute();
+    }
 }

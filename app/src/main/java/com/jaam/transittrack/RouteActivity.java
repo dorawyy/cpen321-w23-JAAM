@@ -84,6 +84,13 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
 
         chatButton = findViewById(R.id.chatButton);
         friendListButton = findViewById(R.id.friendListButton);
+        friendListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent friendsListIntent = new Intent(RouteActivity.this, FriendListActivity.class);
+                startActivity(friendsListIntent);
+            }
+        });
 
 
         findViewById(R.id.calendarActivityButton).setOnClickListener(new View.OnClickListener() {
@@ -173,6 +180,7 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
             @Override
             public void onClick(View v) {
                 Intent chatIntent = new Intent(RouteActivity.this, ChatActivity.class);
+                chatIntent.putExtra("receiverEmail", "johndoe@example.com");
                 startActivity(chatIntent);
 
             }

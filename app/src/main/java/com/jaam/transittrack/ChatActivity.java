@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,6 +23,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -60,6 +64,9 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
     private static ArrayList<String> messageHistory = new ArrayList<>();
     private ArrayAdapter<String> arrayAdapter;
     private List<JSONObject> messages = new ArrayList<>();
+    private String[] token = new String[1];
+
+    private String receiverEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +78,13 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
         chatHistory.setAdapter(arrayAdapter);
 
 
+
+
         name = getIntent().getStringExtra("name");
+        receiverEmail = getIntent().getStringExtra("receiverEmail");
         initiateSocketConnection();
         initializeView();
+
 //        fetchChatHistory();
     }
 
@@ -261,7 +272,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
                 JSONObject message = chatHistory.getJSONObject(i);
                 Message currMsg = new Message(message.getString("senderEmail"), message.getString("receiverEmail"), message.getString("text"));
                 messagesArrayList.add(currMsg);
-                arrayAdapter.add(message.getString("senderEmail") + message.getString("text"));
+                arrayAdapter.add(message.getString("senderEmail") +": "+ message.getString("text"));
                 Log.d(TAG, message.toString());
                 arrayAdapter.notifyDataSetChanged();
 
@@ -292,12 +303,14 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String responseData = response.body().string();
+                    Log.d(TAG,"makeGetRequestForChatHistory successful: "+ responseData);
                     // Process the chat history data here and update the adapter
                     try {
                         JSONArray historyArray = new JSONArray(responseData);
 //                        parseChatHistory(historyArray);
                         runOnUiThread(() -> parseChatHistory(historyArray));
                     } catch (JSONException e) {
+                        Log.d(TAG, "makeGetRequestForChatHistory Failed: "+ e.getMessage());
                         e.printStackTrace();
                     }
                 } else {
@@ -367,7 +380,11 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
             try {
 
                 jsonBody.put("text", message);
+                // for testing notifications
+//                jsonBody.put("receiverEmail", GoogleSignIn.getLastSignedInAccount(ChatActivity.this).getEmail());
+//                jsonBody.put("senderEmail", "k.west@example.com");
                 jsonBody.put("senderEmail", GoogleSignIn.getLastSignedInAccount(ChatActivity.this).getEmail());
+                jsonBody.put("receiverEmail", receiverEmail);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -438,6 +455,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
 //                        parseChatHistory(historyArray);
                         runOnUiThread(() -> parseChatHistory(historyArray));
                     } catch (JSONException e) {
+                        Log.d(TAG, e.getMessage());
                         e.printStackTrace();
                     }
                 } else {
