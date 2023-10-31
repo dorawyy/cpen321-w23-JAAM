@@ -6,4 +6,6 @@
     <string name="upload_file_button_text">Upload Calendar File</string>
     <string name="title_activity_chat">ChatActivity</string>
     <string name="add_friend_button_text">Add Friend</string>
+    <string name="welcome_text">Welcome to TransitTrack!</string>
+    <string name="address_edit_text_hint">Please Enter a Default Address.</string>
 </resources>

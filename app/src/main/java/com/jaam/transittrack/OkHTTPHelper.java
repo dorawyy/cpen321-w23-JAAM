@@ -3,6 +3,7 @@ package com.jaam.transittrack;
 
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -64,5 +65,15 @@ public class OkHTTPHelper {
                 .post(reqBody)
                 .build();
         Response response = client.newCall(request).execute();
+    }
+
+    static String sendCalendar(JSONArray calendarEvents) throws IOException{
+        RequestBody reqBody = RequestBody.create(calendarEvents.toString(), JSON);
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/getFormattedSubtractedTime")
+                .post(reqBody)
+                .build();
+        Response response = client.newCall(request).execute();
+        return response.body().string();
     }
 }
