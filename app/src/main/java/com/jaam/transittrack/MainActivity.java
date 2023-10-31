@@ -91,10 +91,12 @@ public class MainActivity extends AppCompatActivity {
                         signInLauncher.launch(signInIntent);
                     }
                     else{
+                        //consider alert dialog instead
                         Toast.makeText(MainActivity.this, "Could not find address, please try again.", Toast.LENGTH_LONG).show();
                     }
                 }
                 else{
+                    //consider alert dialog instead
                     Toast.makeText(MainActivity.this, "Please enter a default address from where you'd like to start your journeys!", Toast.LENGTH_LONG).show();
                 }
 
@@ -187,6 +189,7 @@ public class MainActivity extends AppCompatActivity {
                                         OkHTTPHelper.createUser(user);
                                     } catch (IOException e) {
                                         Log.d(TAG, "Create user post request failed: "+e.getMessage());
+                                        //maybe better to have alert dialog
                                         Toast.makeText(MainActivity.this, "Server unavailable, please try again later.",Toast.LENGTH_LONG).show();
                                         //don't want to crash
                                         //throw new RuntimeException(e);
