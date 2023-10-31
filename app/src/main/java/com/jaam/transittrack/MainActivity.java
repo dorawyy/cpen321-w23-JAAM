@@ -14,10 +14,13 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -34,12 +37,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
     final static String TAG = "MainActivity";
     private GoogleSignInClient mGoogleSignInClient;
+
+    private double defaultLat;
+    private double defaultLon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         checkLocationPermissions();
         checkInternetPerms();
-
+        //TODO fix strictmode in MainActivity
         //work around for not running http requests off main thread. really don't want to deal with race conditions/synchronization
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -64,9 +71,33 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "launching sign in intent");
-                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                signInLauncher.launch(signInIntent);
+                String addressText = String.valueOf(((EditText)findViewById(R.id.addressEditText)).getText());
+                if(addressText.length() > 0){
+                    Geocoder geocoder = new Geocoder(MainActivity.this);
+                    List<Address> addressList = null;
+                    try {
+                        addressList = geocoder.getFromLocationName(addressText, 1);
+                    } catch (IOException e) {
+                        Log.d(TAG,"address search failed: " + e.getMessage());
+                        Toast.makeText(MainActivity.this, "Network connection not available. Please try again later!", Toast.LENGTH_LONG).show();
+                    }
+                    Address address;
+                    if(addressList.size() > 0) {
+                        address = addressList.get(0);
+                        defaultLat = address.getLatitude();
+                        defaultLon = address.getLongitude();
+                        Log.d(TAG, "launching sign in intent");
+                        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                        signInLauncher.launch(signInIntent);
+                    }
+                    else{
+                        Toast.makeText(MainActivity.this, "Could not find address, please try again.", Toast.LENGTH_LONG).show();
+                    }
+                }
+                else{
+                    Toast.makeText(MainActivity.this, "Please enter a default address from where you'd like to start your journeys!", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
     }
@@ -126,10 +157,8 @@ public class MainActivity extends AppCompatActivity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             if (account != null) {
-
-
-                // Signed in successfully, show authenticated UI.
-                Log.d(TAG, "Signed in sucessfully");
+                // Signed in successfully
+                Log.d(TAG, "Signed in successfully");
                 JSONObject user = new JSONObject();
                 final String[] deviceToken = {""};
                 FirebaseMessaging.getInstance().getToken()
@@ -144,17 +173,25 @@ public class MainActivity extends AppCompatActivity {
                                 // Get new FCM registration token
                                 deviceToken[0] = task.getResult();
                                 try {
+                                    //TODO put in its own function
                                     user.put("deviceToken", deviceToken[0]);
                                     String uidKey = account.getGivenName()+account.getFamilyName()+account.getEmail();
                                     String uuidString = UUID.nameUUIDFromBytes(uidKey.getBytes()).toString();
                                     Log.d(TAG, "UUID:"+ uuidString);
                                     user.put("UUID", uuidString);
                                     user.put("email", account.getEmail());
+                                    user.put("defaultLat", defaultLat);
+                                    user.put("defaultLon", defaultLon);
                                     Log.d(TAG, user.toString());
-                                    OkHTTPHelper.createUser(user);
+                                    try {
+                                        OkHTTPHelper.createUser(user);
+                                    } catch (IOException e) {
+                                        Log.d(TAG, "Create user post request failed: "+e.getMessage());
+                                        Toast.makeText(MainActivity.this, "Server unavailable, please try again later.",Toast.LENGTH_LONG).show();
+                                        //don't want to crash
+                                        //throw new RuntimeException(e);
+                                    }
                                 } catch (JSONException e) {
-                                    throw new RuntimeException(e);
-                                } catch (IOException e) {
                                     throw new RuntimeException(e);
                                 }
 
@@ -202,8 +239,8 @@ public class MainActivity extends AppCompatActivity {
     private void checkLocationPermissions() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(MainActivity.this, "We have these permissions yay! :) ", Toast.LENGTH_LONG).show();
-            Log.d(TAG, "Permissions Granted!");
+            //Toast.makeText(MainActivity.this, "We have these permissions yay! :) ", Toast.LENGTH_LONG).show();
+            Log.d(TAG, "Location Permissions Granted!");
         } else {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                     || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
