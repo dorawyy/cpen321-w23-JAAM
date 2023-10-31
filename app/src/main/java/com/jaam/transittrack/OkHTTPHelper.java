@@ -20,7 +20,7 @@ public class OkHTTPHelper {
             = MediaType.parse("application/json");
 
     static OkHttpClient client = new OkHttpClient();
-
+    //ChatGPT usage: No
     //@POST
     static void createUser(JSONObject user) throws IOException {
         RequestBody requestBody = RequestBody.create(user.toString(), JSON);
@@ -31,7 +31,7 @@ public class OkHTTPHelper {
         client.newCall(request).execute();
 
     }
-
+    //ChatGPT usage: No
     static String getRoute(JSONObject endPoints) throws IOException {
         RequestBody requestBody = RequestBody.create(endPoints.toString(), JSON);
         Request request = new Request.Builder()
@@ -41,7 +41,7 @@ public class OkHTTPHelper {
         Response response = client.newCall(request).execute();
         return response.body().string();
     }
-
+    //ChatGPT usage: No
     static String getChatHistory() throws IOException{
         Request request = new Request.Builder()
                 .url(BASE_URL + "/api/chat/history")
@@ -49,7 +49,7 @@ public class OkHTTPHelper {
         Response response = client.newCall(request).execute();
         return response.body().string();
     }
-
+    //ChatGPT usage: No
     static String getLastMessage() throws IOException{
         Request request = new Request.Builder()
                 .url(BASE_URL + "/getLastMessage")
@@ -57,7 +57,7 @@ public class OkHTTPHelper {
         Response response = client.newCall(request).execute();
         return response.body().string();
     }
-
+    //ChatGPT usage: No
     static void sendFriendRequest(JSONObject body) throws IOException{
         RequestBody reqBody = RequestBody.create(body.toString(), JSON);
         Request request = new Request.Builder()
@@ -66,7 +66,7 @@ public class OkHTTPHelper {
                 .build();
         Response response = client.newCall(request).execute();
     }
-
+    //ChatGPT usage: No
     static String sendCalendar(JSONArray calendarEvents) throws IOException{
         RequestBody reqBody = RequestBody.create(calendarEvents.toString(), JSON);
         Request request = new Request.Builder()

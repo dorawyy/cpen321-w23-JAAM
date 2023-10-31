@@ -7,7 +7,7 @@ public class Message {
     private String recipient;
 
     private String message;
-
+    //ChatGPT usage: No
     public Message(String sender, String recipient, String message){
         this.sender = sender;
         this.recipient = recipient;

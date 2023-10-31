@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private double defaultLat;
     private double defaultLon;
 
+    //ChatGPT usage: No
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
+    //ChatGPT usage: No
     ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
@@ -119,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
     });
-
+    //ChatGPT usage: No
     private void updateUI(GoogleSignInAccount account) {
         if (account == null) {
             return;
@@ -154,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
      * GoogleSignIn.getClient(...).signIn()
      * .addOnCompleteListener(this, new OnCompleteListener<GoogleSignInAccount>() {
      */
+    //ChatGPT usage: No
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         Log.d(TAG, "getting account");
         try {
@@ -239,6 +241,7 @@ public class MainActivity extends AppCompatActivity {
      * checkLocationPermissions();
      * ```
      */
+    //ChatGPT usage: No
     private void checkLocationPermissions() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -290,6 +293,7 @@ public class MainActivity extends AppCompatActivity {
      * checkInternetPerms();
      * ```
      */
+    //ChatGPT usage: No
     private void checkInternetPerms() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "Internet permissions granted");

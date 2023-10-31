@@ -326,19 +326,19 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == IMAGE_REQUEST_ID && resultCode == RESULT_OK) {
-
-            try {
-                InputStream is = getContentResolver().openInputStream(data.getData());
-                Bitmap image = BitmapFactory.decodeStream(is);
-
-                sendImage(image);
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-
-        }
+//        if (requestCode == IMAGE_REQUEST_ID && resultCode == RESULT_OK) {
+//
+//            try {
+//                InputStream is = getContentResolver().openInputStream(data.getData());
+//                Bitmap image = BitmapFactory.decodeStream(is);
+//
+//                sendImage(image);
+//
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
+//
+//        }
 
     }
 

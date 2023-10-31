@@ -53,7 +53,7 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
 
     protected LocationManager locationManager;
     final static String TAG = "RouteActivity";
-
+    //ChatGPT usage: No
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,7 +103,7 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.route_layout, R.id.textView2, stops);
         stopListView.setAdapter(arrayAdapter);
-
+        //ChatGPT usage: No
         searchTextView.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -129,6 +129,7 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
 
             }
         });
+        //ChatGPT usage: No
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -175,7 +176,7 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
                 findViewById(R.id.routeLoadingProgressBar).setVisibility(View.INVISIBLE);
             }
         });
-
+        //ChatGPT usage: No
         chatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -222,6 +223,7 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
      *                       - This method assumes that the `OkHTTPHelper.getRoute` method is implemented and functioning as expected.
      *                       - It also assumes that the `BASE_URL` and JSON format are correctly configured in the `OkHTTPHelper` class.
      */
+    //ChatGPT usage: No
     private String getRoute(Location currLocation, String search) throws JSONException, IOException {
         Geocoder geocoder = new Geocoder(this);
         JSONObject endPoints = new JSONObject();

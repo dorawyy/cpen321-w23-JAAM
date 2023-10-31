@@ -86,17 +86,13 @@ public class CalendarActivity extends AppCompatActivity {
      */
     private static final List<String> SCOPES =
             Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
-    //TODO double check account name
-    private static final String PREF_ACCOUNT_NAME = "accountName";
-    //TODO find out where these come from
-    static final int REQUEST_ACCOUNT_PICKER = 1000;
-    static final int REQUEST_AUTHORIZATION = 1001;
-    static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
+
     private Button getGoogleCalendarButton;
     AccountManager am;
 
     ArrayList<Integer> alarmHours = new ArrayList<>();
     ArrayList<Integer> alarmMinutes = new ArrayList<>();
+    //ChatGPT usage: No
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,77 +140,7 @@ public class CalendarActivity extends AppCompatActivity {
         });
 
     }
-//    private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT)
-//            throws IOException {
-//        // Load client secrets.
-//        InputStream in = CalendarActivity.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
-//        if (in == null) {
-//            throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
-//        }
-//        GoogleClientSecrets clientSecrets =
-//                GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-//
-//        // Build flow and trigger user authorization request.
-//        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-//                HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-//                .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
-//                .setAccessType("offline")
-//                .build();
-//        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-//        Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
-//        //returns an authorized Credential object.
-//        return credential;
-//    }
-
-//    private void chooseAccount() {
-////        startActivityForResult(
-////                credential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
-//        ActivityResultLauncher activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback(){
-//
-//            @Override
-//            public void onActivityResult(Object result) {
-//
-//            }
-//        });
-//    }
-    private boolean isDeviceOnline() {
-        ConnectivityManager connMgr =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        return (networkInfo != null && networkInfo.isConnectedOrConnecting());
-    }
-    private boolean isGooglePlayServicesAvailable() {
-        final int connectionStatusCode =
-                GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
-        if (connectionStatusCode != ConnectionResult.SUCCESS ) {
-            return false;
-        }
-        return true;
-    }
-//    void showGooglePlayServicesAvailabilityErrorDialog(
-//            final int connectionStatusCode) {
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                Dialog dialog = GooglePlayServicesUtil.getErrorDialog(
-//                        connectionStatusCode,
-//                        CalendarActivity.this,
-//                        REQUEST_GOOGLE_PLAY_SERVICES);
-//                dialog.show();
-//            }
-//        });
-//    }
-//    private void refreshResults() {
-//        if (credential.getSelectedAccountName() == null) {
-//            chooseAccount();
-//        } else {
-//            if (isDeviceOnline()) {
-//                //new ApiAsyncTask(this).execute();
-//            } else {
-//
-//            }
-//        }
-//    }
+//ChatGPT usage: No
     private ActivityResultLauncher<Intent> requestPermissionLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -228,11 +154,11 @@ public class CalendarActivity extends AppCompatActivity {
                     }
                 } else {
                     // The user denied the permission request. Handle this case appropriately.
-                    Log.d(TAG, "my misery is endless, result code");
+                    Log.d(TAG, "my misery is endless, result code: "+ result.getResultCode());
                 }
             }
     );
-
+//ChatGPT usage: Partial
     private void getCalendarData() throws IOException, JSONException {
         DateTime now = new DateTime(System.currentTimeMillis());
         Events events = null;
@@ -258,6 +184,7 @@ public class CalendarActivity extends AppCompatActivity {
             Log.d(TAG, "No upcoming events");
             //System.out.println("No upcoming events found.");
         } else {
+            //ChatGPT usage: Partial
             Log.d(TAG,"Upcoming events");
             Geocoder geocoder = new Geocoder(this);
             JSONArray calendarEvents = new JSONArray();
@@ -288,7 +215,7 @@ public class CalendarActivity extends AppCompatActivity {
             }
         }
     }
-
+    //ChatGPT usage: No
     private void checkNotificationPerms() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.SET_ALARM) == PackageManager.PERMISSION_GRANTED) {
             //Toast.makeText(MainActivity.this, "We have these permissions yay! :) ", Toast.LENGTH_LONG).show();
@@ -318,7 +245,7 @@ public class CalendarActivity extends AppCompatActivity {
             }
         }
     }
-
+    //ChatGPT usage: No
     private void createNotificationChannel(){
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
@@ -334,7 +261,6 @@ public class CalendarActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }
-
 
     private void alertTransitNotification(int hours, int minutes){
 
@@ -355,7 +281,6 @@ public class CalendarActivity extends AppCompatActivity {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
         }
     }
-
 
     private void parseTimeJSON(String jsonString) {
         try {

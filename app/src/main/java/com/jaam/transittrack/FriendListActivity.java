@@ -27,7 +27,7 @@ public class FriendListActivity extends AppCompatActivity {
 
     private Button addFriendButton;
 
-
+    //ChatGPT usage: No
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +41,7 @@ public class FriendListActivity extends AppCompatActivity {
 
         addFriendButton = findViewById(R.id.addFriendButton);
         friendEmailTextView = findViewById(R.id.friendEmailEditText);
-
+        //ChatGPT usage: No
         friendEmailTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -65,7 +65,7 @@ public class FriendListActivity extends AppCompatActivity {
 
             }
         });
-
+        //ChatGPT usage: No
         addFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
