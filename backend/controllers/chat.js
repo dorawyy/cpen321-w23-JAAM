@@ -11,6 +11,7 @@ exports.initWebSocket = (webSocketServer) => {
   wsServer = webSocketServer;
 };
 
+//ChatGPT Usage: Partial
 // Send a message
 exports.sendMessage = async (req, res) => {
   try {
@@ -63,6 +64,7 @@ exports.sendMessage = async (req, res) => {
   }
 };
 
+//ChatGPT Usage: No
 async function getUserDetails(userIdentifier) {
   const uri = 'mongodb://127.0.0.1:27017';
   const client = new MongoClient(uri);
@@ -93,6 +95,7 @@ async function getUserDetails(userIdentifier) {
   }
 }  
 
+//ChatGPT Usage: No
 // Get chat history
 exports.getChatHistory = async (req, res) => {
   try {

@@ -49,7 +49,7 @@ app.get("/", (req, res) => {
     res.send("Hello World!")
 })
 
-
+//ChatGPT Usage: No
 app.post("/createUser", async (req, res) => {
   try {
     await client.connect()
@@ -87,7 +87,7 @@ app.post("/createUser", async (req, res) => {
   }
 });
 
-
+//ChatGPT Usage: Yes
 // Broadcast method for WebSocket connections
 wsServer.broadcast = (data) => {
   wsServer.connections.forEach((connection) => {
@@ -97,7 +97,7 @@ wsServer.broadcast = (data) => {
   });
 };
 
-
+//ChatGPT Usage: No
 app.post("/addFriend", async (req, res) => {
   try {
     await client.connect();
@@ -157,7 +157,7 @@ app.post("/addFriend", async (req, res) => {
   }
 });
 
-
+//ChatGPT Usage: Partial
 function getFormattedSubtractedTime(dataItem, subtractMinutes) {
   if (dataItem.Start && dataItem.Start.Time) {
     // Parse the input time into hours and minutes
@@ -188,7 +188,7 @@ function getFormattedSubtractedTime(dataItem, subtractMinutes) {
   }
 }
 
-
+//ChatGPT Usage: Partial
 app.post('/getFormattedSubtractedTime', async (req, res) => {
   const userEmail = req.body.email;
   const eventData = req.body.location;
@@ -297,7 +297,7 @@ app.post('/getFormattedSubtractedTime', async (req, res) => {
   }
 });
 
-
+//ChatGPT Usage: Partial
 app.get('/getLastMessage', async (req, res) => {
   try {
     await client.connect();
@@ -327,7 +327,7 @@ app.get('/getLastMessage', async (req, res) => {
   }
 });
 
-
+//ChatGPT Usage: No
 // route endpoint
 app.post('/getRoute', async (req, res) => {
   try {
@@ -345,6 +345,7 @@ app.post('/getRoute', async (req, res) => {
   }
 });
 
+//ChatGPT Usage: No
 app.post('/getFriendRoute', async (req, res) => {
   try {
     console.log(req.body);
@@ -384,6 +385,7 @@ app.post('/getFriendRoute', async (req, res) => {
   }
 });
 
+//ChatGPT Usage: No
 app.get('/getFCM', async (req, res) => {
   try {
     await client.connect();
@@ -433,6 +435,7 @@ db.once('open', () => {
   console.log('Connected to MongoDB database')
 })
 
+//ChatGPT Usage: No
 async function run(){
   try{
       await client.connect()
