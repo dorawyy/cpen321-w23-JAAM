@@ -57,13 +57,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String jsonString = "{\"times\": [\"19:52\", \"19:53\"]}";
+                String jsonString = "{\"times\": [\"18:35\", \"19:53\"]}";
 
                 parseTimeJSON(jsonString);
 
-                for(int i=0;i<alarmHours.size();i++) {
-                    alertTransitNotification(alarmHours.get(i), alarmMinutes.get(i));
-                }
+                alertTransitNotification(alarmHours.get(0), alarmMinutes.get(0));
+
+
+//                for(int i=0;i<alarmHours.size();i++) {
+//                    alertTransitNotification(alarmHours.get(i), alarmMinutes.get(i));
+//                }
 
 //                Toast.makeText(MainActivity.this, "Reminder Set!", Toast.LENGTH_SHORT).show();
 //
