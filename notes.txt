@@ -25,6 +25,9 @@ Delete:
 		route_url
 		route_color
 		route_text_color
+Get StopIds to each Route
+Get RouteIds to each Stop
+
 
 Routing:
 	Routing:
