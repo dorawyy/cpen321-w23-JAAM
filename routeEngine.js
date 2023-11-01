@@ -246,7 +246,6 @@ function getStopsBefore(stops, trips, stop_index, time, reached, previous_trips)
 }
 
 function convertSecondsTo24Hour(time) {
-    console.log(time);
     var date = new Date(null);
     date.setSeconds(time);
     
@@ -341,9 +340,25 @@ function getRoute(startLat, startLon, endLat, endLon, endTime) {
     return response;
 }
 
+function getPartnerRoute(startLat1, startLon1, startLat2, startLon2, endLat, endLon, endTime) {
+    var midLat = (startLat1 + startLat2 + endLat) / 3;
+    var midLon = (startLon1 + startLon2 + endLon) / 3;
+
+    var response = new Object();
+
+    response.Common = getRoute(midLat, midLon, endLat, endLon, endTime);
+    midTime = response.Common[0].Start.Time;
+
+    response.A = getRoute(startLat1, startLon1, midLat, midLon, midTime);
+    response.B = getRoute(startLat2, startLon2, midLat, midLon, midTime);
+
+    return response;
+}
+
 
  
 module.exports = {
     init,
-    getRoute
+    getRoute,
+    getPartnerRoute
 };
