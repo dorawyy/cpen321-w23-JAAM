@@ -221,10 +221,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
-
-    //ChatGPT usage: No
-
-
 }

@@ -12,7 +12,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5243575c-4ed2-4c47-856c-11776a0223f1" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/AlarmNotification.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/AlarmNotification.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/CalendarActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/CalendarActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/ChatActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/ChatActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/FriendEntryAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/FriendEntryAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/MapsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/MapsActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/MyFirebaseMessagingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/MyFirebaseMessagingService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/NavigationActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/NavigationActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/OkHTTPHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/OkHTTPHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/PermissionChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/PermissionChecker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/RouteActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/RouteActivity.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,7 +172,7 @@
     "android-custom-viewC:/Users/Work/AppData/Local/Android/Sdk/sources/android-29/android/widget/ListView.java_SELECTED": "ListView",
     "cidr.known.project.marker": "true",
     "com.google.services.firebase.aqiPopupShown": "true",
-    "last_opened_file_path": "G:/My Drive/MaterialDesignIconGeneratorPlugin.zip",
+    "last_opened_file_path": "D:/CPEN321/JAAM-project/frontend",
     "project.structure.last.edited": "Dependencies",
     "project.structure.proportion": "0.17",
     "project.structure.side.proportion": "0.2",
@@ -369,14 +383,6 @@
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/ChatActivity.java</url>
-          <line>277</line>
-          <properties class="com.jaam.transittrack.ChatActivity" method="makeGetRequestForChatHistory">
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

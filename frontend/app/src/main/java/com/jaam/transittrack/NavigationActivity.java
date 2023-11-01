@@ -22,7 +22,7 @@ public class NavigationActivity extends AppCompatActivity {
 
     private Button notifyButton;
     static private String TAG = "NavigationActivity";
-
+    //ChatGPT usage: No
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +37,7 @@ public class NavigationActivity extends AppCompatActivity {
             }
         });
 
-
+//ChatGPT usage: No
         findViewById(R.id.calendarActivityButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,6 +56,7 @@ public class NavigationActivity extends AppCompatActivity {
 
             }
         });
+        //ChatGPT usage: No
         notifyButton = findViewById(R.id.notifyButton);
         notifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,7 +76,7 @@ public class NavigationActivity extends AppCompatActivity {
                 }
             }
         });
-
+//ChatGPT usage: No
         findViewById(R.id.routeActivityButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

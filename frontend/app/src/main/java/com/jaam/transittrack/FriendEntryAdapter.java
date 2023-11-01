@@ -43,7 +43,7 @@ public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, Loca
     private Button friendRouteButton;
     private Location currLocation;
     protected LocationManager locationManager;
-
+    //ChatGPT usage: No
     public FriendEntryAdapter(ArrayList<String> list, Context context) {
         //TODO avoid repeating again
         locationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
@@ -76,7 +76,7 @@ public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, Loca
     public long getItemId(int position) {
         return -1;
     }
-
+    //ChatGPT usage: No
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
@@ -162,7 +162,7 @@ public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, Loca
 
         return view;
     }
-
+    //ChatGPT usage: No
     @Override
     public void onLocationChanged(@NonNull Location location) {
         currLocation = location;

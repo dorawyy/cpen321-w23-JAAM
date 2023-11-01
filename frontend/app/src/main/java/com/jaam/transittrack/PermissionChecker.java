@@ -71,6 +71,7 @@ public class PermissionChecker {
             }
         }
     }
+    //ChatGPT usage: No
     /**
      * Checks and requests Internet permission if not granted.
      * <p>
@@ -114,7 +115,7 @@ public class PermissionChecker {
             }
         }
     }
-
+    //ChatGPT usage: No
     void checkAlarmPerms(Context context) {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.SET_ALARM) == PackageManager.PERMISSION_GRANTED) {
             //Toast.makeText(MainActivity.this, "We have these permissions yay! :) ", Toast.LENGTH_LONG).show();
@@ -144,7 +145,7 @@ public class PermissionChecker {
             }
         }
     }
-
+    //ChatGPT usage: No
     void checkExactAlarmPerms(Context context) {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.SCHEDULE_EXACT_ALARM) == PackageManager.PERMISSION_GRANTED) {
             //Toast.makeText(MainActivity.this, "We have these permissions yay! :) ", Toast.LENGTH_LONG).show();
@@ -174,7 +175,7 @@ public class PermissionChecker {
             }
         }
     }
-
+    //ChatGPT usage: No
     void checkNotificationPerms (Context context) {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
             //Toast.makeText(MainActivity.this, "We have these permissions yay! :) ", Toast.LENGTH_LONG).show();

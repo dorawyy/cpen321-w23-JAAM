@@ -215,7 +215,6 @@ public class CalendarActivity extends AppCompatActivity {
             Toast.makeText(this, "Successfully synced calendar with server!", Toast.LENGTH_SHORT);
         }
     }
-    //ChatGPT usage: No
 
     //ChatGPT usage: No
     private void createNotificationChannel(){
@@ -233,7 +232,7 @@ public class CalendarActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }
-
+    //ChatGPT usage: No
     @SuppressLint("ScheduleExactAlarm")
     private void alertTransitNotification(int hours, int minutes) {
 
@@ -254,7 +253,7 @@ public class CalendarActivity extends AppCompatActivity {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
         }
     }
-
+    //ChatGPT usage: Partial
     private void parseTimeJSON(String jsonString) {
         try {
 

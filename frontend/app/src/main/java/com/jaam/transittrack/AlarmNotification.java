@@ -26,7 +26,7 @@ import okhttp3.Request;
 public class AlarmNotification extends BroadcastReceiver {
 
     private static String TAG = "AlarmNotification";
-
+    //ChatGPT usage: No
     @Override
     public void onReceive(Context context, Intent intent) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notifyTransit")

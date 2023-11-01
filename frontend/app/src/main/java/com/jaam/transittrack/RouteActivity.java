@@ -161,7 +161,7 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
         });
 
     }
-
+    //ChatGPT usage: No
     @Override
     public void onLocationChanged(@NonNull Location location) {
         currLocation = location;
@@ -209,7 +209,7 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
         }
         return OkHTTPHelper.getRoute(endPoints);
     }
-
+    //ChatGPT usage: No
     private void displayRoute(String routeString, ArrayAdapter<String> arrayAdapter) throws JSONException {
 
         JSONArray route = new JSONArray(routeString);

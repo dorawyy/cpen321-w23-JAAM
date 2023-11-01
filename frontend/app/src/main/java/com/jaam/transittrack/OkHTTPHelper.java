@@ -71,7 +71,7 @@ public class OkHTTPHelper {
         Response response = client.newCall(request).execute();
         return response.body().string();
     }
-
+    //ChatGPT usage: No
     static String getFriendRoute(JSONObject jsonObj) throws IOException{
         RequestBody requestBody = RequestBody.create(jsonObj.toString(),JSON);
         Request request = new Request.Builder()
