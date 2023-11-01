@@ -210,13 +210,9 @@ public class CalendarActivity extends AppCompatActivity {
                     start = event.getStart().getDate();
                 }
                 Log.d(TAG, event.getSummary() + " (" + start + ") @ " + loc);
-                JSONObject request = new JSONObject();
-
-                request.put("events", calendarEvents);
-
-                //Toast.makeText(this, "Successfully synced calendar with server!", Toast.LENGTH_SHORT);
-
+                
             }
+            Toast.makeText(this, "Successfully synced calendar with server!", Toast.LENGTH_SHORT);
         }
     }
     //ChatGPT usage: No
