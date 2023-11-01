@@ -1,16 +1,17 @@
 const express = require("express");
+const https = require('https');
+const fs = require('fs');
 const axios = require('axios');
 const SocketServer = require('websocket').server;
 const http = require('http');
+const moment = require('moment-timezone');
 const mongoose = require('mongoose');
 const chatRoute = require('./routes/chatRoute');
 const chatController = require('./controllers/chat');
-// const translinkRoute = require('./routes/translinkRoute');
+const translinkRoute = require('./routes/translinkRoute');
 const admin = require('firebase-admin');
 const schedule = require('node-schedule');
 const routeEngine = require('./engine/routeEngine');
-
-//const {init, getRoute}=require( "./engine/routeEngine.js");
 
 const serviceAccount = require('./chatcomponent321-firebase-adminsdk-d4mco-7f2d456053.json');
 
@@ -33,12 +34,16 @@ wsServer = new SocketServer({ httpServer: server });
 chatController.initWebSocket(wsServer);
 
 app.use('/api/chat', chatRoute)
-//app.use('/api/translink', translinkRoute)
+app.use('/api/translink', translinkRoute)
 
 // Connection to Mongodb
 const {MongoClient} = require("mongodb");
 const uri = "mongodb://127.0.0.1:27017";
 const client = new MongoClient(uri);
+
+const privateKey = fs.readFileSync('server.key', 'utf8');
+const certificate = fs.readFileSync('server.crt', 'utf8');
+const credentials = { key: privateKey, cert: certificate };
 
 app.get("/", (req, res) => {
     res.send("Hello World!")
@@ -99,8 +104,8 @@ app.post("/addFriend", async (req, res) => {
     const db = client.db("userDB");
     const collection = db.collection("userInfo");
 
-    const userEmail = req.body.userEmail;
-    const friendEmail = req.body.friendEmail;
+    const userEmail = req.body.userEmail; // Assuming you have userEmail in the request
+    const friendEmail = req.body.friendEmail; // Assuming you have friendEmail in the request
 
     const userExists = await collection.findOne({ email: userEmail });
 
@@ -153,6 +158,146 @@ app.post("/addFriend", async (req, res) => {
 });
 
 
+function getFormattedSubtractedTime(dataItem, subtractMinutes) {
+  if (dataItem.Start && dataItem.Start.Time) {
+    // Parse the input time into hours and minutes
+    const [hours, minutes] = dataItem.Start.Time.split(':');
+  
+    // Convert hours and minutes to minutes and subtract the specified duration
+    let totalMinutes = parseInt(hours, 10) * 60 + parseInt(minutes, 10);
+    totalMinutes -= subtractMinutes;
+  
+    // Handle cases where the totalMinutes becomes negative
+    if (totalMinutes < 0) {
+      totalMinutes += 24 * 60; // Add a day's worth of minutes (1440 minutes) to handle crossing midnight
+    }
+  
+    // Calculate the hours and minutes for the new time
+    const newHours = Math.floor(totalMinutes / 60);
+    const newMinutes = totalMinutes % 60;
+  
+    // Format the new time as HH:mm
+    const hoursPart = newHours.toString().padStart(2, '0');
+    const minutesPart = newMinutes.toString().padStart(2, '0');
+    const formattedTime = `${hoursPart}:${minutesPart}`;
+  
+    return formattedTime;
+  } else {
+    console.error('Invalid data structure:', dataItem);
+    return null; // Return null if the data structure is invalid
+  }
+}
+
+
+app.post('/getFormattedSubtractedTime', async (req, res) => {
+  const userEmail = req.body.email;
+  const eventData = req.body.location;
+  const latitude = eventData.latitude;
+  const longitude = eventData.longitude;
+  const providedTime = req.body.time;
+  //const [hours, minutes, seconds] = providedTime.split(':').map(Number);
+
+  const subtractedMinutes = 10;
+
+  try {
+    await client.connect();
+    const db = client.db("userDB");
+    const collection = db.collection("userInfo");
+
+    const userExists = await collection.findOne({ email: userEmail });
+
+    if (userExists) {
+      const defaultLat = userExists.defaultLat;
+      const defaultLong = userExists.defaultLon;
+
+      // Subtract 2 hours from the provided time using moment-timezone
+    //   let newHours = hours - 2;
+    //   if (newHours < 0) {
+    //     newHours += 24;
+    // }
+    const timePart = providedTime.match(/T(\d+:\d+:\d+)/)[1];
+    const [hours, minutes, seconds] = timePart.split(':').map(Number);
+    let newHours = hours - 2;
+    if (newHours < 0) {
+      newHours += 24; // Handle wrapping to the previous day
+    }
+    const startTime = `${newHours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;  
+    //const startTime = moment(providedTime, 'HH:mm:ss').subtract(2, 'hours').format('HH:mm:ss');
+      //const timePart = providedTime.split('T')[1].split('-')[0];
+      //const startTime = moment(timePart, 'HH:mm:ss').subtract(2, 'hours').format('HH:mm:ss');
+      //const startTime = `${newHours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      console.log(startTime)
+
+      // Data to send in the request body
+      const postData = JSON.stringify({
+        startLat: defaultLat,
+        startLon: defaultLong,
+        endLat: latitude,
+        endLon: longitude,
+        startTime: startTime,
+      });
+
+      // Options for the POST request
+      const options = {
+        hostname: '0.0.0.0', // Replace with your API's hostname
+        port: 8081, // Adjust the port if needed (e.g., 443 for HTTPS)
+        path: '/getRoute', // Replace with the correct path
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Content-Length': postData.length,
+        },
+        rejectUnauthorized: false,
+      };
+
+      const request = https.request(options, (routeResponse) => {
+        let data = '';
+
+        routeResponse.on('data', (chunk) => {
+          data += chunk;
+          console.log(data)
+        });
+
+        routeResponse.on('end', () => {
+          const dataItem = JSON.parse(data);
+          console.log(dataItem)
+
+          // You can now use dataItem in your code to process it
+          const formattedSubtractedTimes = dataItem.map((item) => {
+            if (item.Start && item.Start.Time) {
+              const formattedSubtractedTime = getFormattedSubtractedTime(item, subtractedMinutes);
+              return formattedSubtractedTime;
+            }
+            return null;
+          });
+
+          if (formattedSubtractedTimes.length > 0) {
+            res.json({ times: formattedSubtractedTimes });
+          } else {
+            res.status(400).send('Invalid or missing data');
+          }
+
+          // Close the MongoDB connection
+          client.close();
+        });
+      });
+
+      request.on('error', (error) => {
+        console.error('HTTP request error:', error);
+        res.status(500).send('An error occurred while making the request to getRoute');
+      });
+
+      request.write(postData);
+      request.end();
+    } else {
+      res.status(404).send('User not found in the database');
+    }
+  } catch (err) {
+    res.status(500).send('Error connecting to the database: ' + err.message);
+  }
+});
+
+
 app.get('/getLastMessage', async (req, res) => {
   try {
     await client.connect();
@@ -193,27 +338,91 @@ app.post('/getRoute', async (req, res) => {
     const result = routeEngine.getRoute(startLat, startLon, endLat, endLon, startTime);
     console.log(result);
 
-    // Prepare the data to send to /getFormattedSubtractedTime
-    //const dataToSend = result; // Modify this based on your data structure
+  res.json(result);
+  } catch(error) {
+    console.log(error);
+    res.status(500).json({ error: 'An error occurred while calculating the route.' });
+  }
+});
 
-    const subtractedMinutes = 10;
-    const formattedSubtractedTimes = result.map((item) => {
-      if (item.Start && item.Start.Time) {
-        const formattedSubtractedTime = getFormattedSubtractedTime(item, subtractedMinutes);
-        return formattedSubtractedTime;
+app.post('/getFriendRoute', async (req, res) => {
+  try {
+    console.log(req.body);
+    const { startLat1, startLon1, endLat, endLon, endTime, friendEmail } = req.body;
+
+
+    const db = client.db("userDB");
+    const collection = db.collection("userInfo");
+
+    const userExists = await collection.findOne({ email: friendEmail });
+    console.log(userExists)
+
+
+
+    if (userExists) {
+
+      const defaultLat = userExists.defaultLat; 
+      const defaultLong = userExists.defaultLong;
+
+      await routeEngine.init();
+      result = routeEngine.getPartnerRoute(startLat1, startLon1, defaultLat, defaultLong, endLat, endLon, endTime);
+      console.log(result);
+
+     if (result) {
+        res.json({result});
+      } else {
+        res.status(400).send('Invalid or missing data');
       }
-      return null;
-    });
-
-    // Handle the response data as needed
-    if (formattedSubtractedTimes.length > 0) {
-      res.json({ times: formattedSubtractedTimes });
-    } else {
-      res.status(400).send('Invalid or missing data');
+    }
+    else{
+      console.log(error);
+      res.status(500).json({ error: 'User does not exist in the DB' });
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: 'An error occurred while calculating the route.' });
+    res.status(500).json({ error: 'An error occurred while calculating the friend-route.' });
+  }
+});
+
+app.get('/getFCM', async (req, res) => {
+  try {
+    await client.connect();
+
+    const db = client.db('userDB');
+    const collection = db.collection('userInfo');
+
+    const userEmail = req.query.userEmail;
+
+    const userExists = await collection.findOne({ email: userEmail });
+    console.log(userExists)
+
+
+    if (userExists) {
+
+      const fcmToken =  userExists.deviceToken
+      console.log(fcmToken)
+
+       // Send a push notification to the receiver
+      const payload = {
+        notification: {
+          title: 'TransitTrack Alert',
+          body: 'Your TransitTrack journey begins in 10 minutes!',
+        },
+      };
+
+      // Send the notification to the receiver's FCM token
+      await admin.messaging().sendToDevice(fcmToken, payload);
+
+      res.status(201).json({ message: 'Alert sent successfully' });
+
+    } else {
+      res.status(404).json({ message: 'Could not send journey alert' });
+    }
+
+    client.close();
+  } catch (err) {
+    console.error('Error:', err);
+    res.status(500).json({ message: 'An error occurred while getFCM.' });
   }
 });
 
@@ -228,10 +437,11 @@ async function run(){
   try{
       await client.connect()
       console.log("Successfully connected to the database")
-      var server = app.listen(8081, "0.0.0.0", (req, res) =>{
+      var server = https.createServer(credentials, app).listen(8081, "0.0.0.0", (req, res) =>{
+      //var server = app.listen(8081, "0.0.0.0", (req, res) =>{
           var host = server.address().address
           var port = server.address().port
-          console.log("Example server successfully running at http://%s:%s", host, port)
+          console.log("Example server successfully running at https://%s:%s", host, port)
       })
   }
   catch(err){
