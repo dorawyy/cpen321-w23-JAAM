@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -64,10 +65,6 @@ import java.util.List;
 
 public class CalendarActivity extends AppCompatActivity {
     /**
-     * Application name.
-     */
-    private static final String APPLICATION_NAME = "TransitTrack";
-    /**
      * Global instance of the JSON factory.
      */
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
@@ -92,6 +89,7 @@ public class CalendarActivity extends AppCompatActivity {
 
     ArrayList<Integer> alarmHours = new ArrayList<>();
     ArrayList<Integer> alarmMinutes = new ArrayList<>();
+
     //ChatGPT usage: No
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,9 +110,11 @@ public class CalendarActivity extends AppCompatActivity {
                 .build();
         //Account[] accounts = am.getAccounts();
 
-
+        PermissionChecker pc = new PermissionChecker();
+        pc.checkAlarmPerms(CalendarActivity.this);
+        pc.checkExactAlarmPerms(CalendarActivity.this);
+        pc.checkNotificationPerms(CalendarActivity.this);
         createNotificationChannel();
-
 
 
         getGoogleCalendarButton = findViewById(R.id.googleCalendarButton);
@@ -140,7 +140,8 @@ public class CalendarActivity extends AppCompatActivity {
         });
 
     }
-//ChatGPT usage: No
+
+    //ChatGPT usage: No
     private ActivityResultLauncher<Intent> requestPermissionLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -154,11 +155,12 @@ public class CalendarActivity extends AppCompatActivity {
                     }
                 } else {
                     // The user denied the permission request. Handle this case appropriately.
-                    Log.d(TAG, "my misery is endless, result code: "+ result.getResultCode());
+                    Log.d(TAG, "my misery is endless, result code: " + result.getResultCode());
                 }
             }
     );
-//ChatGPT usage: Partial
+
+    //ChatGPT usage: Partial
     private void getCalendarData() throws IOException, JSONException {
         DateTime now = new DateTime(System.currentTimeMillis());
         Events events = null;
@@ -166,13 +168,11 @@ public class CalendarActivity extends AppCompatActivity {
             events = mService.events().list("primary")
                     .setTimeMin(now)
                     .execute();
-        }
-        catch(UserRecoverableAuthIOException e){
+        } catch (UserRecoverableAuthIOException e) {
 
             Intent permissionIntent = e.getIntent();
             requestPermissionLauncher.launch(permissionIntent);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             Log.e(TAG, "API Request Exception: " + e.getMessage());
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -180,12 +180,12 @@ public class CalendarActivity extends AppCompatActivity {
 
         List<Event> items = events.getItems();
         if (items.isEmpty()) {
-            Toast.makeText(CalendarActivity.this, "No upcoming events found!", Toast.LENGTH_LONG).show();
+//            Toast.makeText(CalendarActivity.this, "No upcoming events found!", Toast.LENGTH_LONG).show();
             Log.d(TAG, "No upcoming events");
             //System.out.println("No upcoming events found.");
         } else {
             //ChatGPT usage: Partial
-            Log.d(TAG,"Upcoming events");
+            Log.d(TAG, "Upcoming events");
             Geocoder geocoder = new Geocoder(this);
             JSONArray calendarEvents = new JSONArray();
             for (Event event : items) {
@@ -193,7 +193,7 @@ public class CalendarActivity extends AppCompatActivity {
                 String loc = event.getLocation();
                 List<Address> addressList = geocoder.getFromLocationName(loc, 1);
                 Address address;
-                if(addressList.size() > 0){
+                if (addressList.size() > 0) {
                     address = addressList.get(0);
                     JSONObject calendarJSON = new JSONObject();
                     calendarJSON.put("name", event.getSummary());
@@ -201,71 +201,42 @@ public class CalendarActivity extends AppCompatActivity {
                     destinationLocation.put("latitude", address.getLatitude());
                     destinationLocation.put("longitude", address.getLongitude());
                     calendarJSON.put("location", destinationLocation);
+                    calendarJSON.put("startTime", start);
                     calendarEvents.put(calendarJSON);
                 }
                 if (start == null) {
                     start = event.getStart().getDate();
                 }
-                Log.d(TAG,event.getSummary() + " (" + start+ ") @ " +loc);
+                Log.d(TAG, event.getSummary() + " (" + start + ") @ " + loc);
                 String times = OkHTTPHelper.sendCalendar(calendarEvents);
-                Toast.makeText(this, "Successfully synced calendar with server!", Toast.LENGTH_SHORT);
-                checkNotificationPerms();
+                //Toast.makeText(this, "Successfully synced calendar with server!", Toast.LENGTH_SHORT);
                 parseTimeJSON(times);
                 alertTransitNotification(alarmHours.get(0), alarmMinutes.get(0));
             }
         }
     }
     //ChatGPT usage: No
-    private void checkNotificationPerms() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SET_ALARM) == PackageManager.PERMISSION_GRANTED) {
-            //Toast.makeText(MainActivity.this, "We have these permissions yay! :) ", Toast.LENGTH_LONG).show();
-            Log.d(TAG, "Notification Permissions Granted!");
-        } else {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.SET_ALARM)) {
-                Log.d(TAG, "Alarm Notifications Denied!");
-                new AlertDialog.Builder(CalendarActivity.this)
-                        .setTitle("Need Location Permissions")
-                        .setMessage("We need the location permissions to mark your location on a map")
-                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Toast.makeText(CalendarActivity.this, "We need notification permissions to send departure reminders!", Toast.LENGTH_LONG).show();
-                                dialogInterface.dismiss();
-                            }
-                        })
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                ActivityCompat.requestPermissions(CalendarActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
 
-                            }
-                        }).create().show();
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SET_ALARM}, 1);
-            }
-        }
-    }
     //ChatGPT usage: No
-    private void createNotificationChannel(){
+    private void createNotificationChannel() {
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            CharSequence name = "TransitTrack";
-            String description = "Channel for TransitTrack";
+        CharSequence name = "TransitTrack";
+        String description = "Channel for TransitTrack";
 
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
 
-            NotificationChannel channel = new NotificationChannel("notifyTransit", name, importance);
-            channel.setDescription(description);
+        NotificationChannel channel = new NotificationChannel("notifyTransit", name, importance);
+        channel.setDescription(description);
 
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
     }
 
-    private void alertTransitNotification(int hours, int minutes){
+    @SuppressLint("ScheduleExactAlarm")
+    private void alertTransitNotification(int hours, int minutes) {
 
 //        Toast.makeText(CalendarActivity.this, "Reminder Set for "+ hours + ": " + minutes, Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "Reminder Set for "+ hours + ": " + minutes);
+        Log.d(TAG, "Reminder Set for " + hours + ": " + minutes);
 
         java.util.Calendar calendar = java.util.Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
@@ -310,8 +281,8 @@ public class CalendarActivity extends AppCompatActivity {
             // For example, printing the arrays
             for (int i = 0; i < alarmHours.size(); i++) {
 //                Log.d(TAG, "Alarm Time " + (i + 1) + ": " + alarmHours.get(i) + ":" + alarmMinutes.get(i));
-                Log.d(TAG, "Alarm Hours: "+ alarmHours.get(i));
-                Log.d(TAG, "Alarm Minutes: "+ alarmMinutes.get(i));
+                Log.d(TAG, "Alarm Hours: " + alarmHours.get(i));
+                Log.d(TAG, "Alarm Minutes: " + alarmMinutes.get(i));
             }
 
 

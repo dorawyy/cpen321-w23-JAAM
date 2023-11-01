@@ -1,5 +1,7 @@
 package com.jaam.transittrack;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -38,6 +40,7 @@ public class AlarmNotification extends BroadcastReceiver {
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            //ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
             return;
         }
         notificationManager.notify(200, builder.build());

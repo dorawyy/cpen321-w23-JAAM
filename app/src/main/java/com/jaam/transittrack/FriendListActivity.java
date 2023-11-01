@@ -33,7 +33,7 @@ public class FriendListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_list);
 
-        friends.add("johndoe@example.com");
+        friends.add("k.west@example.com");
 
         FriendEntryAdapter friendEntryAdapter = new FriendEntryAdapter(friends, this);
         friendListView = findViewById(R.id.friendListView);

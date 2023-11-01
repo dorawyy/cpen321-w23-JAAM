@@ -40,6 +40,7 @@ import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -66,21 +67,21 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
     private List<JSONObject> messages = new ArrayList<>();
     private String[] token = new String[1];
 
-    private String receiverEmail;
+    private String receiverEmail = "d.trump@example.com";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_chat);
 
-        arrayAdapter = new ArrayAdapter<>(this, R.layout.layout_message, R.id.messageTextView, messageHistory);
-        ListView chatHistory = findViewById(R.id.messageListView);
-        chatHistory.setAdapter(arrayAdapter);
-
-
+            arrayAdapter = new ArrayAdapter<>(this, R.layout.layout_message, R.id.messageTextView, messageHistory);
+            ListView chatHistory = findViewById(R.id.messageListView);
+            chatHistory.setAdapter(arrayAdapter);
 
 
-        name = getIntent().getStringExtra("name");
+
+
+            name = getIntent().getStringExtra("name");
         receiverEmail = getIntent().getStringExtra("receiverEmail");
         initiateSocketConnection();
         initializeView();
@@ -201,14 +202,10 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
 
                 try {
                     JSONObject jsonObject = new JSONObject(text);
-                    //TODO get user email
 
-
-                    Log.d(TAG, "Message sent: " + jsonObject.toString());
-
+                    Log.d(TAG, "Message sent: " + jsonObject);
 
                     postMessageToServer(jsonObject.toString());
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -233,16 +230,15 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
 
 
             try {
-                makeGetRequestForChatHistory();
                 jsonObject.put("message", messageEdit.getText().toString());
 
                 webSocket.send(jsonObject.toString());
 
                 arrayAdapter.clear();
                 messagesArrayList.clear();
-                makeGetRequestForChatHistory();
                 postMessageToServer(jsonObject.getString("message"));
-                getLastMessage();
+                makeGetRequestForChatHistory();
+
 
                 resetMessageEdit();
 
@@ -256,11 +252,6 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
 
         });
 
-    }
-
-    public void clearMessages() {
-        messages.clear();
-//        arrayAdapter.clear();
     }
 
     public void parseChatHistory(JSONArray chatHistory) {
@@ -284,8 +275,12 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
 
 
     private void makeGetRequestForChatHistory() {
-        String url = "http://4.205.17.106:8081/api/chat/history";
+        //String url = "http://4.205.17.106:8081/api/chat/history";
 
+        HttpUrl url = HttpUrl.parse("http://4.205.17.106:8081/api/chat/history").newBuilder()
+                .addQueryParameter("senderEmail", GoogleSignIn.getLastSignedInAccount(this).getEmail())
+                .addQueryParameter("receiverEmail", receiverEmail)
+                .build();
         Request request = new Request.Builder()
                 .url(url)
                 .get()
@@ -326,52 +321,11 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-//        if (requestCode == IMAGE_REQUEST_ID && resultCode == RESULT_OK) {
-//
-//            try {
-//                InputStream is = getContentResolver().openInputStream(data.getData());
-//                Bitmap image = BitmapFactory.decodeStream(is);
-//
-//                sendImage(image);
-//
-//            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//            }
-//
-//        }
-
     }
 
-    private void sendImage(Bitmap image) {
-
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
-
-        String base64String = Base64.encodeToString(outputStream.toByteArray(),
-                Base64.DEFAULT);
-
-        JSONObject jsonObject = new JSONObject();
-
-        try {
-            jsonObject.put("name", name);
-            jsonObject.put("image", base64String);
-
-            webSocket.send(jsonObject.toString());
-
-//            jsonObject.put("isSent", true);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     private void postMessageToServer(String message) {
         String url = "http://4.205.17.106:8081/api/chat/send";
-
-        String username = "963";
-        String credentials1 = username;
-        String base64Credentials = Base64.encodeToString(credentials1.getBytes(), Base64.NO_WRAP);
 
 
         if (message != null || !message.isEmpty()) {
@@ -395,7 +349,6 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
 
             Request request = new Request.Builder()
                     .url(url)
-                    .addHeader("Authorization", "Basic " + base64Credentials)
                     .post(requestBody)
                     .build();
 

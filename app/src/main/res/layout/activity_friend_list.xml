@@ -34,8 +34,8 @@
 
     <ListView
         android:id="@+id/friendListView"
-        android:layout_width="409dp"
-        android:layout_height="848dp"
+        android:layout_width="383dp"
+        android:layout_height="670dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

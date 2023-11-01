@@ -54,8 +54,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        checkLocationPermissions();
-        checkInternetPerms();
+        PermissionChecker pc = new PermissionChecker();
+        pc.checkLocationPermissions(this);
+        pc.checkInternetPerms(this);
+
         //TODO fix strictmode in MainActivity
         //work around for not running http requests off main thread. really don't want to deal with race conditions/synchronization
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -222,101 +224,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Checks and requests location permissions if not granted.
-     * <p>
-     * This method checks if the app has been granted the ACCESS_COARSE_LOCATION and ACCESS_FINE_LOCATION
-     * permissions. If the permissions are not granted, it displays a rationale dialog explaining why
-     * the permissions are required. If the user agrees, it requests these permissions. If the permissions
-     * are already granted or the user declines to grant them, appropriate actions are taken, and the app's
-     * functionality is communicated to the user via UI elements.
-     * <p>
-     * Usage:
-     * - Call this method to check and request location permissions in your app. You typically call this
-     * method at a point in your app where location access is required.
-     * - Ensure you handle the permission request result in your activity's onRequestPermissionsResult method.
-     * <p>
-     * Example usage:
-     * ```
-     * checkLocationPermissions();
-     * ```
-     */
-    //ChatGPT usage: No
-    private void checkLocationPermissions() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            //Toast.makeText(MainActivity.this, "We have these permissions yay! :) ", Toast.LENGTH_LONG).show();
-            Log.d(TAG, "Location Permissions Granted!");
-        } else {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                    || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-                Log.d(TAG, "Permissions Denied!");
-                new AlertDialog.Builder(MainActivity.this)
-                        .setTitle("Need Location Permissions")
-                        .setMessage("We need the location permissions to mark your location on a map")
-                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Toast.makeText(MainActivity.this, "We need location permissions to run!", Toast.LENGTH_LONG).show();
-                                dialogInterface.dismiss();
-                            }
-                        })
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
 
-                            }
-                        }).create().show();
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            }
-        }
-    }
 
-    /**
-     * Checks and requests Internet permission if not granted.
-     * <p>
-     * This method checks if the app has been granted the INTERNET permission. If the permission is
-     * not granted, it displays a rationale dialog explaining why the permission is required. If the user
-     * agrees, it requests the INTERNET permission. If the permission is already granted or the user
-     * declines to grant it, appropriate actions are taken, and the app's functionality is communicated
-     * to the user via UI elements.
-     * <p>
-     * Usage:
-     * - Call this method to check and request INTERNET permission in your app. Typically, you call this
-     * method at a point in your app where INTERNET access is required.
-     * - Ensure you handle the permission request result in your activity's onRequestPermissionsResult method.
-     * <p>
-     * Example usage:
-     * ```
-     * checkInternetPerms();
-     * ```
-     */
+
     //ChatGPT usage: No
-    private void checkInternetPerms() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED) {
-            Log.d(TAG, "Internet permissions granted");
-        } else {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.INTERNET)) {
-                new AlertDialog.Builder(MainActivity.this)
-                        .setTitle("Need Internet Permissions")
-                        .setMessage("We need to access the internet to make requests to the server")
-                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Toast.makeText(MainActivity.this, "We need internet permissions to run!", Toast.LENGTH_LONG).show();
-                                dialogInterface.dismiss();
-                            }
-                        })
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.INTERNET}, 1);
-                            }
-                        }).create().show();
-            }
-        }
-    }
+
 
 }
