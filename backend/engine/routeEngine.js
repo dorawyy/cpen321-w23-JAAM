@@ -14,7 +14,7 @@ var stop_times_path = './translink_data/stop_times.txt';
 var stops;
 var trips;
 
-
+// ChatGPT Usage: PARTIAL
 async function init() {
     stops_path = './engine/generated/stops.json';
     trips_path = './engine/generated/trips.json';
@@ -27,9 +27,7 @@ async function init() {
             console.log("Files not found");
         }
 
-        // routes_path = 'translink_data/routes.txt';
-        stops_path = './engine/translink_data/stops.txt';
-        // trips_path = './engine/translink_data/trips.txt';
+        var stops_path = './engine/translink_data/stops.txt';
         var stop_times_path = './engine/translink_data/stop_times.txt';
         var trips_path = './engine/translink_data/trips.txt';
         stops = await parseTranslinkFile(stops_path);
@@ -39,7 +37,8 @@ async function init() {
         addTripsToStops(trips, stops);
         fs.writeFileSync('./engine/generated/stops.json', JSON.stringify(stops, null, 2) , 'utf-8');
         fs.writeFileSync('./engine/generated/trips.json', JSON.stringify(trips, null, 2) , 'utf-8');
-    }
+        stops_path = 'generated/stops.json';
+        trips_path = 'generated/trips.json';    }
     
     
     stops = await parseGeneratedFile(stops_path);
@@ -222,12 +221,11 @@ function convert24HrToSeconds(time) {
 }
 
 // ChatGPT Usage: PARTIAL
-function getStopsBefore(stops, trips, stop_index, time, reached, previous_trips) {
+function getStopsBefore(stops, trips, stop_index, time, old_reached, reached, previous_trips) {
     var stops_before = new Set();
     var trip_index;
     var trip_pos;
     var diff;
-    old_reached = new Set(reached);
     for (var i = 0; i < stops.trips[stop_index].length; i++) {
         trip_index = stops.trips[stop_index][i];
         if (!previous_trips.has(trip_index)) {
@@ -287,15 +285,17 @@ function getRoute(startLat, startLon, endLat, endLon, endTime) {
     var start;
     while (!found) {
         var temp = [];
+        var reached_count = reached.size;
+        var old_reached = new Set(reached);
         for (var i = 0; i < paths.length; i++) {
-            getStopsBefore(stops, trips, paths[i][0][0], paths[i][0][1], reached, trips_alr_indexed).forEach(new_stop => {
+            getStopsBefore(stops, trips, paths[i][0][0], paths[i][0][1], old_reached, reached, trips_alr_indexed).forEach(new_stop => {
                 temp.push([new_stop, ...paths[i]]);
             });
         }
 
         for (var i = 0; i < paths.length; i++) {
             findStopsNearStop(stops, 500, paths[i][0][0]).forEach(new_stop => {
-                if (!reached.has(new_stop)) {
+                if (!old_reached.has(new_stop)) {
                     temp.push([[new_stop, paths[i][0][1]-300, "Walk", paths[i][0][1]], ...paths[i]]);
                     reached.add(new_stop);
                 }
@@ -309,7 +309,7 @@ function getRoute(startLat, startLon, endLat, endLon, endTime) {
                 found = true;
                 start = stop;
             }
-        })
+        });
          if (reached.size - reached_count < 20) {
             break;
         }
@@ -332,7 +332,6 @@ function getRoute(startLat, startLon, endLat, endLon, endTime) {
     }
 
     response = [];
-    console.log(paths[latestTimeIndex]);
     for (var i = 1; i < paths[latestTimeIndex].length; i++) {
         responseObj = new Object();
         responseObj['Start'] = new Object();
