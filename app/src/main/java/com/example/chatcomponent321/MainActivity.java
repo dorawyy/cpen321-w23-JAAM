@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String jsonString = "{\"times\": [\"18:35\", \"19:53\"]}";
+                String jsonString = "{\"times\": [\"22:54\", \"19:53\"]}";
 
                 parseTimeJSON(jsonString);
 
@@ -86,9 +87,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-
-
-
 
 
 //        Bus Route Notifications
@@ -156,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @SuppressLint("ScheduleExactAlarm")
     private void alertTransitNotification(int hours, int minutes){
 
         Toast.makeText(MainActivity.this, "Reminder Set for "+ hours + ": " + minutes, Toast.LENGTH_SHORT).show();
