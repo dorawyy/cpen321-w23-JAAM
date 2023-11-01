@@ -195,25 +195,27 @@ public class CalendarActivity extends AppCompatActivity {
                 if (addressList.size() > 0) {
                     address = addressList.get(0);
                     JSONObject calendarJSON = new JSONObject();
+                    calendarJSON.put("email", GoogleSignIn.getLastSignedInAccount(this).getEmail());
                     calendarJSON.put("eventName", event.getSummary());
                     JSONObject destinationLocation = new JSONObject();
                     destinationLocation.put("latitude", address.getLatitude());
                     destinationLocation.put("longitude", address.getLongitude());
                     calendarJSON.put("location", destinationLocation);
                     calendarJSON.put("time", start);
-                    calendarEvents.put(calendarJSON);
+                    String time = OkHTTPHelper.sendCalendar(calendarJSON);
+                    parseTimeJSON(time);
+                    alertTransitNotification(alarmHours.get(0), alarmMinutes.get(0));
                 }
                 if (start == null) {
                     start = event.getStart().getDate();
                 }
                 Log.d(TAG, event.getSummary() + " (" + start + ") @ " + loc);
                 JSONObject request = new JSONObject();
-                request.put("email", GoogleSignIn.getLastSignedInAccount(this).getEmail());
+
                 request.put("events", calendarEvents);
-                String times = OkHTTPHelper.sendCalendar(request);
+
                 //Toast.makeText(this, "Successfully synced calendar with server!", Toast.LENGTH_SHORT);
-                parseTimeJSON(times);
-                alertTransitNotification(alarmHours.get(0), alarmMinutes.get(0));
+
             }
         }
     }
