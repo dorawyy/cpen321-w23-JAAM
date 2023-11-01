@@ -16,7 +16,7 @@ var stop_times_path = 'translink_data/stop_times.txt';
 var stops;
 var trips;
 
-
+// ChatGPT Usage: PARTIAL
 async function init() {
     if (fs.existsSync(stops_path) && fs.existsSync(routes_path)) {
         if (LOG) {
@@ -26,14 +26,7 @@ async function init() {
         if (LOG) {
             console.log("Files not found");
         }
-
-        // routes_path = 'translink_data/routes.txt';
-        // stops_path = 'translink_data/stops.txt';
-        // trips_path = 'translink_data/trips.txt';
-        // var stop_times_path = 'translink_data/stop_times.txt';
-        // var trips_path = 'translink_data/trips.txt';
         stops = await parseTranslinkFile(stops_path);
-        // stop_times = await parseTranslinkFile(stop_times_path);
         trips = await parseTranslinkFile(trips_path);
         addStopTimesToTrips(stop_times, trips);
         addTripsToStops(trips, stops);
@@ -49,6 +42,8 @@ async function init() {
     return true;
 }
 
+
+// ChatGPT Usage: NO
 function parseGeneratedFile(path) {
     return new Promise(function(resolve, reject) {
         fs.readFile(path, 'utf8', (err, data) => {
@@ -64,6 +59,7 @@ function parseGeneratedFile(path) {
     });
 }
 
+// ChatGPT Usage: NO
 function parseTranslinkFile(path)  {
     return new Promise(function(resolve, reject) {
         fs.readFile(path, 'utf8', (err, data) => {
@@ -130,6 +126,7 @@ function parseTranslinkFile(path)  {
     });
 }
 
+// ChatGPT Usage: NO
 function addTripsToStops(trips, stops) {
     stops.trips = [];
     stops.trip_pos = [];
@@ -160,6 +157,7 @@ function addTripsToStops(trips, stops) {
 
 }
 
+// ChatGPT Usage: NO 
 function addStopTimesToTrips(stop_times, trips) {
     if (LOG) {
         console.log("Adding Stop Times to Trips");
@@ -189,6 +187,7 @@ function addStopTimesToTrips(stop_times, trips) {
     }
 }
 
+// ChatGPT Usage: NO
 function getAllStopsWithinRange(stops, range, lat, long) {
     var inRange = new Set();
     var xRange =  range / 111320;
@@ -207,17 +206,18 @@ function getAllStopsWithinRange(stops, range, lat, long) {
     return inRange;
 }
 
+// ChatGPT Usage: NO
 function findStopsNearStop(stops, range, stop_index) {
     return getAllStopsWithinRange(stops, scan_range, stops.lat[stop_index], stops.lon[stop_index]);
 }
 
-
+// ChatGPT Usage: YES
 function convert24HrToSeconds(time) {
     var times = time.split(":");
     return (+times[2]) + 60*(+times[1]) + 3600*(+times[0]);
 }
 
-
+// ChatGPT Usage: PARTIAL
 function getStopsBefore(stops, trips, stop_index, time, reached, previous_trips) {
     var stops_before = new Set();
     var trip_index;
@@ -245,6 +245,7 @@ function getStopsBefore(stops, trips, stop_index, time, reached, previous_trips)
     return stops_before;
 }
 
+// ChatGPT Usage: PARTIAL
 function convertSecondsTo24Hour(time) {
     var date = new Date(null);
     date.setSeconds(time);
@@ -252,7 +253,7 @@ function convertSecondsTo24Hour(time) {
     return date.toISOString().substring(11, 19);
 }
 
-
+// ChatGPT Usage: NONE
 function getRoute(startLat, startLon, endLat, endLon, endTime) {
     endTime = convert24HrToSeconds(endTime);
     var startStops = new Set();
@@ -340,6 +341,7 @@ function getRoute(startLat, startLon, endLat, endLon, endTime) {
     return response;
 }
 
+// ChatGPT Usage: PARTIAL
 function getPartnerRoute(startLat1, startLon1, startLat2, startLon2, endLat, endLon, endTime) {
     var midLat = (startLat1 + startLat2 + endLat) / 3;
     var midLon = (startLon1 + startLon2 + endLon) / 3;
