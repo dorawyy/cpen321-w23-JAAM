@@ -310,6 +310,14 @@ function getRoute(startLat, startLon, endLat, endLon, endTime) {
                 start = stop;
             }
         })
+         if (reached.size - reached_count < 20) {
+            break;
+        }
+    }
+    if (!found) {
+        response = [];
+        response.push("Could not find Route");
+        return response;
     }
 
     var latestTime = -1;
