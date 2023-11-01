@@ -17,7 +17,7 @@ var stops;
 var trips;
 
 
-export async function init() {
+async function init() {
     if (fs.existsSync(stops_path) && fs.existsSync(routes_path)) {
         if (LOG) {
             console.log("Files exist");
@@ -223,20 +223,24 @@ function getStopsBefore(stops, trips, stop_index, time, reached, previous_trips)
     var trip_index;
     var trip_pos;
     var diff;
-    var old_reached = new Set(reached);
+    old_reached = new Set(reached);
     for (var i = 0; i < stops.trips[stop_index].length; i++) {
         trip_index = stops.trips[stop_index][i];
-        if (!old_reached.has(trips.stops[trip_index])) {
+        if (!previous_trips.has(trip_index)) {
+            previous_trips.add(trip_index);
             trip_pos = stops.trip_pos[stop_index][i];
             diff = time - trips.stop_times[trip_index][trip_pos];
             if (diff > 0 && diff < 1800) {
                 for (var j = 0; j < trip_pos; j++) {
-                    stops_before.add([trips.stops[trip_index][j], trips.stop_times[trip_index][j], trips.name[trip_index]]);
-                    reached.add(trips.stops[trip_index][j]);
+                    if (!old_reached.has(trips.stops[trip_index][j])) {
+                        stops_before.add([trips.stops[trip_index][j], trips.stop_times[trip_index][j], trips.name[trip_index]]);
+                        reached.add(trips.stops[trip_index][j]);
+                    }
                 }
             }
         }
     }
+    
 
     return stops_before;
 }
@@ -250,7 +254,7 @@ function convertSecondsTo24Hour(time) {
 }
 
 
-export function getRoute(startLat, startLon, endLat, endLon, endTime) {
+function getRoute(startLat, startLon, endLat, endLon, endTime) {
     endTime = convert24HrToSeconds(endTime);
     var startStops = new Set();
     var endStops = [];
@@ -267,6 +271,7 @@ export function getRoute(startLat, startLon, endLat, endLon, endTime) {
     }
     var paths = [];
     var reached = new Set();
+    var trips_alr_indexed = new Set();
     
     for (var i = 0; i < endStops.length; i++) {
         paths[i] = [];
@@ -279,7 +284,7 @@ export function getRoute(startLat, startLon, endLat, endLon, endTime) {
     while (!found) {
         var temp = [];
         for (var i = 0; i < paths.length; i++) {
-            getStopsBefore(stops, trips, paths[i][0][0], paths[i][0][1], reached).forEach(new_stop => {
+            getStopsBefore(stops, trips, paths[i][0][0], paths[i][0][1], reached, trips_alr_indexed).forEach(new_stop => {
                 temp.push([new_stop, ...paths[i]]);
             });
         }
@@ -334,12 +339,11 @@ export function getRoute(startLat, startLon, endLat, endLon, endTime) {
 
 
     return response;
-    
-
-
-
-    return paths[latestTimeIndex];
 }
 
 
  
+module.exports = {
+    init,
+    getRoute
+};
