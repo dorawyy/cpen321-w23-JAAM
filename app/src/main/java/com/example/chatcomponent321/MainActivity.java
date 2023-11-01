@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -39,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Integer> alarmHours = new ArrayList<>();
     ArrayList<Integer> alarmMinutes = new ArrayList<>();
 
+    private Handler handler;
+    private Runnable timeChecker;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +56,30 @@ public class MainActivity extends AppCompatActivity {
 
         createNotificationChannel();
 
+        Button timeBtn = findViewById(R.id.timeBtn);
+
+        timeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Calendar currentTime = Calendar.getInstance();
+//
+//                // Get hours and minutes from the current time
+//                int notifyHours = currentTime.get(Calendar.HOUR_OF_DAY);
+//                Log.d(TAG, "Current Hour: "+ notifyHours);
+//                int notifyMinutes = currentTime.get(Calendar.MINUTE);
+//                Log.d(TAG, "Current Minute: "+notifyMinutes);
+
+                logTimeChanges();
+
+
+
+
+            }
+        });
+
         Button alarmBtn = findViewById(R.id.alarmButton);
+
+
 
         alarmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,35 +91,9 @@ public class MainActivity extends AppCompatActivity {
 
                 alertTransitNotification(alarmHours.get(0), alarmMinutes.get(0));
 
-
-//                for(int i=0;i<alarmHours.size();i++) {
-//                    alertTransitNotification(alarmHours.get(i), alarmMinutes.get(i));
-//                }
-
-//                Toast.makeText(MainActivity.this, "Reminder Set!", Toast.LENGTH_SHORT).show();
-//
-//                Calendar calendar = Calendar.getInstance();
-//                calendar.setTimeInMillis(System.currentTimeMillis());
-//                calendar.set(Calendar.HOUR_OF_DAY, 19);
-//                calendar.set(Calendar.MINUTE, 35);
-//                calendar.set(Calendar.SECOND, 0);
-//
-//                Intent intent = new Intent(MainActivity.this, AlarmNotification.class);
-//                PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-//
-//                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-//                if (alarmManager != null) {
-//                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-//                }
             }
 
         });
-
-
-//        Bus Route Notifications
-
-        BusRouteProcessor busRouteProcessor = new BusRouteProcessor();
-        busRouteProcessor.processBusRoutes(this);
 
 
         FirebaseMessaging.getInstance().getToken()
@@ -107,14 +108,7 @@ public class MainActivity extends AppCompatActivity {
                         // Get new FCM registration token
                         String token = task.getResult();
 
-                        // Log and toast
-//                        String msg = getString(R.string.msg_token_fmt, token);
                         Log.d(TAG, "FCM Device Registration Token: "+token);
-
-//                        TOKEN
-
-//                        fNgnfEh4RumbR4af-LLGkR:APA91bFb4pNSVMx80FugZSt8u4aLj4Z-LnlTSUC-xpFsqUO1gfLOVBhMElmbYiE76mC_ceyK7j8Db-HsxWrfS6BhW0YLRx3s4b7rwfCYjT537oDkQ69_T1Vm-zVhfWq99XZODm_sWeXO
-//                        Toast.makeText(MainActivity.this, "FCM Device Registration Token: "+token, Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -152,6 +146,44 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startLoggingTime();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopLoggingTime();
+    }
+
+    private void startLoggingTime() {
+        handler = new Handler();
+        timeChecker = new Runnable() {
+            @Override
+            public void run() {
+                logTimeChanges();
+                handler.postDelayed(this, 60000); // Check every minute (60,000 milliseconds)
+            }
+        };
+        handler.postDelayed(timeChecker, 0); // Start immediately
+    }
+
+    private void stopLoggingTime() {
+        handler.removeCallbacks(timeChecker);
+    }
+
+    private void logTimeChanges() {
+        Calendar currentTime = Calendar.getInstance();
+
+        int notifyHours = currentTime.get(Calendar.HOUR_OF_DAY);
+        int notifyMinutes = currentTime.get(Calendar.MINUTE);
+
+        Log.d(TAG, "Current Time: " + notifyHours + ":" + notifyMinutes);
+    }
+
 
 
     @SuppressLint("ScheduleExactAlarm")
@@ -213,4 +245,9 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+
+
+
+
 }
