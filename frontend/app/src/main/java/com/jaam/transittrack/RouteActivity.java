@@ -28,15 +28,19 @@ import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.api.client.util.DateTime;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -207,6 +211,8 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
             address = addressList.get(0);
             endPoints.put("end", new double[]{address.getLatitude(), address.getLongitude()});
         }
+        String arrivalTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date(System.currentTimeMillis()+ 7200000));
+        endPoints.put("startTime", arrivalTime);
         return OkHTTPHelper.getRoute(endPoints);
     }
     //ChatGPT usage: No

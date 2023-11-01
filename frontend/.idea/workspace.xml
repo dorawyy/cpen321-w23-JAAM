@@ -12,21 +12,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5243575c-4ed2-4c47-856c-11776a0223f1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/AlarmNotification.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/AlarmNotification.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/CalendarActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/CalendarActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/ChatActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/ChatActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/FriendEntryAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/FriendEntryAdapter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/MapsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/MapsActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/Message.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/MyFirebaseMessagingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/MyFirebaseMessagingService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/NavigationActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/NavigationActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/OkHTTPHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/OkHTTPHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/PermissionChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/PermissionChecker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/RouteActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/RouteActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,6 +124,9 @@
     </option>
   </component>
   <component name="GenerateSignedApkSettings">
+    <option name="KEY_STORE_PATH" value="C:\Users\Work\Documents\signingKey.jks" />
+    <option name="KEY_ALIAS" value="key0" />
+    <option name="REMEMBER_PASSWORDS" value="true" />
     <option name="BUILD_TARGET_KEY" value="apk" />
   </component>
   <component name="Git.Settings">
@@ -157,29 +149,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ApkExportedModule": "TransitTrack.app",
-    "DEBUGGABLE_DEVICE": "Pixel_6_API_29 [emulator-5554]",
-    "DEBUGGABLE_PROCESS": "com.jaam.transittrack",
-    "DEBUGGER_ID": "Auto",
-    "Git.Branch.Popup.ShowAllRemotes": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "SHOW_ALL_PROCESSES": "false",
-    "android-custom-viewC:/Users/Work/AppData/Local/Android/Sdk/sources/android-29/android/view/View.java_SELECTED": "View",
-    "android-custom-viewC:/Users/Work/AppData/Local/Android/Sdk/sources/android-29/android/widget/ListView.java_SELECTED": "ListView",
-    "cidr.known.project.marker": "true",
-    "com.google.services.firebase.aqiPopupShown": "true",
-    "last_opened_file_path": "D:/CPEN321/JAAM-project/frontend",
-    "project.structure.last.edited": "Dependencies",
-    "project.structure.proportion": "0.17",
-    "project.structure.side.proportion": "0.2",
-    "recommended.upgrade.do.not.ask.for.project": "true",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ApkExportedModule&quot;: &quot;TransitTrack.app&quot;,
+    &quot;DEBUGGABLE_DEVICE&quot;: &quot;Pixel_6_API_29 [emulator-5554]&quot;,
+    &quot;DEBUGGABLE_PROCESS&quot;: &quot;com.jaam.transittrack&quot;,
+    &quot;DEBUGGER_ID&quot;: &quot;Auto&quot;,
+    &quot;ExportApk.ApkPathForTransitTrack.app&quot;: &quot;D:\\CPEN321\\JAAM-project\\frontend\\app&quot;,
+    &quot;Git.Branch.Popup.ShowAllRemotes&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;SHOW_ALL_PROCESSES&quot;: &quot;false&quot;,
+    &quot;android-custom-viewC:/Users/Work/AppData/Local/Android/Sdk/sources/android-29/android/view/View.java_SELECTED&quot;: &quot;View&quot;,
+    &quot;android-custom-viewC:/Users/Work/AppData/Local/Android/Sdk/sources/android-29/android/widget/ListView.java_SELECTED&quot;: &quot;ListView&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/CPEN321/JAAM-project/frontend&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Dependencies&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;recommended.upgrade.do.not.ask.for.project&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;ExportApk.BuildVariants&quot;: [
+      &quot;debug&quot;
+    ]
   }
-}]]></component>
+}</component>
   <component name="PsdUISettings">
     <option name="LAST_EDITED_BUILD_TYPE" value="release" />
   </component>

@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        FirebaseApp.initializeApp(this);
+
         // Configure sign-in to request the user's ID, email address, and basic
 // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -65,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        FirebaseApp.initializeApp(this);
         findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,6 +115,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
             else{
+                Log.d(TAG, "result data:" + result.getData());
+                Log.d(TAG, result.getData().getDataString());
                 Toast.makeText(MainActivity.this, "Could not sign into google account. Please check internet connection.", Toast.LENGTH_LONG).show();
             }
             Log.d(TAG, "result: "+ result.getResultCode());
