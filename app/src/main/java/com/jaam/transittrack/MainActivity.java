@@ -112,6 +112,9 @@ public class MainActivity extends AppCompatActivity {
                 handleSignInResult(task);
 
             }
+            else{
+                Toast.makeText(MainActivity.this, "Could not sign into google account. Please check internet connection.", Toast.LENGTH_LONG).show();
+            }
             Log.d(TAG, "result: "+ result.getResultCode());
 
         }
