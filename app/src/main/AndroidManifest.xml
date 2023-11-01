@@ -10,12 +10,14 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
-    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-    <uses-permission android:name="android.permission.SET_TIME_ZONE"
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission
+        android:name="android.permission.SET_TIME_ZONE"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.SET_TIME"
+    <uses-permission
+        android:name="android.permission.SET_TIME"
         tools:ignore="ProtectedPermissions" />
 
     <application
@@ -24,11 +26,15 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TransitTrack"
-        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".NavigationActivity"
+            android:exported="false" />
+        <!-- android:usesCleartextTraffic="true" -->
         <activity
             android:name=".FriendListActivity"
             android:exported="false" />
@@ -80,9 +86,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver
-            android:name=".AlarmNotification"
-            />
+
+        <receiver android:name=".AlarmNotification" />
     </application>
 
 </manifest>

@@ -6,14 +6,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import android.Manifest;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -129,8 +123,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             //do something
             Log.d(TAG, "Starting Route Intent");
-            Intent mapsIntent = new Intent(MainActivity.this, RouteActivity.class);
-            startActivity(mapsIntent);
+            Intent navigationIntent = new Intent(MainActivity.this, NavigationActivity.class);
+            startActivity(navigationIntent);
         }
     }
 

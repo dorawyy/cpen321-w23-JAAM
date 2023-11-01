@@ -8,36 +8,8 @@
     android:gravity="center"
     tools:context=".RouteActivity">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/friendListButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:contentDescription="opens friend list"
-        android:src="@android:drawable/ic_input_add"
-        app:layout_constraintBottom_toTopOf="@+id/chatButton"
-        app:layout_constraintEnd_toEndOf="parent" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/chatButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:contentDescription="opens chat"
-        app:layout_constraintBottom_toTopOf="@+id/calendarActivityButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/stat_notify_chat" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/calendarActivityButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:contentDescription="Launches calendar"
-        android:src="@android:drawable/ic_menu_my_calendar"
-        app:fabSize="auto"
-        app:layout_constraintBottom_toBottomOf="@+id/stopList"
-        app:layout_constraintEnd_toEndOf="parent" />
 
     <ProgressBar
         android:id="@+id/routeLoadingProgressBar"

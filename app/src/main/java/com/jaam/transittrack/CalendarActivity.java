@@ -52,7 +52,6 @@ import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -196,19 +195,22 @@ public class CalendarActivity extends AppCompatActivity {
                 if (addressList.size() > 0) {
                     address = addressList.get(0);
                     JSONObject calendarJSON = new JSONObject();
-                    calendarJSON.put("name", event.getSummary());
+                    calendarJSON.put("eventName", event.getSummary());
                     JSONObject destinationLocation = new JSONObject();
                     destinationLocation.put("latitude", address.getLatitude());
                     destinationLocation.put("longitude", address.getLongitude());
                     calendarJSON.put("location", destinationLocation);
-                    calendarJSON.put("startTime", start);
+                    calendarJSON.put("time", start);
                     calendarEvents.put(calendarJSON);
                 }
                 if (start == null) {
                     start = event.getStart().getDate();
                 }
                 Log.d(TAG, event.getSummary() + " (" + start + ") @ " + loc);
-                String times = OkHTTPHelper.sendCalendar(calendarEvents);
+                JSONObject request = new JSONObject();
+                request.put("email", GoogleSignIn.getLastSignedInAccount(this).getEmail());
+                request.put("events", calendarEvents);
+                String times = OkHTTPHelper.sendCalendar(request);
                 //Toast.makeText(this, "Successfully synced calendar with server!", Toast.LENGTH_SHORT);
                 parseTimeJSON(times);
                 alertTransitNotification(alarmHours.get(0), alarmMinutes.get(0));
@@ -218,18 +220,20 @@ public class CalendarActivity extends AppCompatActivity {
     //ChatGPT usage: No
 
     //ChatGPT usage: No
-    private void createNotificationChannel() {
+    private void createNotificationChannel(){
 
-        CharSequence name = "TransitTrack";
-        String description = "Channel for TransitTrack";
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            CharSequence name = "TransitTrack";
+            String description = "Channel for TransitTrack";
 
-        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
 
-        NotificationChannel channel = new NotificationChannel("notifyTransit", name, importance);
-        channel.setDescription(description);
+            NotificationChannel channel = new NotificationChannel("notifyTransit", name, importance);
+            channel.setDescription(description);
 
-        NotificationManager notificationManager = getSystemService(NotificationManager.class);
-        notificationManager.createNotificationChannel(channel);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     @SuppressLint("ScheduleExactAlarm")

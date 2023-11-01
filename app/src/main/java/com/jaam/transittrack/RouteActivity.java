@@ -21,9 +21,12 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
@@ -37,13 +40,16 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+
 public class RouteActivity extends AppCompatActivity implements LocationListener {
 
     private EditText searchTextView;
     private FloatingActionButton searchButton;
 
-    private FloatingActionButton chatButton;
-    private FloatingActionButton friendListButton;
+
     private Location currLocation;
 
     private ListView stopListView;
@@ -63,8 +69,6 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
         StrictMode.setThreadPolicy(policy);
         Log.d(TAG, "In Route Activity");
         locationManager = (LocationManager) getSystemService(this.LOCATION_SERVICE);
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        Handler handler = new Handler(Looper.getMainLooper());
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -82,27 +86,13 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
         stopListView = findViewById(R.id.stopList);
         findViewById(R.id.routeLoadingProgressBar).setVisibility(View.INVISIBLE);
 
-        chatButton = findViewById(R.id.chatButton);
-        friendListButton = findViewById(R.id.friendListButton);
-        friendListButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent friendsListIntent = new Intent(RouteActivity.this, FriendListActivity.class);
-                startActivity(friendsListIntent);
-            }
-        });
 
-
-        findViewById(R.id.calendarActivityButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent calendarIntent = new Intent(RouteActivity.this, CalendarActivity.class);
-                startActivity(calendarIntent);
-            }
-        });
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.route_layout, R.id.textView2, stops);
         stopListView.setAdapter(arrayAdapter);
+
+
+
         //ChatGPT usage: No
         searchTextView.addTextChangedListener(new TextWatcher() {
 
@@ -134,56 +124,39 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
             @Override
             public void onClick(View v) {
                 //TODO put this in its own function
+                findViewById(R.id.routeLoadingProgressBar).setVisibility(View.VISIBLE);
+                stops.clear();
+
+                String routeString = null;
                 try {
-                    findViewById(R.id.routeLoadingProgressBar).setVisibility(View.VISIBLE);
-                    stops.clear();
-                    JSONArray[] routeArray = new JSONArray[1];
-                    JSONObject start, end;
 
-                    String routeString = null;
-                    try {
+                    if(getIntent().getStringExtra("routeString") ==null || getIntent().getStringExtra("routeString").isEmpty()) {
                         routeString = getRoute(currLocation, String.valueOf(searchTextView.getText()));
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        Log.d(TAG, "Solo route string: " + routeString);
                     }
-                    Log.d(TAG, routeString);
-                    try {
-                        routeArray[0] = new JSONArray(routeString);
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
+                    else{
+                        routeString = getIntent().getStringExtra("routeString");
+                        Log.d(TAG, "friend route string: " + routeString);
+                        getIntent().removeExtra("routeString");
                     }
-                    Log.d(TAG, Arrays.toString(routeArray));
-                    Log.d(TAG, String.valueOf(routeArray[0]));
-                    Log.d(TAG, String.valueOf(routeArray[0].length()));
-                    JSONArray route = routeArray[0];
-                    for (int i = 0; i < route.length(); i++) {
-                        Log.d(TAG, "Adding route" + i);
-                        start = route.getJSONObject(i).getJSONObject("Start");
-                        end = route.getJSONObject(i).getJSONObject("End");
-                        board = start.getString("Time") + ": Board " + start.getString("Bus") + " @ " + start.getString("Stop");
-                        disembark = end.get("Time") + ": Disembark " + end.getString("Bus") + " @ " + end.getString("Stop");
-                        arrayAdapter.add(board);
-                        arrayAdapter.add(disembark);
-                        arrayAdapter.notifyDataSetChanged();
+                    if(routeString != null) {
+                        try{
+                            String error = new JSONObject(routeString).getString("error");
+                            Toast.makeText(RouteActivity.this, "Cannot find route, please try again later", Toast.LENGTH_LONG).show();
+                        }catch (JSONException e){
+                            displayRoute(routeString, arrayAdapter);
+                        }
 
                     }
-
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
-                findViewById(R.id.routeLoadingProgressBar).setVisibility(View.INVISIBLE);
-            }
-        });
-        //ChatGPT usage: No
-        chatButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent chatIntent = new Intent(RouteActivity.this, ChatActivity.class);
-                chatIntent.putExtra("receiverEmail", "johndoe@example.com");
-                startActivity(chatIntent);
 
+
+
+                findViewById(R.id.routeLoadingProgressBar).setVisibility(View.INVISIBLE);
             }
         });
 
@@ -235,6 +208,24 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
             endPoints.put("end", new double[]{address.getLatitude(), address.getLongitude()});
         }
         return OkHTTPHelper.getRoute(endPoints);
+    }
+
+    private void displayRoute(String routeString, ArrayAdapter<String> arrayAdapter) throws JSONException {
+
+        JSONArray route = new JSONArray(routeString);
+        JSONObject start, end;
+        for (int i = 0; i < route.length(); i++) {
+            Log.d(TAG, "Adding route" + i);
+            start = route.getJSONObject(i).getJSONObject("Start");
+            end = route.getJSONObject(i).getJSONObject("End");
+            board = start.getString("Time") + ": Board " + start.getString("Bus") + " @ " + start.getString("Stop");
+            disembark = end.get("Time") + ": Disembark " + end.getString("Bus") + " @ " + end.getString("Stop");
+            arrayAdapter.add(board);
+            arrayAdapter.add(disembark);
+            arrayAdapter.notifyDataSetChanged();
+
+        }
+
     }
 
 }

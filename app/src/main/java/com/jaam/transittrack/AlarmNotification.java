@@ -15,6 +15,14 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+
+import java.io.IOException;
+
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+
 public class AlarmNotification extends BroadcastReceiver {
 
     private static String TAG = "AlarmNotification";
@@ -29,6 +37,19 @@ public class AlarmNotification extends BroadcastReceiver {
 
 
         Toast.makeText(context, "Time for your notification!", Toast.LENGTH_SHORT).show();
+
+        HttpUrl url = HttpUrl.parse("https://4.205.17.106:8081/getFCM").newBuilder()
+                .addQueryParameter("senderEmail", GoogleSignIn.getLastSignedInAccount(context).getEmail())
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .get()
+                .build();
+        try {
+            new OkHttpClient().newCall(request).execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {

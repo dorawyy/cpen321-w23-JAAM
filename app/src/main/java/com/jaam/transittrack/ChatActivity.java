@@ -83,6 +83,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
 
             name = getIntent().getStringExtra("name");
         receiverEmail = getIntent().getStringExtra("receiverEmail");
+        getIntent().removeExtra("receiverEmail");
         initiateSocketConnection();
         initializeView();
 
@@ -277,7 +278,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
     private void makeGetRequestForChatHistory() {
         //String url = "http://4.205.17.106:8081/api/chat/history";
 
-        HttpUrl url = HttpUrl.parse("http://4.205.17.106:8081/api/chat/history").newBuilder()
+        HttpUrl url = HttpUrl.parse("https://4.205.17.106:8081/api/chat/history").newBuilder()
                 .addQueryParameter("senderEmail", GoogleSignIn.getLastSignedInAccount(this).getEmail())
                 .addQueryParameter("receiverEmail", receiverEmail)
                 .build();
