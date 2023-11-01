@@ -221,12 +221,11 @@ function convert24HrToSeconds(time) {
 }
 
 // ChatGPT Usage: PARTIAL
-function getStopsBefore(stops, trips, stop_index, time, reached, previous_trips) {
+function getStopsBefore(stops, trips, stop_index, time, old_reached, reached, previous_trips) {
     var stops_before = new Set();
     var trip_index;
     var trip_pos;
     var diff;
-    old_reached = new Set(reached);
     for (var i = 0; i < stops.trips[stop_index].length; i++) {
         trip_index = stops.trips[stop_index][i];
         if (!previous_trips.has(trip_index)) {
@@ -286,15 +285,17 @@ function getRoute(startLat, startLon, endLat, endLon, endTime) {
     var start;
     while (!found) {
         var temp = [];
+        var reached_count = reached.size;
+        var old_reached = new Set(reached);
         for (var i = 0; i < paths.length; i++) {
-            getStopsBefore(stops, trips, paths[i][0][0], paths[i][0][1], reached, trips_alr_indexed).forEach(new_stop => {
+            getStopsBefore(stops, trips, paths[i][0][0], paths[i][0][1], old_reached, reached, trips_alr_indexed).forEach(new_stop => {
                 temp.push([new_stop, ...paths[i]]);
             });
         }
 
         for (var i = 0; i < paths.length; i++) {
             findStopsNearStop(stops, 500, paths[i][0][0]).forEach(new_stop => {
-                if (!reached.has(new_stop)) {
+                if (!old_reached.has(new_stop)) {
                     temp.push([[new_stop, paths[i][0][1]-300, "Walk", paths[i][0][1]], ...paths[i]]);
                     reached.add(new_stop);
                 }
@@ -308,9 +309,16 @@ function getRoute(startLat, startLon, endLat, endLon, endTime) {
                 found = true;
                 start = stop;
             }
-        })
+        });
+        if (reached.size - reached_count < 20) {
+            break;
+        }
     }
-
+    if (!found) {
+        response = [];
+        response.push("Could not find Route");
+        return response;
+    }
     var latestTime = -1;
     var latestTimeIndex;
     for (var i = 0; i < paths.length; i++) {
@@ -323,7 +331,6 @@ function getRoute(startLat, startLon, endLat, endLon, endTime) {
     }
 
     response = [];
-    console.log(paths[latestTimeIndex]);
     for (var i = 1; i < paths[latestTimeIndex].length; i++) {
         responseObj = new Object();
         responseObj['Start'] = new Object();
