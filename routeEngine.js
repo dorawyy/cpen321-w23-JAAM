@@ -8,16 +8,16 @@ const routes_exclude = ["agency_id", "route_desc", "route_type", "route_url", "r
 const calendar_exclude = ["start_date", "end_date"];
 const scan_range = 500;
 
-var routes_path = 'translink_data/routes.txt';
-var stops_path = 'translink_data/stops.txt';
-var trips_path = 'translink_data/trips.txt';
-var calendar_path = 'translink_data/calendar.txt';
-var stop_times_path = 'translink_data/stop_times.txt';
+const routes_path = 'translink_data/routes.txt';
+const calendar_path = 'translink_data/calendar.txt';
+const stop_times_path = 'translink_data/stop_times.txt';
 var stops;
 var trips;
 
 // ChatGPT Usage: PARTIAL
 async function init() {
+    var stops_path = 'generated/stops.json';
+    var trips_path = 'generated/trips.json';
     if (fs.existsSync(stops_path) && fs.existsSync(routes_path)) {
         if (LOG) {
             console.log("Files exist");
@@ -26,16 +26,19 @@ async function init() {
         if (LOG) {
             console.log("Files not found");
         }
+        stops_path = 'translink_data/stops.txt';
+        trips_path = 'translink_data/trips.txt';
         stops = await parseTranslinkFile(stops_path);
         trips = await parseTranslinkFile(trips_path);
+        stop_times = await parseTranslinkFile(stop_times_path);
         addStopTimesToTrips(stop_times, trips);
         addTripsToStops(trips, stops);
         fs.writeFileSync('generated/stops.json', JSON.stringify(stops, null, 2) , 'utf-8');
         fs.writeFileSync('generated/trips.json', JSON.stringify(trips, null, 2) , 'utf-8');
+        stops_path = 'generated/stops.json';
+        trips_path = 'generated/trips.json';
     }
     
-    stops_path = 'generated/stops.json';
-    trips_path = 'generated/trips.json';
     stops = await parseGeneratedFile(stops_path);
     trips = await parseGeneratedFile(trips_path);
     console.log("Setup Complete");
@@ -187,7 +190,7 @@ function addStopTimesToTrips(stop_times, trips) {
     }
 }
 
-// ChatGPT Usage: NO
+// ChatGPT Usage: PARTIAL
 function getAllStopsWithinRange(stops, range, lat, long) {
     var inRange = new Set();
     var xRange =  range / 111320;
