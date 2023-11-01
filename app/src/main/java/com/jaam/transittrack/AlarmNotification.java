@@ -64,7 +64,7 @@ public class AlarmNotification extends BroadcastReceiver {
             //ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
             return;
         }
-        notificationManager.notify(200, builder.build());
+        notificationManager.notify((int)System.currentTimeMillis(), builder.build());
 
     }
 }
