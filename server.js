@@ -153,85 +153,6 @@ app.post("/addFriend", async (req, res) => {
 });
 
 
-const data = [
-  [
-    {
-      'Start': {
-        'Stop': 'Northbound King George Blvd @ 60 Ave',
-        'Lat': 49.112374,
-        'Long': -122.840708,
-        'Time': '22:30', // Example time in "HH:mm" format
-        'Bus': '394'
-      }
-    },
-    {
-      'Start': {
-        'Stop': 'Northbound King George Blvd @ 60 Ave',
-        'Lat': 49.112374,
-        'Long': -122.840708,
-        'Time': '08:30', // Example time in "HH:mm" format
-        'Bus': '394'
-      }
-    },
-    // Other entries...
-  ]
-];
-
-function getFormattedSubtractedTime(dataItem, subtractMinutes) {
-  if (dataItem.Start && dataItem.Start.Time) {
-    // Parse the input time into hours and minutes
-    const [hours, minutes] = dataItem.Start.Time.split(':');
-  
-    // Convert hours and minutes to minutes and subtract the specified duration
-    let totalMinutes = parseInt(hours, 10) * 60 + parseInt(minutes, 10);
-    totalMinutes -= subtractMinutes;
-  
-    // Handle cases where the totalMinutes becomes negative
-    if (totalMinutes < 0) {
-      totalMinutes += 24 * 60; // Add a day's worth of minutes (1440 minutes) to handle crossing midnight
-    }
-  
-    // Calculate the hours and minutes for the new time
-    const newHours = Math.floor(totalMinutes / 60);
-    const newMinutes = totalMinutes % 60;
-  
-    // Format the new time as HH:mm
-    const hoursPart = newHours.toString().padStart(2, '0');
-    const minutesPart = newMinutes.toString().padStart(2, '0');
-    const formattedTime = `${hoursPart}:${minutesPart}`;
-  
-    return formattedTime;
-  } else {
-    console.error('Invalid data structure:', dataItem);
-    return null; // Return null if the data structure is invalid
-  }
-}
-
-const subtractedMinutes = 10;
-
-app.post('/getFormattedSubtractedTime', (req, res) => {
-  const eventData = req.body;
-  const dataItem = data[0]; // Access the inner array directly
-
-  if (dataItem && dataItem.length > 0) {
-    const formattedSubtractedTimes = dataItem.map((item) => {
-      if (item.Start && item.Start.Time) {
-        const formattedSubtractedTime = getFormattedSubtractedTime(item, subtractedMinutes);
-        return formattedSubtractedTime;
-      }
-      return null;
-    });
-
-    if (formattedSubtractedTimes.length > 0) {
-      res.json({ times: formattedSubtractedTimes });
-    } else {
-      res.status(400).send('Invalid or missing data');
-    }
-  } else {
-    res.status(400).send('Invalid data structure or missing data');
-  }
-});
-
 app.get('/getLastMessage', async (req, res) => {
   try {
     await client.connect();
@@ -268,40 +189,29 @@ app.post('/getRoute', async (req, res) => {
     console.log(req.body);
     const { startLat, startLon, endLat, endLon, startTime } = req.body;
 
-    //     const initPromise = new Promise((resolve, reject) => {
-    //   routeEngine.init((err) => {
-    //     if (err) {
-    //       console.log(err);
-    //       reject(err);
-    //     } else {
-    //       resolve();
-    //     }
-    //   });
-    // });
-
-    // try {
-    //   console.log("waiting for initPromise");
-    //   await initPromise;
-    // } catch (error) {
-    //   console.log(error);
-    //   console.log("Promise failed to initialize");
-    //   res.status(500).json({ error: 'Failed to initialize data' });
-    //   return;
-    // }
     await routeEngine.init();
     const result = routeEngine.getRoute(startLat, startLon, endLat, endLon, startTime);
     console.log(result);
 
-    // if (!routeEngine.init()) {
-    //   console.log("route engine could not initialize");
-    //   res.status(500).json({ error: 'Failed to initialize data' });
-    //   return;
-    // }
-    //const result = routeEngine.getHardcodedRoute();
+    // Prepare the data to send to /getFormattedSubtractedTime
+    //const dataToSend = result; // Modify this based on your data structure
 
-  // Send the result as a response
-  res.json(result);
-  } catch(error) {
+    const subtractedMinutes = 10;
+    const formattedSubtractedTimes = result.map((item) => {
+      if (item.Start && item.Start.Time) {
+        const formattedSubtractedTime = getFormattedSubtractedTime(item, subtractedMinutes);
+        return formattedSubtractedTime;
+      }
+      return null;
+    });
+
+    // Handle the response data as needed
+    if (formattedSubtractedTimes.length > 0) {
+      res.json({ times: formattedSubtractedTimes });
+    } else {
+      res.status(400).send('Invalid or missing data');
+    }
+  } catch (error) {
     console.log(error);
     res.status(500).json({ error: 'An error occurred while calculating the route.' });
   }
