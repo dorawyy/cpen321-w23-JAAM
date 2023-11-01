@@ -236,7 +236,7 @@ function getStopsBefore(stops, trips, stop_index, time, reached, previous_trips)
             if (diff > 0 && diff < 1800) {
                 for (var j = 0; j < trip_pos; j++) {
                     if (!old_reached.has(trips.stops[trip_index][j])) {
-                        stops_before.add([trips.stops[trip_index][j], trips.stop_times[trip_index][j], trips.name[trip_index]]);
+                        stops_before.add([trips.stops[trip_index][j], trips.stop_times[trip_index][j], trips.name[trip_index], trips.stop_times[trip_index][trip_pos]]);
                         reached.add(trips.stops[trip_index][j]);
                     }
                 }
@@ -295,7 +295,7 @@ function getRoute(startLat, startLon, endLat, endLon, endTime) {
         for (var i = 0; i < paths.length; i++) {
             findStopsNearStop(stops, 500, paths[i][0][0]).forEach(new_stop => {
                 if (!reached.has(new_stop)) {
-                    temp.push([[new_stop, paths[i][0][1]-300, "Walk"], ...paths[i]]);
+                    temp.push([[new_stop, paths[i][0][1]-300, "Walk", paths[i][0][1]], ...paths[i]]);
                     reached.add(new_stop);
                 }
                 temp.push([new_stop, ...paths[i]]);
@@ -323,6 +323,7 @@ function getRoute(startLat, startLon, endLat, endLon, endTime) {
     }
 
     response = [];
+    console.log(paths[latestTimeIndex]);
     for (var i = 1; i < paths[latestTimeIndex].length; i++) {
         responseObj = new Object();
         responseObj['Start'] = new Object();
@@ -335,7 +336,7 @@ function getRoute(startLat, startLon, endLat, endLon, endTime) {
         responseObj['End']['Stop'] = stops.stop_name[paths[latestTimeIndex][i][0]];
         responseObj['End']['Lat'] = stops.lat[paths[latestTimeIndex][i][0]];
         responseObj['End']['Long'] = stops.lon[paths[latestTimeIndex][i][0]];
-        responseObj['End']['Time'] = null;
+        responseObj['End']['Time'] = convertSecondsTo24Hour(paths[latestTimeIndex][i-1][3]);
         responseObj['End']['Bus'] = paths[latestTimeIndex][i-1][2];
         response.push(responseObj);
     }
