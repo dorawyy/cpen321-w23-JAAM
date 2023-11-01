@@ -18,7 +18,7 @@ var trips;
 async function init() {
     var stops_path = 'generated/stops.json';
     var trips_path = 'generated/trips.json';
-    if (fs.existsSync(stops_path) && fs.existsSync(routes_path)) {
+    if (fs.existsSync(stops_path) && fs.existsSync(trips_path)) {
         if (LOG) {
             console.log("Files exist");
         }
