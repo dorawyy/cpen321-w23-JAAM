@@ -5,10 +5,12 @@ const http = require('http');
 const mongoose = require('mongoose');
 const chatRoute = require('./routes/chatRoute');
 const chatController = require('./controllers/chat');
-const translinkRoute = require('./routes/translinkRoute');
+// const translinkRoute = require('./routes/translinkRoute');
 const admin = require('firebase-admin');
 const schedule = require('node-schedule');
 const routeEngine = require('./engine/routeEngine');
+
+//const {init, getRoute}=require( "./engine/routeEngine.js");
 
 const serviceAccount = require('./chatcomponent321-firebase-adminsdk-d4mco-7f2d456053.json');
 
@@ -31,7 +33,7 @@ wsServer = new SocketServer({ httpServer: server });
 chatController.initWebSocket(wsServer);
 
 app.use('/api/chat', chatRoute)
-app.use('/api/translink', translinkRoute)
+//app.use('/api/translink', translinkRoute)
 
 // Connection to Mongodb
 const {MongoClient} = require("mongodb");
@@ -261,21 +263,46 @@ app.get('/getLastMessage', async (req, res) => {
 
 
 // route endpoint
-app.post('/getRoute', (req, res) => {
+app.post('/getRoute', async (req, res) => {
   try {
+    console.log(req.body);
     const { startLat, startLon, endLat, endLon, startTime } = req.body;
 
-    if (!routeEngine.init()) {
-      res.status(500).json({ error: 'Failed to initialize data' });
-      return;
-    }
+    //     const initPromise = new Promise((resolve, reject) => {
+    //   routeEngine.init((err) => {
+    //     if (err) {
+    //       console.log(err);
+    //       reject(err);
+    //     } else {
+    //       resolve();
+    //     }
+    //   });
+    // });
 
+    // try {
+    //   console.log("waiting for initPromise");
+    //   await initPromise;
+    // } catch (error) {
+    //   console.log(error);
+    //   console.log("Promise failed to initialize");
+    //   res.status(500).json({ error: 'Failed to initialize data' });
+    //   return;
+    // }
+    await routeEngine.init();
     const result = routeEngine.getRoute(startLat, startLon, endLat, endLon, startTime);
+    console.log(result);
+
+    // if (!routeEngine.init()) {
+    //   console.log("route engine could not initialize");
+    //   res.status(500).json({ error: 'Failed to initialize data' });
+    //   return;
+    // }
     //const result = routeEngine.getHardcodedRoute();
 
   // Send the result as a response
   res.json(result);
   } catch(error) {
+    console.log(error);
     res.status(500).json({ error: 'An error occurred while calculating the route.' });
   }
 });
