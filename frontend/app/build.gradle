@@ -6,6 +6,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('C:\\Users\\Work\\Documents\\signingKey.jks')
+            storePassword 'CPEN321JAAM'
+            keyAlias 'MyAndroidKey'
+            keyPassword 'android'
+        }
+    }
     namespace 'com.jaam.transittrack'
     compileSdk 33
 
@@ -23,6 +31,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {

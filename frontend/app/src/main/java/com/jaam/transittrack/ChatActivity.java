@@ -68,7 +68,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
     private String[] token = new String[1];
 
     private String receiverEmail = "d.trump@example.com";
-
+    //ChatGPT usage: No
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -89,7 +89,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
 
 //        fetchChatHistory();
     }
-
+    //ChatGPT usage: Partial
     private void sendHttpMessage(String message) {
         JSONObject jsonObject = new JSONObject();
         try {
@@ -129,7 +129,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
             e.printStackTrace();
         }
     }
-
+    //ChatGPT usage: No
     private void initiateSocketConnection() {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(SERVER_PATH).build();
@@ -145,7 +145,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
     public void onTextChanged(CharSequence s, int start, int before, int count) {
 
     }
-
+    //ChatGPT usage: No
     @Override
     public void afterTextChanged(Editable s) {
 
@@ -164,7 +164,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
         }
 
     }
-
+    //ChatGPT usage: No
     private void resetMessageEdit() {
 
         messageEdit.removeTextChangedListener(this);
@@ -176,7 +176,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
 
 
     }
-
+    //ChatGPT usage: No
     private class SocketListener extends WebSocketListener {
 
         @Override
@@ -194,7 +194,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
             });
 
         }
-
+        //ChatGPT usage: No
         @Override
         public void onMessage(WebSocket webSocket, String text) {
             super.onMessage(webSocket, text);
@@ -216,7 +216,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
 
         }
     }
-
+    //ChatGPT usage: No
     private void initializeView() {
 
         messageEdit = findViewById(R.id.messageEdit);
@@ -254,7 +254,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
         });
 
     }
-
+    //ChatGPT usage: No
     public void parseChatHistory(JSONArray chatHistory) {
 
 //        clearMessages();
@@ -274,7 +274,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
         }
     }
 
-
+    //ChatGPT usage: No
     private void makeGetRequestForChatHistory() {
         //String url = "http://4.205.17.106:8081/api/chat/history";
 

@@ -7,6 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import javax.net.ssl.SSLContext;
 
@@ -21,7 +23,11 @@ public class OkHTTPHelper {
     public static final MediaType JSON
             = MediaType.parse("application/json");
 
-    static OkHttpClient client = new OkHttpClient();
+    static OkHttpClient client = new OkHttpClient.Builder()
+            .connectTimeout(20, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
+            .build();
 
     //ChatGPT usage: No
     //@POST
@@ -35,7 +41,8 @@ public class OkHTTPHelper {
 
     }
     //ChatGPT usage: No
-    static String getRoute(JSONObject endPoints) throws IOException {
+    static String getRoute(JSONObject endPoints) throws IOException , TimeoutException{
+
         RequestBody requestBody = RequestBody.create(endPoints.toString(), JSON);
         Request request = new Request.Builder()
                 .url(BASE_URL + "/getRoute")
@@ -45,7 +52,7 @@ public class OkHTTPHelper {
         return response.body().string();
     }
     //ChatGPT usage: No
-    static String getChatHistory() throws IOException{
+    static String getChatHistory() throws IOException, TimeoutException{
         Request request = new Request.Builder()
                 .url(BASE_URL + "/api/chat/history")
                 .build();
@@ -53,7 +60,7 @@ public class OkHTTPHelper {
         return response.body().string();
     }
     //ChatGPT usage: No
-    static void sendFriendRequest(JSONObject body) throws IOException{
+    static void sendFriendRequest(JSONObject body) throws IOException, TimeoutException{
         RequestBody reqBody = RequestBody.create(body.toString(), JSON);
         Request request = new Request.Builder()
                 .url(BASE_URL + "/addFriend")
@@ -62,7 +69,7 @@ public class OkHTTPHelper {
         Response response = client.newCall(request).execute();
     }
     //ChatGPT usage: No
-    static String sendCalendar(JSONObject req) throws IOException{
+    static String sendCalendar(JSONObject req) throws IOException, TimeoutException{
         RequestBody reqBody = RequestBody.create(req.toString(), JSON);
         Request request = new Request.Builder()
                 .url(BASE_URL + "/getFormattedSubtractedTime")
@@ -71,11 +78,11 @@ public class OkHTTPHelper {
         Response response = client.newCall(request).execute();
         return response.body().string();
     }
-
-    static String getFriendRoute(JSONObject jsonObj) throws IOException{
+    //ChatGPT usage: No
+    static String getFriendRoute(JSONObject jsonObj) throws IOException, TimeoutException {
         RequestBody requestBody = RequestBody.create(jsonObj.toString(),JSON);
         Request request = new Request.Builder()
-                .url(BASE_URL)
+                .url(BASE_URL + "/getFriendRoute")
                 .post(requestBody)
                 .build();
         Response response = client.newCall(request).execute();

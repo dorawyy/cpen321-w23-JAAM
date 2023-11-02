@@ -18,7 +18,7 @@ import com.google.firebase.messaging.RemoteMessage;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG ="MyFirebaseMessagingService";
-
+    //ChatGPT usage: No
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         if (remoteMessage.getNotification() != null) {
@@ -31,7 +31,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // You can also add handling for data payloads if needed.
     }
-
+    //ChatGPT usage: No
     private void sendNotification(String messageBody) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -13,11 +13,11 @@ public class Message {
         this.recipient = recipient;
         this.message = message;
     }
-
+    //ChatGPT usage: No
     public String getMessageContent(){
         return this.message;
     }
-
+    //ChatGPT usage: No
     public String getSender(){
         return this.sender;
     }

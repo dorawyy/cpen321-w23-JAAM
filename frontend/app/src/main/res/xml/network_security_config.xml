@@ -4,11 +4,12 @@
         <trust-anchors>
             <certificates src="@raw/serverincludesprivatekey"/>
             <certificates src="system"/>
+            <certificates src="@raw/serverincludesprivatekey2"/>
         </trust-anchors>
     </base-config>
-<!--    <domain-config cleartextTrafficPermitted="true">-->
-<!--        <domain includeSubdomains="true">4.205.17.106</domain>-->
-<!--    </domain-config>-->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">4.205.17.106</domain>
+    </domain-config>
 </network-security-config>
 <!--<network-security-config>-->
 <!--<domain-config>-->

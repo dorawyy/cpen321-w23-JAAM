@@ -14,7 +14,7 @@ var stop_times_path = './translink_data/stop_times.txt';
 var stops;
 var trips;
 
-
+// ChatGPT Usage: PARTIAL
 async function init() {
     stops_path = './engine/generated/stops.json';
     trips_path = './engine/generated/trips.json';
@@ -27,9 +27,7 @@ async function init() {
             console.log("Files not found");
         }
 
-        // routes_path = 'translink_data/routes.txt';
-        stops_path = './engine/translink_data/stops.txt';
-        // trips_path = './engine/translink_data/trips.txt';
+        var stops_path = './engine/translink_data/stops.txt';
         var stop_times_path = './engine/translink_data/stop_times.txt';
         var trips_path = './engine/translink_data/trips.txt';
         stops = await parseTranslinkFile(stops_path);
@@ -39,7 +37,8 @@ async function init() {
         addTripsToStops(trips, stops);
         fs.writeFileSync('./engine/generated/stops.json', JSON.stringify(stops, null, 2) , 'utf-8');
         fs.writeFileSync('./engine/generated/trips.json', JSON.stringify(trips, null, 2) , 'utf-8');
-    }
+        stops_path = 'generated/stops.json';
+        trips_path = 'generated/trips.json';    }
     
     
     stops = await parseGeneratedFile(stops_path);
