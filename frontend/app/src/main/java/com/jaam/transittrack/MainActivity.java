@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else{
                 Log.d(TAG, "result data:" + result.getData());
-                Log.d(TAG, result.getData().getDataString());
+                //Log.d(TAG, result.getData()?.getDataString());
                 Toast.makeText(MainActivity.this, "Could not sign into google account. Please check internet connection.", Toast.LENGTH_LONG).show();
             }
             Log.d(TAG, "result: "+ result.getResultCode());
@@ -192,8 +192,11 @@ public class MainActivity extends AppCompatActivity {
                                     Log.d(TAG, user.toString());
                                     try {
                                         OkHTTPHelper.createUser(user);
+                                        updateUI(account);
                                     } catch (IOException e) {
+                                        Log.d(TAG, "Error: "+ e);
                                         Log.d(TAG, "Create user post request failed: "+e.getMessage());
+                                        Log.d(TAG, "Failure Status Code: "+ e.getCause());
                                         //maybe better to have alert dialog
                                         Toast.makeText(MainActivity.this, "Server unavailable, please try again later.",Toast.LENGTH_LONG).show();
                                         //don't want to crash
@@ -215,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
                         });
 
             }
-            updateUI(account);
+
 
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.

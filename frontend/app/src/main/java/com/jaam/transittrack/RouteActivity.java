@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeoutException;
 
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
@@ -134,15 +135,8 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
                 String routeString = null;
                 try {
 
-                    if(getIntent().getStringExtra("routeString") ==null || getIntent().getStringExtra("routeString").isEmpty()) {
-                        routeString = getRoute(currLocation, String.valueOf(searchTextView.getText()));
-                        Log.d(TAG, "Solo route string: " + routeString);
-                    }
-                    else{
-                        routeString = getIntent().getStringExtra("routeString");
-                        Log.d(TAG, "friend route string: " + routeString);
-                        getIntent().removeExtra("routeString");
-                    }
+                    routeString = getRoute(currLocation, String.valueOf(searchTextView.getText()));
+                    Log.d(TAG, "Solo route string: " + routeString);
                     if(routeString != null) {
                         try{
                             String error = new JSONObject(routeString).getString("error");
@@ -156,13 +150,25 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
                     throw new RuntimeException(e);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
+                } catch (TimeoutException e) {
+                    Toast.makeText(RouteActivity.this, "No route found", Toast.LENGTH_SHORT).show();
                 }
-
 
 
                 findViewById(R.id.routeLoadingProgressBar).setVisibility(View.INVISIBLE);
             }
         });
+
+        if(getIntent().getStringExtra("routeString") !=null && !getIntent().getStringExtra("routeString").isEmpty()){
+            String routeString = getIntent().getStringExtra("routeString");
+            Log.d(TAG, "friend route string: " + routeString);
+            getIntent().removeExtra("routeString");
+            try {
+                displayRoute(routeString, arrayAdapter);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
     }
     //ChatGPT usage: No
@@ -201,15 +207,17 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
      *                       - It also assumes that the `BASE_URL` and JSON format are correctly configured in the `OkHTTPHelper` class.
      */
     //ChatGPT usage: No
-    private String getRoute(Location currLocation, String search) throws JSONException, IOException {
+    private String getRoute(Location currLocation, String search) throws JSONException, IOException, TimeoutException {
         Geocoder geocoder = new Geocoder(this);
         JSONObject endPoints = new JSONObject();
-        endPoints.put("start", new double[]{currLocation.getLatitude(), currLocation.getLongitude()});
+        endPoints.put("startLat", currLocation.getLatitude());
+        endPoints.put("startLon", currLocation.getLongitude());
         List<Address> addressList = geocoder.getFromLocationName(search, 1);
         Address address;
         if (addressList.size() > 0) {
             address = addressList.get(0);
-            endPoints.put("end", new double[]{address.getLatitude(), address.getLongitude()});
+            endPoints.put("endLat", address.getLatitude());
+            endPoints.put("endLon", address.getLongitude());
         }
         String arrivalTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date(System.currentTimeMillis()+ 7200000));
         endPoints.put("startTime", arrivalTime);

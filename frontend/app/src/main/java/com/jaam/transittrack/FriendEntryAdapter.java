@@ -14,6 +14,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,18 +23,24 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeoutException;
 
 public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, LocationListener {
 
@@ -76,6 +83,8 @@ public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, Loca
     public long getItemId(int position) {
         return -1;
     }
+
+    private static String TAG = "FriendEntryAdapter";
     //ChatGPT usage: No
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -100,7 +109,6 @@ public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, Loca
                 context.startActivity(chatIntent);
             }
         });
-        //TODO implement friendRouteButton functionality
         friendRouteButton = view.findViewById(R.id.friendRouteButton);
         friendRouteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,15 +145,33 @@ public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, Loca
                                 jsonObject.put("friendEmail", friendEmail);
                                 jsonObject.put("endLat", endLat);
                                 jsonObject.put("endLon", endLon);
+                                jsonObject.put("endTime", new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date(System.currentTimeMillis()+ 7200000)));
                             } catch (JSONException e) {
                                 throw new RuntimeException(e);
                             }
                             try {
                                 Intent routeIntent = new Intent(context, RouteActivity.class);
-                                routeIntent.putExtra("routeString", OkHTTPHelper.getFriendRoute(jsonObject));
+                                JSONObject responseObj = new JSONObject( OkHTTPHelper.getFriendRoute(jsonObject));
+
+                                Log.d(TAG,"Friend Route response: "+responseObj.toString());
+                                JSONArray commonArray = responseObj.getJSONObject("result").getJSONArray("Common"), aArray = responseObj.getJSONObject("result").getJSONArray("A");
+                                JSONArray combinedArray = new JSONArray();
+                                for(int i = 0; i < aArray.length(); i++){
+                                    combinedArray.put(aArray.getJSONObject(i));
+                                }
+                                for(int i = 0; i < commonArray.length(); i++){
+                                    combinedArray.put(commonArray.getJSONObject(i));
+                                }
+                                String routeString = combinedArray.toString();
+                                Log.d(TAG, routeString);
+                                routeIntent.putExtra("routeString", routeString);
                                 context.startActivity(routeIntent);
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            } catch (TimeoutException e){
+                                Toast.makeText(context, "No route found", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }

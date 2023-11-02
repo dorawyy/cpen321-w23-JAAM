@@ -30,6 +30,8 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -61,6 +63,7 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 public class CalendarActivity extends AppCompatActivity {
     /**
@@ -125,11 +128,24 @@ public class CalendarActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            getCalendarData();
+                            boolean synced = getCalendarData();
+                            Handler handler = new Handler(Looper.getMainLooper());
+                            handler.post(
+                                    new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if(synced){
+                                                Toast.makeText(CalendarActivity.this, "Calendar synced successfully!", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    }
+                            );
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
+                        } catch (TimeoutException e) {
+                            Toast.makeText(CalendarActivity.this, "Server error please try again later", Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -151,6 +167,8 @@ public class CalendarActivity extends AppCompatActivity {
                         throw new RuntimeException(e);
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
+                    } catch (TimeoutException e) {
+                        Toast.makeText(this, "Server error please try again later", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     // The user denied the permission request. Handle this case appropriately.
@@ -160,7 +178,7 @@ public class CalendarActivity extends AppCompatActivity {
     );
 
     //ChatGPT usage: Partial
-    private void getCalendarData() throws IOException, JSONException {
+    private boolean getCalendarData() throws IOException, JSONException, TimeoutException {
         DateTime now = new DateTime(System.currentTimeMillis());
         Events events = null;
         try {
@@ -174,7 +192,8 @@ public class CalendarActivity extends AppCompatActivity {
         } catch (IOException e) {
             Log.e(TAG, "API Request Exception: " + e.getMessage());
             e.printStackTrace();
-            throw new RuntimeException(e);
+            return false;
+//            throw new RuntimeException(e);
         }
 
         List<Event> items = events.getItems();
@@ -212,8 +231,10 @@ public class CalendarActivity extends AppCompatActivity {
                 Log.d(TAG, event.getSummary() + " (" + start + ") @ " + loc);
                 
             }
-            Toast.makeText(this, "Successfully synced calendar with server!", Toast.LENGTH_SHORT);
+            //Toast.makeText(this, "Successfully synced calendar with server!", Toast.LENGTH_SHORT);
+
         }
+        return true;
     }
 
     //ChatGPT usage: No

@@ -3,12 +3,14 @@ package com.jaam.transittrack;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 
@@ -17,6 +19,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeoutException;
 
 public class FriendListActivity extends AppCompatActivity {
 
@@ -33,7 +36,11 @@ public class FriendListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_list);
 
-        friends.add("k.west@example.com");
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        // for testing
+//        friends.add("k.west@example.com");
 
         FriendEntryAdapter friendEntryAdapter = new FriendEntryAdapter(friends, this);
         friendListView = findViewById(R.id.friendListView);
@@ -81,6 +88,8 @@ public class FriendListActivity extends AppCompatActivity {
                     OkHTTPHelper.sendFriendRequest(friendReqBody);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
+                } catch (TimeoutException e) {
+                    Toast.makeText(FriendListActivity.this, "Server timeout, please try again", Toast.LENGTH_SHORT).show();
                 }
 
                 friends.add(textViewContent);
