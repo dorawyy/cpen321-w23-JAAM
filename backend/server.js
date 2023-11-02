@@ -104,13 +104,12 @@ app.post("/addFriend", async (req, res) => {
     const db = client.db("userDB");
     const collection = db.collection("userInfo");
 
-    const userEmail = req.body.userEmail; // Assuming you have userEmail in the request
-    const friendEmail = req.body.friendEmail; // Assuming you have friendEmail in the request
+    const userEmail = req.body.userEmail;
+    const friendEmail = req.body.friendEmail;
 
     const userExists = await collection.findOne({ email: userEmail });
 
     if (userExists) {
-      // Add friend to the user's FriendList
       const userFilter = { email: userEmail };
       const userUpdate = {
         $addToSet: { FriendsList: friendEmail },
@@ -160,7 +159,6 @@ app.post("/addFriend", async (req, res) => {
 //ChatGPT Usage: Partial
 function getFormattedSubtractedTime(dataItem, subtractMinutes) {
   if (dataItem.Start && dataItem.Start.Time) {
-    // Parse the input time into hours and minutes
     const [hours, minutes] = dataItem.Start.Time.split(':');
   
     // Convert hours and minutes to minutes and subtract the specified duration
@@ -184,7 +182,7 @@ function getFormattedSubtractedTime(dataItem, subtractMinutes) {
     return formattedTime;
   } else {
     console.error('Invalid data structure:', dataItem);
-    return null; // Return null if the data structure is invalid
+    return null;
   }
 }
 
@@ -239,9 +237,9 @@ app.post('/getFormattedSubtractedTime', async (req, res) => {
 
       // Options for the POST request
       const options = {
-        hostname: '0.0.0.0', // Replace with your API's hostname
-        port: 8081, // Adjust the port if needed (e.g., 443 for HTTPS)
-        path: '/getRoute', // Replace with the correct path
+        hostname: '0.0.0.0',
+        port: 8081,
+        path: '/getRoute',
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -262,7 +260,6 @@ app.post('/getFormattedSubtractedTime', async (req, res) => {
           const dataItem = JSON.parse(data);
           console.log(dataItem)
 
-          // You can now use dataItem in your code to process it
           const formattedSubtractedTimes = dataItem.map((item) => {
             if (item.Start && item.Start.Time) {
               const formattedSubtractedTime = getFormattedSubtractedTime(item, subtractedMinutes);
@@ -277,7 +274,6 @@ app.post('/getFormattedSubtractedTime', async (req, res) => {
             res.status(400).send('Invalid or missing data');
           }
 
-          // Close the MongoDB connection
           client.close();
         });
       });
@@ -348,6 +344,7 @@ app.post('/getRoute', async (req, res) => {
 //ChatGPT Usage: No
 app.post('/getFriendRoute', async (req, res) => {
   try {
+    await client.connect();
     console.log(req.body);
     const { startLat1, startLon1, endLat, endLon, endTime, friendEmail } = req.body;
 
@@ -363,12 +360,13 @@ app.post('/getFriendRoute', async (req, res) => {
     if (userExists) {
 
       const defaultLat = userExists.defaultLat; 
-      const defaultLong = userExists.defaultLong;
+      const defaultLong = userExists.defaultLon;
 
       await routeEngine.init();
       result = routeEngine.getPartnerRoute(startLat1, startLon1, defaultLat, defaultLong, endLat, endLon, endTime);
       console.log(result);
 
+      // Handle the response data as needed
      if (result) {
         res.json({result});
       } else {
@@ -383,6 +381,7 @@ app.post('/getFriendRoute', async (req, res) => {
     console.log(error);
     res.status(500).json({ error: 'An error occurred while calculating the friend-route.' });
   }
+  await client.close();
 });
 
 //ChatGPT Usage: No
