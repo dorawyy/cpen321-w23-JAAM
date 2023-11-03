@@ -36,6 +36,7 @@ public class OkHTTPHelper {
         Request request = new Request.Builder()
                 .url(BASE_URL + "/createUser")
                 .post(requestBody)
+                .header("Connection", "close")
                 .build();
         client.newCall(request).execute();
 
@@ -47,6 +48,7 @@ public class OkHTTPHelper {
         Request request = new Request.Builder()
                 .url(BASE_URL + "/getRoute")
                 .post(requestBody)
+                .header("Connection", "close")
                 .build();
         Response response = client.newCall(request).execute();
         return response.body().string();
@@ -55,6 +57,7 @@ public class OkHTTPHelper {
     static String getChatHistory() throws IOException, TimeoutException{
         Request request = new Request.Builder()
                 .url(BASE_URL + "/api/chat/history")
+                .header("Connection", "close")
                 .build();
         Response response = client.newCall(request).execute();
         return response.body().string();
@@ -65,6 +68,7 @@ public class OkHTTPHelper {
         Request request = new Request.Builder()
                 .url(BASE_URL + "/addFriend")
                 .post(reqBody)
+                .header("Connection", "close")
                 .build();
         Response response = client.newCall(request).execute();
     }
@@ -74,6 +78,7 @@ public class OkHTTPHelper {
         Request request = new Request.Builder()
                 .url(BASE_URL + "/getFormattedSubtractedTime")
                 .post(reqBody)
+                .header("Connection", "close")
                 .build();
         Response response = client.newCall(request).execute();
         return response.body().string();
@@ -84,6 +89,7 @@ public class OkHTTPHelper {
         Request request = new Request.Builder()
                 .url(BASE_URL + "/getFriendRoute")
                 .post(requestBody)
+                .header("Connection", "close")
                 .build();
         Response response = client.newCall(request).execute();
         return response.body().string();

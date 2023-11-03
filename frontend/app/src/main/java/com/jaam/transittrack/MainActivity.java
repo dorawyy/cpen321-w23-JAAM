@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         Log.d(TAG,"address search failed: " + e.getMessage());
                         Toast.makeText(MainActivity.this, "Network connection not available. Please try again later!", Toast.LENGTH_LONG).show();
+                        return;
                     }
                     Address address;
                     if(addressList.size() > 0) {

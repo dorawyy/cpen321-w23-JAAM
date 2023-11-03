@@ -139,11 +139,15 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
                     Log.d(TAG, "Solo route string: " + routeString);
                     if(routeString != null) {
                         try{
-                            String error = new JSONObject(routeString).getString("error");
+                            String error = new JSONArray(routeString).getString(0);
+                            if(error == "Could not find Route"){
+                                throw new TimeoutException();
+                            }
                             Toast.makeText(RouteActivity.this, "Cannot find route, please try again later", Toast.LENGTH_LONG).show();
                         }catch (JSONException e){
                             displayRoute(routeString, arrayAdapter);
                         }
+
 
                     }
                 } catch (JSONException e) {

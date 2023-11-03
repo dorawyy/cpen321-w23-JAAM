@@ -238,7 +238,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
                 arrayAdapter.clear();
                 messagesArrayList.clear();
                 postMessageToServer(jsonObject.getString("message"));
-                makeGetRequestForChatHistory();
+
 
 
                 resetMessageEdit();
@@ -285,6 +285,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
         Request request = new Request.Builder()
                 .url(url)
                 .get()
+                .header("Connection", "close")
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -326,7 +327,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
 
 
     private void postMessageToServer(String message) {
-        String url = "http://4.205.17.106:8081/api/chat/send";
+        String url = "https://4.205.17.106:8081/api/chat/send";
 
 
         if (message != null || !message.isEmpty()) {
@@ -351,6 +352,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
             Request request = new Request.Builder()
                     .url(url)
                     .post(requestBody)
+                    .header("Connection", "close")
                     .build();
 
 
@@ -361,7 +363,14 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
                 public void onFailure(Call call, IOException e) {
                     e.printStackTrace();
                     // Handle the failure here
-                    Log.e(TAG, "Failed to send message: " + e.getMessage());
+                    Log.e(TAG, "Failed to send message: " + e.getMessage(), e);
+                    Log.e(TAG, "Message content:" + request);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(ChatActivity.this, "Failed to send message please try again", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
 
                 @Override
@@ -371,6 +380,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
 //                        // You can process the response as needed
 //                        arrayAdapter.add("d.trump@example.com" + message);
                         Log.d(TAG, "Message sent successfully. Response: " + responseString);
+                        makeGetRequestForChatHistory();
                     } else {
                         // Handle the unsuccessful response here
                         Log.e(TAG, "Failed to send message. Server returned non-successful response: " + response.code());
@@ -384,7 +394,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
     }
 
     private void getLastMessage(){
-        String url = "http://4.205.17.106:8081/getLastMessage";
+        String url = "https://4.205.17.106:8081/getLastMessage";
 
         Request request = new Request.Builder()
                 .url(url)

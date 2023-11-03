@@ -168,9 +168,7 @@ public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, Loca
                                 context.startActivity(routeIntent);
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
-                            } catch (JSONException e) {
-                                throw new RuntimeException(e);
-                            } catch (TimeoutException e){
+                            } catch (TimeoutException | JSONException e){
                                 Toast.makeText(context, "No route found", Toast.LENGTH_SHORT).show();
                             }
                         }
