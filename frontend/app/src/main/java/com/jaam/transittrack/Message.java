@@ -22,5 +22,7 @@ public class Message {
         return this.sender;
     }
 
+    public String getRecipient(){ return this.recipient; }
+
 
 }

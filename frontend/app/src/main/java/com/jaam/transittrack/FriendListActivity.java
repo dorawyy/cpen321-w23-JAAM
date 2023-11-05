@@ -26,7 +26,6 @@ public class FriendListActivity extends AppCompatActivity {
     private EditText friendEmailTextView;
     private ArrayList<String> friends = new ArrayList<>();
 
-    private ListView friendListView;
 
     private Button addFriendButton;
 
@@ -43,7 +42,7 @@ public class FriendListActivity extends AppCompatActivity {
 //        friends.add("k.west@example.com");
 
         FriendEntryAdapter friendEntryAdapter = new FriendEntryAdapter(friends, this);
-        friendListView = findViewById(R.id.friendListView);
+        ListView friendListView = findViewById(R.id.friendListView);
         friendListView.setAdapter(friendEntryAdapter);
 
         addFriendButton = findViewById(R.id.addFriendButton);
@@ -82,12 +81,12 @@ public class FriendListActivity extends AppCompatActivity {
                     friendReqBody.put("userEmail",GoogleSignIn.getLastSignedInAccount(FriendListActivity.this).getEmail());
                     friendReqBody.put("friendEmail",textViewContent);
                 } catch (JSONException e) {
-                    throw new RuntimeException(e);
+                    e.printStackTrace();
                 }
                 try {
                     OkHTTPHelper.sendFriendRequest(friendReqBody);
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    e.printStackTrace();
                 } catch (TimeoutException e) {
                     Toast.makeText(FriendListActivity.this, "Server timeout, please try again", Toast.LENGTH_SHORT).show();
                 }

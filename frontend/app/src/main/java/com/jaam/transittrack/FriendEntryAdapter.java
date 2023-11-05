@@ -2,7 +2,6 @@ package com.jaam.transittrack;
 
 
 import android.Manifest;
-import android.app.Activity;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -28,7 +27,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,11 +41,11 @@ import java.util.Locale;
 import java.util.concurrent.TimeoutException;
 
 public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, LocationListener {
+    private static String TAG = "FriendEntryAdapter";
 
     private ArrayList<String> list = new ArrayList<String>();
     private Context context;
 
-    private Button friendRouteButton;
     private Location currLocation;
     protected LocationManager locationManager;
     //ChatGPT usage: No
@@ -84,7 +82,7 @@ public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, Loca
         return -1;
     }
 
-    private static String TAG = "FriendEntryAdapter";
+
     //ChatGPT usage: No
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -109,7 +107,7 @@ public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, Loca
                 context.startActivity(chatIntent);
             }
         });
-        friendRouteButton = view.findViewById(R.id.friendRouteButton);
+        Button friendRouteButton = view.findViewById(R.id.friendRouteButton);
         friendRouteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,7 +152,8 @@ public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, Loca
                                 JSONObject responseObj = new JSONObject( OkHTTPHelper.getFriendRoute(jsonObject));
 
                                 Log.d(TAG,"Friend Route response: "+responseObj.toString());
-                                JSONArray commonArray = responseObj.getJSONObject("result").getJSONArray("Common"), aArray = responseObj.getJSONObject("result").getJSONArray("A");
+                                JSONArray commonArray = responseObj.getJSONObject("result").getJSONArray("Common");
+                                JSONArray aArray = responseObj.getJSONObject("result").getJSONArray("A");
                                 JSONArray combinedArray = new JSONArray();
                                 for(int i = 0; i < aArray.length(); i++){
                                     combinedArray.put(aArray.getJSONObject(i));

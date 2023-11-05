@@ -17,18 +17,15 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
 public class NavigationActivity extends AppCompatActivity {
-    private Button chatButton;
-    private Button friendListButton;
 
-    private Button notifyButton;
     static private String TAG = "NavigationActivity";
     //ChatGPT usage: No
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
-        chatButton = findViewById(R.id.chatButton);
-        friendListButton = findViewById(R.id.friendListButton);
+        Button chatButton = findViewById(R.id.chatButton);
+        Button friendListButton = findViewById(R.id.friendListButton);
         friendListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,7 +54,7 @@ public class NavigationActivity extends AppCompatActivity {
             }
         });
         //ChatGPT usage: No
-        notifyButton = findViewById(R.id.notifyButton);
+        Button notifyButton = findViewById(R.id.notifyButton);
         notifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +69,7 @@ public class NavigationActivity extends AppCompatActivity {
                 try {
                     new OkHttpClient().newCall(request).execute();
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    e.printStackTrace();
                 }
             }
         });

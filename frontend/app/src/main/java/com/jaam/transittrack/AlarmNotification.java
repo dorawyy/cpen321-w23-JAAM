@@ -1,8 +1,5 @@
 package com.jaam.transittrack;
 
-import android.Manifest;
-import android.app.Activity;
-import android.app.AlarmManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -48,7 +44,7 @@ public class AlarmNotification extends BroadcastReceiver {
         try {
             new OkHttpClient().newCall(request).execute();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);

@@ -64,10 +64,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="${API_KEY}" />
 
-        <activity
-            android:name=".MapsActivity"
-            android:exported="false"
-            android:label="@string/title_activity_maps" />
 
         <service
             android:name=".MyFirebaseMessagingService"

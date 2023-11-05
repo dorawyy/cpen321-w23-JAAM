@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
                                         //throw new RuntimeException(e);
                                     }
                                 } catch (JSONException e) {
-                                    throw new RuntimeException(e);
+                                    e.printStackTrace();
                                 }
 
                                 // Log and toast

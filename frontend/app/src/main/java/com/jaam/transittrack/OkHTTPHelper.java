@@ -1,16 +1,13 @@
 package com.jaam.transittrack;
 
 
-import android.util.Log;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import javax.net.ssl.SSLContext;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -70,7 +67,7 @@ public class OkHTTPHelper {
                 .post(reqBody)
                 .header("Connection", "close")
                 .build();
-        Response response = client.newCall(request).execute();
+        client.newCall(request).execute();
     }
     //ChatGPT usage: No
     static String sendCalendar(JSONObject req) throws IOException, TimeoutException{

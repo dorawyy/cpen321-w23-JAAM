@@ -1,32 +1,22 @@
 package com.jaam.transittrack;
 
-import androidx.activity.result.ActivityResultCallback;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import android.Manifest;
-import android.accounts.Account;
-import android.accounts.AccountManager;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.AlertDialog;
-import android.app.Dialog;
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,12 +28,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
@@ -59,7 +45,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -74,7 +59,7 @@ public class CalendarActivity extends AppCompatActivity {
      * Directory to store authorization tokens for this application.
      */
 
-    com.google.api.services.calendar.Calendar mService;
+    Calendar mService;
 
     GoogleAccountCredential credential;
     final static String TAG = "CalendarActivity";
@@ -86,11 +71,29 @@ public class CalendarActivity extends AppCompatActivity {
     private static final List<String> SCOPES =
             Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
 
-    private Button getGoogleCalendarButton;
-    AccountManager am;
 
     ArrayList<Integer> alarmHours = new ArrayList<>();
     ArrayList<Integer> alarmMinutes = new ArrayList<>();
+
+    private final ActivityResultLauncher<Intent> requestPermissionLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    try {
+                        getCalendarData();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    } catch (TimeoutException e) {
+                        Toast.makeText(this, "Server error please try again later", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    // The user denied the permission request. Handle this case appropriately.
+                    Log.d(TAG, "Result code: " + result.getResultCode());
+                }
+            }
+    );
 
     //ChatGPT usage: No
     @Override
@@ -100,7 +103,6 @@ public class CalendarActivity extends AppCompatActivity {
 
         final NetHttpTransport HTTP_TRANSPORT;
         HTTP_TRANSPORT = new NetHttpTransport();
-        SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
         credential = GoogleAccountCredential.usingOAuth2(
                         getApplicationContext(), SCOPES)
                 .setBackOff(new ExponentialBackOff())
@@ -119,7 +121,7 @@ public class CalendarActivity extends AppCompatActivity {
         createNotificationChannel();
 
 
-        getGoogleCalendarButton = findViewById(R.id.googleCalendarButton);
+        Button getGoogleCalendarButton = findViewById(R.id.googleCalendarButton);
         getGoogleCalendarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,9 +143,9 @@ public class CalendarActivity extends AppCompatActivity {
                                     }
                             );
                         } catch (IOException e) {
-                            throw new RuntimeException(e);
+                            e.printStackTrace();
                         } catch (JSONException e) {
-                            throw new RuntimeException(e);
+                            e.printStackTrace();
                         } catch (TimeoutException e) {
                             Toast.makeText(CalendarActivity.this, "Server error please try again later", Toast.LENGTH_SHORT).show();
                         }
@@ -157,25 +159,7 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     //ChatGPT usage: No
-    private ActivityResultLauncher<Intent> requestPermissionLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == Activity.RESULT_OK) {
-                    try {
-                        getCalendarData();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
-                    } catch (TimeoutException e) {
-                        Toast.makeText(this, "Server error please try again later", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    // The user denied the permission request. Handle this case appropriately.
-                    Log.d(TAG, "my misery is endless, result code: " + result.getResultCode());
-                }
-            }
-    );
+
 
     //ChatGPT usage: Partial
     private boolean getCalendarData() throws IOException, JSONException, TimeoutException {
@@ -205,7 +189,6 @@ public class CalendarActivity extends AppCompatActivity {
             //ChatGPT usage: Partial
             Log.d(TAG, "Upcoming events");
             Geocoder geocoder = new Geocoder(this);
-            JSONArray calendarEvents = new JSONArray();
             for (Event event : items) {
                 DateTime start = event.getStart().getDateTime();
                 String loc = event.getLocation();

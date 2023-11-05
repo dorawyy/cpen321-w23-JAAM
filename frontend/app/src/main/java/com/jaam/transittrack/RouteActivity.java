@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Location;
@@ -13,8 +12,6 @@ import android.location.Geocoder;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.os.StrictMode;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -26,9 +23,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.api.client.util.DateTime;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,30 +31,18 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeoutException;
 
-import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-
 public class RouteActivity extends AppCompatActivity implements LocationListener {
-
-    private EditText searchTextView;
-    private FloatingActionButton searchButton;
 
 
     private Location currLocation;
 
     private ListView stopListView;
     private static ArrayList<String> stops = new ArrayList<String>();
-
-    private String board, disembark;
 
     protected LocationManager locationManager;
     final static String TAG = "RouteActivity";
@@ -86,8 +68,8 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
-        searchButton = findViewById(R.id.searchButton);
-        searchTextView = findViewById(R.id.searchTextField);
+        Button searchButton = findViewById(R.id.searchButton);
+        EditText searchTextView = findViewById(R.id.searchTextField);
         stopListView = findViewById(R.id.stopList);
         findViewById(R.id.routeLoadingProgressBar).setVisibility(View.INVISIBLE);
 
@@ -140,7 +122,7 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
                     if(routeString != null) {
                         try{
                             String error = new JSONArray(routeString).getString(0);
-                            if(error == "Could not find Route"){
+                            if(error.equals("Could not find Route")){
                                 throw new TimeoutException();
                             }
                             Toast.makeText(RouteActivity.this, "Cannot find route, please try again later", Toast.LENGTH_LONG).show();
@@ -170,7 +152,7 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
             try {
                 displayRoute(routeString, arrayAdapter);
             } catch (JSONException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         }
 
@@ -229,9 +211,11 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
     }
     //ChatGPT usage: No
     private void displayRoute(String routeString, ArrayAdapter<String> arrayAdapter) throws JSONException {
-
+        String board;
+        String disembark;
         JSONArray route = new JSONArray(routeString);
-        JSONObject start, end;
+        JSONObject start;
+        JSONObject end;
         for (int i = 0; i < route.length(); i++) {
             Log.d(TAG, "Adding route" + i);
             start = route.getJSONObject(i).getJSONObject("Start");

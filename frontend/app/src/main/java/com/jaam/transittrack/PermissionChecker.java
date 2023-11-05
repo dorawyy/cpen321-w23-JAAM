@@ -16,9 +16,6 @@ public class PermissionChecker {
 
 
     private static String TAG = "PermissionChecker";
-    public PermissionChecker() {
-
-    }
 
     /**
      * Checks and requests location permissions if not granted.

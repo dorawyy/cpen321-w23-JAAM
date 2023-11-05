@@ -1,12 +1,9 @@
 package com.jaam.transittrack;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -14,27 +11,17 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,18 +41,14 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
     private String name;
     private WebSocket webSocket;
     private String SERVER_PATH = "ws://4.205.17.106:8081"; // WebSocket server path
-//    private String SERVER_PATH = "ws://206.87.217.198:5000"; // WebSocket server path
 
     private EditText messageEdit;
-    private View sendBtn, pickImgBtn;
-    private RecyclerView recyclerView;
-    private int IMAGE_REQUEST_ID = 1;
+    private View sendBtn;
     private OkHttpClient client = new OkHttpClient();
     private static ArrayList<Message> messagesArrayList = new ArrayList<>();
     private static ArrayList<String> messageHistory = new ArrayList<>();
     private ArrayAdapter<String> arrayAdapter;
-    private List<JSONObject> messages = new ArrayList<>();
-    private String[] token = new String[1];
+
 
     private String receiverEmail = "d.trump@example.com";
     //ChatGPT usage: No
@@ -78,9 +61,6 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
             ListView chatHistory = findViewById(R.id.messageListView);
             chatHistory.setAdapter(arrayAdapter);
 
-
-
-
             name = getIntent().getStringExtra("name");
         receiverEmail = getIntent().getStringExtra("receiverEmail");
         getIntent().removeExtra("receiverEmail");
@@ -88,7 +68,6 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
         initializeView();
         makeGetRequestForChatHistory();
 
-//        fetchChatHistory();
     }
     //ChatGPT usage: Partial
     private void sendHttpMessage(String message) {
@@ -106,28 +85,13 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
                     .build();
 
             OkHttpClient client = new OkHttpClient();
-            client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    e.printStackTrace();
-                    // Handle the failure here
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    if (response.isSuccessful()) {
-                        // Handle the successful response here
-                        String responseString = response.body().string();
-                        // You can process the response as needed
-                    } else {
-                        // Handle the unsuccessful response here
-                    }
-                }
-            });
+            client.newCall(request).execute();
 
             // Clear the message edit text or perform any UI update after sending the message
         } catch (JSONException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
     //ChatGPT usage: No
@@ -143,9 +107,10 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
     }
 
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
     }
+
     //ChatGPT usage: No
     @Override
     public void afterTextChanged(Editable s) {
@@ -331,7 +296,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
         String url = "https://4.205.17.106:8081/api/chat/send";
 
 
-        if (message != null || !message.isEmpty()) {
+        if (message != null && !message.isEmpty()) {
 
             JSONObject jsonBody = new JSONObject();
             try {
@@ -392,43 +357,6 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
             // Log or handle the case where the values are missing or empty
             Log.e(TAG, "Missing or empty message");
         }
-    }
-
-    private void getLastMessage(){
-        String url = "https://4.205.17.106:8081/getLastMessage";
-
-        Request request = new Request.Builder()
-                .url(url)
-                .get()
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-                // Handle failure here
-                Log.e(TAG, "Failed to fetch last chat: " + e.getMessage());
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    String responseData = response.body().string();
-                    // Process the chat history data here and update the adapter
-                    try {
-                        JSONArray historyArray = new JSONArray(responseData);
-//                        parseChatHistory(historyArray);
-                        runOnUiThread(() -> parseChatHistory(historyArray));
-                    } catch (JSONException e) {
-                        Log.d(TAG, e.getMessage());
-                        e.printStackTrace();
-                    }
-                } else {
-                    // Handle unsuccessful response
-                    Log.e(TAG, "Failed to fetch last chat. Server returned non-successful response: " + response.code());
-                }
-            }
-        });
     }
 
 }
