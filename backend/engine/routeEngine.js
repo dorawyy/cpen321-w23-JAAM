@@ -6,7 +6,7 @@ const trips_exclude = ["route_id", "direction_id", "shape_id", "trip_short_name"
 // const routes_exclude = ["agency_id", "route_desc", "route_type", "route_url", "route_color", "route_text_color"];
 // const calendar_exclude = ["start_date", "end_date"];
 const scan_range = 500;
-const lat_calc_constant = 360 / 40080000;
+const lat_calc_constant = 360 / (4.0075 * 10^7);
 
 const stop_times_path = './engine/translink_data/stop_times.txt';
 const stops_path = './engine/translink_data/stops.json';
