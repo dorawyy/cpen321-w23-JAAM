@@ -1,5 +1,4 @@
 const fs = require('fs');
-const {parse} = require('path');
 const LOG = true;  
 const stops_exclude = ["stop_desc", "stop_url", "parent_station", "stop_code", "zone_id", "location_type", "stop_code"];
 const stop_times_exclude = ["arrival_time", "stop_headsign", "pickup_type", "drop_off_type", "shape_dist_traveled"];
@@ -8,16 +7,16 @@ const routes_exclude = ["agency_id", "route_desc", "route_type", "route_url", "r
 const calendar_exclude = ["start_date", "end_date"];
 const scan_range = 500;
 
-var routes_path = './translink_data/routes.txt';
-var calendar_path = './translink_data/calendar.txt';
-var stop_times_path = './translink_data/stop_times.txt';
 var stops;
 var trips;
+var stops_path = './engine/generated/stops.json';
+var trips_path = './engine/generated/trips.json';
+var stop_times_path = './engine/translink_data/stop_times.txt';
+// var routes_path = './engine/translink_data/routes.txt';
+// var calendar_path = './engine/translink_data/calendar.txt';
 
 // ChatGPT Usage: PARTIAL
 async function init() {
-    stops_path = './engine/generated/stops.json';
-    trips_path = './engine/generated/trips.json';
     if (fs.existsSync(stops_path) && fs.existsSync(trips_path)) {
         if (LOG) {
             console.log("Files exist");
@@ -27,18 +26,21 @@ async function init() {
             console.log("Files not found");
         }
 
-        var stops_path = './engine/translink_data/stops.txt';
-        var stop_times_path = './engine/translink_data/stop_times.txt';
-        var trips_path = './engine/translink_data/trips.txt';
+        stops_path = './engine/translink_data/stops.txt';
+        trips_path = './engine/translink_data/trips.txt';
+
         stops = await parseTranslinkFile(stops_path);
-        stop_times = await parseTranslinkFile(stop_times_path);
+        var stop_times = await parseTranslinkFile(stop_times_path);
         trips = await parseTranslinkFile(trips_path);
+
         addStopTimesToTrips(stop_times, trips);
         addTripsToStops(trips, stops);
+
         fs.writeFileSync('./engine/generated/stops.json', JSON.stringify(stops, null, 2) , 'utf-8');
         fs.writeFileSync('./engine/generated/trips.json', JSON.stringify(trips, null, 2) , 'utf-8');
-        stops_path = 'generated/stops.json';
-        trips_path = 'generated/trips.json';    }
+
+        stops_path = './engine/generated/stops.json';
+        trips_path = './engine/generated/trips.json';    }
     
     
     stops = await parseGeneratedFile(stops_path);
@@ -75,22 +77,20 @@ function parseTranslinkFile(path)  {
             }
 
 
-            var output = new Object();
+            var output = {};
             var lines = data.split('\r\n');
-    	    lines.pop();    // Get rid of the element that results from after the last newline
-            var temp;
+            lines.pop();    // Get rid of the element that results from after the last newline
             var words;
             var titles = lines[0].split(',');
             var i;
-            var j;
             var excludeIndex = [];
             var includeIndex = [];
             var excludeArray;
 
             switch(path) {
-                case routes_path:
-                    excludeArray = routes_exclude;
-                    break;
+                // case routes_path:
+                //     excludeArray = routes_exclude;
+                //     break;
                 case trips_path:
                     excludeArray = trips_exclude;
                     break;
@@ -100,9 +100,9 @@ function parseTranslinkFile(path)  {
                 case stop_times_path:
                     excludeArray = stop_times_exclude;
                     break;
-                case calendar_path:
-                    excludeArray = calendar_exclude;
-                    break;
+                // case calendar_path:
+                //     excludeArray = calendar_exclude;
+                //     break;
                 default:
                     excludeArray = [];
               } 
@@ -145,7 +145,7 @@ function addTripsToStops(trips, stops) {
         stops.trip_pos[i] = [];
     }
 
-    for (var i = 0; i < trips.stops.length; i++) {
+    for (i = 0; i < trips.stops.length; i++) {
         for (var j = 0; j < trips.stops[i].length; j++) {
             for (var k = 0; k < stops.id.length; k++) {
                 if (trips.stops[i][j] == stops.id[k]) {
@@ -179,7 +179,7 @@ function addStopTimesToTrips(stop_times, trips) {
         trips.stops[i] = [];
     }
 
-    for (var i = 0; i < stop_times.trip_id.length; i++) {
+    for (i = 0; i < stop_times.trip_id.length; i++) {
         for (var j = 0; j < trips.id.length; j++) {
             if (stop_times.trip_id[i] == trips.id[j]) {
                 trips.stop_times[j][stop_times.stop_sequence[i]-1] = convert24HrToSeconds(stop_times.departure_time[i]);
@@ -194,7 +194,7 @@ function addStopTimesToTrips(stop_times, trips) {
 function getAllStopsWithinRange(stops, range, lat, long) {
     var inRange = new Set();
     var xRange =  range / 111320;
-    var yRange = 360 * range / (40075000 * Math.cos(lat));
+    var yRange = 360 * range / (40075000.0 * Math.cos(lat));
     var xMax = long + xRange;
     var xMin = long - xRange;
     var yMax = lat + yRange;
@@ -262,12 +262,12 @@ function getRoute(startLat, startLon, endLat, endLon, endTime) {
     var endStops = [];
 
     var range = 200;
-    while (startStops.size == 0) {
+    while (startStops.size === 0) {
         startStops = getAllStopsWithinRange(stops, range, startLat, startLon);
         range *= 1.5;
     }
 
-    while (endStops.length == 0) {
+    while (endStops.length === 0) {
         endStops = Array.from(getAllStopsWithinRange(stops, range, endLat, endLon));
         range *= 1.5;
     }
@@ -287,13 +287,13 @@ function getRoute(startLat, startLon, endLat, endLon, endTime) {
         var temp = [];
         var reached_count = reached.size;
         var old_reached = new Set(reached);
-        for (var i = 0; i < paths.length; i++) {
+        for (i = 0; i < paths.length; i++) {
             getStopsBefore(stops, trips, paths[i][0][0], paths[i][0][1], old_reached, reached, trips_alr_indexed).forEach(new_stop => {
                 temp.push([new_stop, ...paths[i]]);
             });
         }
 
-        for (var i = 0; i < paths.length; i++) {
+        for (i = 0; i < paths.length; i++) {
             findStopsNearStop(stops, 500, paths[i][0][0]).forEach(new_stop => {
                 if (!old_reached.has(new_stop)) {
                     temp.push([[new_stop, paths[i][0][1]-300, "Walk", paths[i][0][1]], ...paths[i]]);
@@ -315,7 +315,7 @@ function getRoute(startLat, startLon, endLat, endLon, endTime) {
         }
     }
     if (!found) {
-        response = [];
+        var response = [];
         response.push("Could not find Route");
         return response;
     }
@@ -331,16 +331,17 @@ function getRoute(startLat, startLon, endLat, endLon, endTime) {
         }
     }
 
-    response = [];
-    for (var i = 1; i < paths[latestTimeIndex].length; i++) {
-        responseObj = new Object();
-        responseObj['Start'] = new Object();
+    var response = [];
+    var responseObj;
+    for (i = 1; i < paths[latestTimeIndex].length; i++) {
+        responseObj = {};
+        responseObj['Start'] = {};
         responseObj['Start']['Stop'] = stops.stop_name[paths[latestTimeIndex][i-1][0]];
         responseObj['Start']['Lat'] = stops.lat[paths[latestTimeIndex][i-1][0]];
         responseObj['Start']['Long'] = stops.lon[paths[latestTimeIndex][i-1][0]];
         responseObj['Start']['Time'] = convertSecondsTo24Hour(paths[latestTimeIndex][i-1][1]);
         responseObj['Start']['Bus'] = paths[latestTimeIndex][i-1][2];
-        responseObj['End'] = new Object();
+        responseObj['End'] = {};
         responseObj['End']['Stop'] = stops.stop_name[paths[latestTimeIndex][i][0]];
         responseObj['End']['Lat'] = stops.lat[paths[latestTimeIndex][i][0]];
         responseObj['End']['Long'] = stops.lon[paths[latestTimeIndex][i][0]];
@@ -358,10 +359,10 @@ function getPartnerRoute(startLat1, startLon1, startLat2, startLon2, endLat, end
     var midLat = (startLat1 + startLat2 + endLat) / 3;
     var midLon = (startLon1 + startLon2 + endLon) / 3;
 
-    var response = new Object();
+    var response = {};
 
     response.Common = getRoute(midLat, midLon, endLat, endLon, endTime);
-    midTime = response.Common[0].Start.Time;
+    var midTime = response.Common[0].Start.Time;
 
     response.A = getRoute(startLat1, startLon1, midLat, midLon, midTime);
     response.B = getRoute(startLat2, startLon2, midLat, midLon, midTime);
