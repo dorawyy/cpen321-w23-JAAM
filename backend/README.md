@@ -1,1 +1,0 @@
-# JAAM-projectnode

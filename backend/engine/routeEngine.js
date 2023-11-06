@@ -3,21 +3,26 @@ const LOG = true;
 const stops_exclude = ["stop_desc", "stop_url", "parent_station", "stop_code", "zone_id", "location_type", "stop_code"];
 const stop_times_exclude = ["arrival_time", "stop_headsign", "pickup_type", "drop_off_type", "shape_dist_traveled"];
 const trips_exclude = ["route_id", "direction_id", "shape_id", "trip_short_name", "block_id", "wheelchair_accessible", "bikes_allowed"];
-const routes_exclude = ["agency_id", "route_desc", "route_type", "route_url", "route_color", "route_text_color"];
-const calendar_exclude = ["start_date", "end_date"];
+// const routes_exclude = ["agency_id", "route_desc", "route_type", "route_url", "route_color", "route_text_color"];
+// const calendar_exclude = ["start_date", "end_date"];
 const scan_range = 500;
+const lat_calc_constant = 360 / 40075000;
+
+const stop_times_path = './engine/translink_data/stop_times.txt';
+const stops_path = './engine/translink_data/stops.json';
+const trips_path = './engine/translink_data/trips.json';
+
+const generated_stops_path = './engine/generated/stops.json';
+const generated_trips_path = './engine/generated/trips.json';
 
 var stops;
 var trips;
-var stops_path = './engine/generated/stops.json';
-var trips_path = './engine/generated/trips.json';
-var stop_times_path = './engine/translink_data/stop_times.txt';
 // var routes_path = './engine/translink_data/routes.txt';
 // var calendar_path = './engine/translink_data/calendar.txt';
 
 // ChatGPT Usage: PARTIAL
 async function init() {
-    if (fs.existsSync(stops_path) && fs.existsSync(trips_path)) {
+    if (fs.existsSync(generated_stops_path) && fs.existsSync(generated_trips_path)) {
         if (LOG) {
             console.log("Files exist");
         }
@@ -26,8 +31,6 @@ async function init() {
             console.log("Files not found");
         }
 
-        stops_path = './engine/translink_data/stops.txt';
-        trips_path = './engine/translink_data/trips.txt';
 
         stops = await parseTranslinkFile(stops_path);
         var stop_times = await parseTranslinkFile(stop_times_path);
@@ -36,15 +39,13 @@ async function init() {
         addStopTimesToTrips(stop_times, trips);
         addTripsToStops(trips, stops);
 
-        fs.writeFileSync('./engine/generated/stops.json', JSON.stringify(stops, null, 2) , 'utf-8');
-        fs.writeFileSync('./engine/generated/trips.json', JSON.stringify(trips, null, 2) , 'utf-8');
-
-        stops_path = './engine/generated/stops.json';
-        trips_path = './engine/generated/trips.json';    }
+        fs.writeFileSync(generated_stops_path, JSON.stringify(stops, null, 2) , 'utf-8');
+        fs.writeFileSync(generated_trips_path, JSON.stringify(trips, null, 2) , 'utf-8');
+    }
     
     
-    stops = await parseGeneratedFile(stops_path);
-    trips = await parseGeneratedFile(trips_path);
+    stops = await parseGeneratedFile(generated_stops_path);
+    trips = await parseGeneratedFile(generated_trips_path);
     console.log("Setup Complete");
     return true;
 }
@@ -139,8 +140,8 @@ function addTripsToStops(trips, stops) {
     stops.stop_lat = undefined;
     stops.lon = stops.stop_lon;
     stops.stop_lon = undefined;
-
-    for (var i = 0; i < stops.id.length; i++) {
+    var i;
+    for (i = 0; i < stops.id.length; i++) {
         stops.trips[i] = [];
         stops.trip_pos[i] = [];
     }
@@ -173,8 +174,8 @@ function addStopTimesToTrips(stop_times, trips) {
 
     trips.stop_times = [];
     trips.stops = [];
-    
-    for (var i = 0; i < trips.id.length; i++) {
+    var i;
+    for (i = 0; i < trips.id.length; i++) {
         trips.stop_times[i] = [];
         trips.stops[i] = [];
     }
@@ -194,13 +195,13 @@ function addStopTimesToTrips(stop_times, trips) {
 function getAllStopsWithinRange(stops, range, lat, long) {
     var inRange = new Set();
     var xRange =  range / 111320;
-    var yRange = 360 * range / (40075000.0 * Math.cos(lat));
+    var yRange = lat_calc_constant * range / (Math.cos(lat));
     var xMax = long + xRange;
     var xMin = long - xRange;
     var yMax = lat + yRange;
     var yMin = lat - yRange;
-
-    for (var i = 0; i < stops.id.length; i++) {
+    var i;
+    for (i = 0; i < stops.id.length; i++) {
         if (parseFloat(stops.lon[i]) > xMin && parseFloat(stops.lon[i]) < xMax
             && parseFloat(stops.lat[i])> yMin && parseFloat(stops.lat[i]) < yMax) {
                 inRange.add(i);
@@ -226,7 +227,8 @@ function getStopsBefore(stops, trips, stop_index, time, old_reached, reached, pr
     var trip_index;
     var trip_pos;
     var diff;
-    for (var i = 0; i < stops.trips[stop_index].length; i++) {
+    var i;
+    for (i = 0; i < stops.trips[stop_index].length; i++) {
         trip_index = stops.trips[stop_index][i];
         if (!previous_trips.has(trip_index)) {
             previous_trips.add(trip_index);
@@ -275,7 +277,8 @@ function getRoute(startLat, startLon, endLat, endLon, endTime) {
     var reached = new Set();
     var trips_alr_indexed = new Set();
     
-    for (var i = 0; i < endStops.length; i++) {
+    var i;
+    for (i = 0; i < endStops.length; i++) {
         paths[i] = [];
         paths[i].push([endStops[i], endTime, "End"]);
         reached.add(endStops[i]);
@@ -314,15 +317,16 @@ function getRoute(startLat, startLon, endLat, endLon, endTime) {
             break;
         }
     }
+
+    var response = [];
     if (!found) {
-        var response = [];
         response.push("Could not find Route");
         return response;
     }
 
     var latestTime = -1;
     var latestTimeIndex;
-    for (var i = 0; i < paths.length; i++) {
+    for (i = 0; i < paths.length; i++) {
         if (paths[i][0][0] == start) {
             if (paths[i][0][1] > latestTime) {
                 latestTime = paths[i][0][1];
@@ -331,7 +335,6 @@ function getRoute(startLat, startLon, endLat, endLon, endTime) {
         }
     }
 
-    var response = [];
     var responseObj;
     for (i = 1; i < paths[latestTimeIndex].length; i++) {
         responseObj = {};
