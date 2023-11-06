@@ -40,8 +40,7 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
 
 
     private Location currLocation;
-
-    private ListView stopListView;
+    
     private static ArrayList<String> stops = new ArrayList<String>();
 
     protected LocationManager locationManager;
@@ -70,7 +69,7 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
 
         Button searchButton = findViewById(R.id.searchButton);
         EditText searchTextView = findViewById(R.id.searchTextField);
-        stopListView = findViewById(R.id.stopList);
+        ListView stopListView = findViewById(R.id.stopList);
         findViewById(R.id.routeLoadingProgressBar).setVisibility(View.INVISIBLE);
 
 
