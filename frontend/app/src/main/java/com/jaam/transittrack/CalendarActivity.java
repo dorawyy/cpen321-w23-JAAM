@@ -82,11 +82,14 @@ public class CalendarActivity extends AppCompatActivity {
                     try {
                         getCalendarData();
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        e.printStackTrace();
+                        Toast.makeText(this, "Server error please try again later", Toast.LENGTH_SHORT).show();
                     } catch (JSONException e) {
-                        throw new RuntimeException(e);
+                        Toast.makeText(this, "Server error please try again later", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
                     } catch (TimeoutException e) {
                         Toast.makeText(this, "Server error please try again later", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
                     }
                 } else {
                     // The user denied the permission request. Handle this case appropriately.

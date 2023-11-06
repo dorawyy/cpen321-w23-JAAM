@@ -133,9 +133,11 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
 
                     }
                 } catch (JSONException e) {
-                    throw new RuntimeException(e);
+                    e.printStackTrace();
+                    Log.d(TAG, "Could not parse JSON");
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    e.printStackTrace();
+                    Log.d(TAG, "Could not getRoute lmao :`)");
                 } catch (TimeoutException e) {
                     Toast.makeText(RouteActivity.this, "No route found", Toast.LENGTH_SHORT).show();
                 }

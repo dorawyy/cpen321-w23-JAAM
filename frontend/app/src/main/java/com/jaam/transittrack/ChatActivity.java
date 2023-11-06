@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 
@@ -23,7 +22,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -89,9 +87,10 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
 
             // Clear the message edit text or perform any UI update after sending the message
         } catch (JSONException e) {
+            Log.d(TAG,"Cannot parse JSON.");
             e.printStackTrace();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
     //ChatGPT usage: No

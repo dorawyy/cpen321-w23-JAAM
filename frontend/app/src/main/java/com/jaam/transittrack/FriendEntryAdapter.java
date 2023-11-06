@@ -129,7 +129,8 @@ public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, Loca
                         try {
                             addressList = geocoder.getFromLocationName(addressSearch, 1);
                         } catch (IOException e) {
-                            throw new RuntimeException(e);
+                            e.printStackTrace();
+                            Log.d(TAG, "Could not get location");
                         }
                         Address address;
                         if (addressList.size() > 0) {
@@ -145,7 +146,8 @@ public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, Loca
                                 jsonObject.put("endLon", endLon);
                                 jsonObject.put("endTime", new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date(System.currentTimeMillis()+ 7200000)));
                             } catch (JSONException e) {
-                                throw new RuntimeException(e);
+                                e.printStackTrace();
+                                Log.d(TAG, "Could not parse JSON");
                             }
                             try {
                                 Intent routeIntent = new Intent(context, RouteActivity.class);
@@ -166,7 +168,8 @@ public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, Loca
                                 routeIntent.putExtra("routeString", routeString);
                                 context.startActivity(routeIntent);
                             } catch (IOException e) {
-                                throw new RuntimeException(e);
+                                e.printStackTrace();
+                                Log.d(TAG, "OkHTTPHelper failed");
                             } catch (TimeoutException | JSONException e){
                                 Toast.makeText(context, "No route found", Toast.LENGTH_SHORT).show();
                             }
