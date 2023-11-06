@@ -68,7 +68,7 @@ public class FriendListActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                //Intentionally left blank
             }
         });
         //ChatGPT usage: No

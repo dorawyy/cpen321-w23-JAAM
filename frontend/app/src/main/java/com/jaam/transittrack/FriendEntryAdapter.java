@@ -43,7 +43,7 @@ import java.util.concurrent.TimeoutException;
 public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, LocationListener {
     private static String TAG = "FriendEntryAdapter";
 
-    private ArrayList<String> list = new ArrayList<String>();
+    private ArrayList<String> list;
     private Context context;
 
     private Location currLocation;
@@ -179,7 +179,7 @@ public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, Loca
                 alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        dialog.dismiss();
                     }
                 });
                 alertDialog.show();

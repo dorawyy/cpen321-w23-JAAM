@@ -85,7 +85,7 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                //Intentionally left blank
             }
 
             @Override
@@ -103,7 +103,7 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                //Intentionally left blank
             }
         });
         //ChatGPT usage: No
