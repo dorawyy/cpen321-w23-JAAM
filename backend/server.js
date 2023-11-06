@@ -260,12 +260,12 @@ app.post(
     if (newHours < 0) {
       newHours += 24; // Handle wrapping to the previous day
     }
-    const startTime = `${newHours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;  
+    const startTimeFormatted = `${newHours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;  
     //const startTime = moment(providedTime, 'HH:mm:ss').subtract(2, 'hours').format('HH:mm:ss');
       //const timePart = providedTime.split('T')[1].split('-')[0];
       //const startTime = moment(timePart, 'HH:mm:ss').subtract(2, 'hours').format('HH:mm:ss');
       //const startTime = `${newHours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-      console.log(startTime)
+      console.log(startTimeFormatted)
 
       // Data to send in the request body
       const postData = JSON.stringify({
@@ -273,7 +273,7 @@ app.post(
         startLon: defaultLong,
         endLat: latitude,
         endLon: longitude,
-        startTime: startTime,
+        startTime: startTimeFormatted,
       });
 
       // Options for the POST request
