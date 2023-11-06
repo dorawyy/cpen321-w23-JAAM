@@ -9,8 +9,8 @@ const scan_range = 500;
 const lat_calc_constant = 360 / (4.0075 * 10^7);
 
 const stop_times_path = './engine/translink_data/stop_times.txt';
-const stops_path = './engine/translink_data/stops.json';
-const trips_path = './engine/translink_data/trips.json';
+const stops_path = './engine/translink_data/stops.txt';
+const trips_path = './engine/translink_data/trips.txt';
 
 const generated_stops_path = './engine/generated/stops.json';
 const generated_trips_path = './engine/generated/trips.json';
