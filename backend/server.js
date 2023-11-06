@@ -1,16 +1,13 @@
 const express = require("express");
 const https = require('https');
 const fs = require('fs');
-const axios = require('axios');
 const SocketServer = require('websocket').server;
 const http = require('http');
-const moment = require('moment-timezone');
 const mongoose = require('mongoose');
 const chatRoute = require('./routes/chatRoute');
 const chatController = require('./controllers/chat');
 const translinkRoute = require('./routes/translinkRoute');
 const admin = require('firebase-admin');
-const schedule = require('node-schedule');
 const routeEngine = require('./engine/routeEngine');
 
 const serviceAccount = require('./chatcomponent321-firebase-adminsdk-d4mco-7f2d456053.json');
@@ -27,8 +24,9 @@ mongoose.connect('mongodb://127.0.0.1:27017/chatDB', {
   useUnifiedTopology: true,
 })
 
-const apiKey = 'OBA0SkAnEMfAP64ZZVH5';
+//const apiKey = 'OBA0SkAnEMfAP64ZZVH5';
 
+let wsServer; 
 const server = http.createServer((req, res) => {});
 wsServer = new SocketServer({ httpServer: server });
 chatController.initWebSocket(wsServer);
@@ -50,42 +48,50 @@ app.get("/", (req, res) => {
 })
 
 //ChatGPT Usage: No
-app.post("/createUser", async (req, res) => {
-  try {
-    await client.connect()
-    const db = client.db("userDB")
-    const collection = db.collection("userInfo")
-
-    // Check if the user already exists based on a unique identifier, such as an email
-    const existingUser = await collection.findOne({ email: req.body.email });
-
-    if (existingUser) {
-      // If the user already exists, update their information
-      const updateResult = await collection.updateOne(
-        { email: req.body.email },
-        { $set: req.body }
-      );
-
-      if (updateResult.modifiedCount > 0) {
-        console.log("User data updated in the database: ", req.body);
-        res.status(200).send("User data updated in the database");
-      } else {
-        console.log("User data not updated. No changes were made.");
-        res.status(200).send("User data not updated. No changes were made.");
-      }
-    } else {
-      // If the user doesn't exist, insert a new user record
-      const result = await collection.insertOne(req.body);
-      console.log("New user data inserted into the database: ", result.insertedId);
-      res.status(200).send("New user data inserted into the database");
+app.post(
+  '/createUser',
+  [
+    body('email').isEmail().normalizeEmail(),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
     }
-  } catch (error) {
-    console.error("Error inserting/updating user data into the database: ", error);
-    res.status(500).send("Error inserting/updating user data into the database");
-  } finally {
-    await client.close();
+
+    try {
+      await client.connect();
+      const db = client.db('userDB');
+      const collection = db.collection('userInfo');
+
+      const existingUser = await collection.findOne({ email: req.body.email });
+
+      if (existingUser) {
+        const updateResult = await collection.updateOne(
+          { email: req.body.email },
+          { $set: req.body }
+        );
+
+        if (updateResult.modifiedCount > 0) {
+          console.log('User data updated in the database: ', req.body);
+          res.status(200).send('User data updated in the database');
+        } else {
+          console.log('User data not updated. No changes were made.');
+          res.status(200).send('User data not updated. No changes were made.');
+        }
+      } else {
+        const result = await collection.insertOne(req.body);
+        console.log('New user data inserted into the database: ', result.insertedId);
+        res.status(200).send('New user data inserted into the database');
+      }
+    } catch (error) {
+      console.error('Error inserting/updating user data into the database: ', error);
+      res.status(500).send('Error inserting/updating user data into the database');
+    } finally {
+      await client.close();
+    }
   }
-});
+);
 
 //ChatGPT Usage: Yes
 // Broadcast method for WebSocket connections
@@ -98,63 +104,74 @@ wsServer.broadcast = (data) => {
 };
 
 //ChatGPT Usage: No
-app.post("/addFriend", async (req, res) => {
-  try {
-    await client.connect();
-    const db = client.db("userDB");
-    const collection = db.collection("userInfo");
+app.post(
+  '/addFriend',
+  [
+    body('userEmail').isEmail().normalizeEmail(),
+    body('friendEmail').isEmail().normalizeEmail(),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
-    const userEmail = req.body.userEmail;
-    const friendEmail = req.body.friendEmail;
+    try {
+      await client.connect();
+      const db = client.db('userDB');
+      const collection = db.collection('userInfo');
 
-    const userExists = await collection.findOne({ email: userEmail });
+      const userEmail = req.body.userEmail;
+      const friendEmail = req.body.friendEmail;
 
-    if (userExists) {
-      const userFilter = { email: userEmail };
-      const userUpdate = {
-        $addToSet: { FriendsList: friendEmail },
-      };
+      const userExists = await collection.findOne({ email: userEmail });
 
-      const userResult = await collection.updateOne(userFilter, userUpdate);
-
-      if (userResult.modifiedCount === 1) {
-        console.log("Friend added to the user's FriendsList.");
-      } else {
-        console.log("Friend already added to the user's FriendsList.");
-      }
-
-      // Now add the user to the friend's FriendList
-      const friendExists = await collection.findOne({ email: friendEmail });
-
-      if (friendExists) {
-        const friendFilter = { email: friendEmail };
-        const friendUpdate = {
-          $addToSet: { FriendsList: userEmail },
+      if (userExists) {
+        const userFilter = { email: userEmail };
+        const userUpdate = {
+          $addToSet: { FriendsList: friendEmail },
         };
 
-        const friendResult = await collection.updateOne(friendFilter, friendUpdate);
+        const userResult = await collection.updateOne(userFilter, userUpdate);
 
-        if (friendResult.modifiedCount === 1) {
-          console.log("User added to the friend's FriendsList.");
+        if (userResult.modifiedCount === 1) {
+          console.log("Friend added to the user's FriendsList.");
         } else {
-          console.log("User already added to the friend's FriendsList.");
+          console.log("Friend already added to the user's FriendsList.");
         }
-      } else {
-        console.log("Friend not found in the database.");
-      }
 
-      res.status(200).send("Friend added to both FriendLists.");
-    } else {
-      console.log("User not found in the database.");
-      res.status(404).send("User not found in the database.");
+        const friendExists = await collection.findOne({ email: friendEmail });
+
+        if (friendExists) {
+          const friendFilter = { email: friendEmail };
+          const friendUpdate = {
+            $addToSet: { FriendsList: userEmail },
+          };
+
+          const friendResult = await collection.updateOne(friendFilter, friendUpdate);
+
+          if (friendResult.modifiedCount === 1) {
+            console.log("User added to the friend's FriendsList.");
+          } else {
+            console.log("User already added to the friend's FriendsList.");
+          }
+        } else {
+          console.log("Friend not found in the database.");
+        }
+
+        res.status(200).send("Friend added to both FriendLists.");
+      } else {
+        console.log("User not found in the database.");
+        res.status(404).send("User not found in the database.");
+      }
+    } catch (error) {
+      console.error("Error adding friend: ", error);
+      res.status(500).send("Error adding friend.");
+    } finally {
+      await client.close();
     }
-  } catch (error) {
-    console.error("Error adding friend: ", error);
-    res.status(500).send("Error adding friend.");
-  } finally {
-    await client.close();
   }
-});
+);
 
 //ChatGPT Usage: Partial
 function getFormattedSubtractedTime(dataItem, subtractMinutes) {
@@ -186,8 +203,31 @@ function getFormattedSubtractedTime(dataItem, subtractMinutes) {
   }
 }
 
+const isLatitude = (value) => {
+  const latitude = parseFloat(value);
+  return !isNaN(latitude) && latitude >= -90 && latitude <= 90;
+};
+
+const isLongitude = (value) => {
+  const longitude = parseFloat(value);
+  return !isNaN(longitude) && longitude >= -180 && longitude <= 180;
+};
+
 //ChatGPT Usage: Partial
-app.post('/getFormattedSubtractedTime', async (req, res) => {
+app.post(
+  '/getFormattedSubtractedTime',
+  [
+    body('email').isEmail().normalizeEmail(),
+    body('eventName').isString().notEmpty(),
+    body('location.latitude').custom(isLatitude),
+    body('location.longitude').custom(isLongitude),
+    body('events.*.time').isISO8601(),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
   const userEmail = req.body.email;
   const eventData = req.body.location;
   const latitude = eventData.latitude;
@@ -325,7 +365,17 @@ app.get('/getLastMessage', async (req, res) => {
 
 //ChatGPT Usage: No
 // route endpoint
-app.post('/getRoute', async (req, res) => {
+app.post('/getRoute', [
+  body('startLat').custom(isLatitude),
+  body('startLon').custom(isLongitude),
+  body('endLat').custom(isLatitude),
+  body('endLon').custom(isLongitude),
+  body('startTime').matches(/^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/),
+], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   try {
     console.log(req.body);
     const { startLat, startLon, endLat, endLon, startTime } = req.body;
@@ -342,7 +392,18 @@ app.post('/getRoute', async (req, res) => {
 });
 
 //ChatGPT Usage: No
-app.post('/getFriendRoute', async (req, res) => {
+app.post('/getFriendRoute', [
+  body('startLat').custom(isLatitude),
+  body('startLon').custom(isLongitude),
+  body('endLat').custom(isLatitude),
+  body('endLon').custom(isLongitude),
+  body('endTime').matches(/^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/),
+  body('friendEmail').isEmail().normalizeEmail(),
+  ], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
   try {
     await client.connect();
     console.log(req.body);
@@ -363,18 +424,17 @@ app.post('/getFriendRoute', async (req, res) => {
       const defaultLong = userExists.defaultLon;
 
       await routeEngine.init();
-      result = routeEngine.getPartnerRoute(startLat1, startLon1, defaultLat, defaultLong, endLat, endLon, endTime);
+      const result = routeEngine.getPartnerRoute(startLat1, startLon1, defaultLat, defaultLong, endLat, endLon, endTime);
       console.log(result);
 
       // Handle the response data as needed
      if (result) {
-        res.json({result});
+        res.json({result}); 
       } else {
         res.status(400).send('Invalid or missing data');
       }
     }
     else{
-      console.log(error);
       res.status(500).json({ error: 'User does not exist in the DB' });
     }
   } catch (error) {

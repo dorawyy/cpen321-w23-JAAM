@@ -106,7 +106,9 @@ exports.getChatHistory = async (req, res) => {
     console.log(receiverEmail)
 
     // Use senderEmail and receiverEmail to filter the chat history
-    const chatHistory = await Message.find({ senderEmail, receiverEmail }).sort({ timestamp: 1 });
+    const chatHistory = await Message.find({ senderEmail, receiverEmail }).sort({ timestamp: -1 }).limit(10);
+
+    chatHistory.reverse();
 
     res.status(200).json(chatHistory);
   } catch (error) {
