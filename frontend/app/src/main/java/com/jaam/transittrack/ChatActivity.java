@@ -102,12 +102,12 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+        //Intentionally left blank
     }
 
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+        //Intentionally left blank
     }
 
     //ChatGPT usage: No
