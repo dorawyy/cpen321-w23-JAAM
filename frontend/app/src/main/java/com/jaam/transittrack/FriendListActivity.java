@@ -51,7 +51,7 @@ public class FriendListActivity extends AppCompatActivity {
         friendEmailTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                //Intentionally left blank
             }
 
             @Override
