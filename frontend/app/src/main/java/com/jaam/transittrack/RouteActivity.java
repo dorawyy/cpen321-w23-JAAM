@@ -40,8 +40,7 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
 
 
     private Location currLocation;
-
-    private ListView stopListView;
+    
     private static ArrayList<String> stops = new ArrayList<String>();
 
     protected LocationManager locationManager;
@@ -70,7 +69,7 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
 
         Button searchButton = findViewById(R.id.searchButton);
         EditText searchTextView = findViewById(R.id.searchTextField);
-        stopListView = findViewById(R.id.stopList);
+        ListView stopListView = findViewById(R.id.stopList);
         findViewById(R.id.routeLoadingProgressBar).setVisibility(View.INVISIBLE);
 
 
@@ -84,8 +83,8 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
         searchTextView.addTextChangedListener(new TextWatcher() {
 
             @Override
+            //Intentionally left blank
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                //Intentionally left blank
             }
 
             @Override
@@ -102,8 +101,8 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
             }
 
             @Override
+            //Intentionally left blank
             public void afterTextChanged(Editable s) {
-                //Intentionally left blank
             }
         });
         //ChatGPT usage: No

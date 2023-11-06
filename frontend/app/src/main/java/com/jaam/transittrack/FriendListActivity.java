@@ -50,8 +50,8 @@ public class FriendListActivity extends AppCompatActivity {
         //ChatGPT usage: No
         friendEmailTextView.addTextChangedListener(new TextWatcher() {
             @Override
+            //Intentionally left blank
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -67,8 +67,8 @@ public class FriendListActivity extends AppCompatActivity {
             }
 
             @Override
+            //Intentionally left blank
             public void afterTextChanged(Editable s) {
-                //Intentionally left blank
             }
         });
         //ChatGPT usage: No
