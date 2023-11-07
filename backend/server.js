@@ -499,6 +499,7 @@ db.once('open', () => {
 
 //ChatGPT Usage: No
 async function run(){
+  console.log("Successful connection");
   try{
       await client.connect()
       console.log("Successfully connected to the database")
