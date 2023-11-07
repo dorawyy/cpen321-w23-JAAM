@@ -78,11 +78,11 @@ async function getUserDetails(userIdentifier) {
     const user = await collection.findOne({ email: userIdentifier });
 
     if (user) {
-      console.log("User is found");
-      return {
+      const obj = {
         email: user.email,
         fcmToken: user.deviceToken,
       };
+      return obj;
     } else {
       console.log("User not found")
       return null;
