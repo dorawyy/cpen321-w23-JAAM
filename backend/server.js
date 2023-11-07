@@ -448,7 +448,7 @@ app.post('/getFriendRoute', [
 
 //ChatGPT Usage: No
 app.get('/getFCM', async (req, res) => {
-  console.log("Function to send FCM notification")
+  console.log("Function to send FCM notification");
   try {
     await client.connect();
 

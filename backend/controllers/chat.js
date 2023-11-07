@@ -98,7 +98,7 @@ async function getUserDetails(userIdentifier) {
 //ChatGPT Usage: No
 // Get chat history
 exports.getChatHistory = async (req, res) => {
-  console.log("Function to get chat history")
+  console.log("Function to get chat history");
   try {
     const senderEmail = req.query.senderEmail;
     const receiverEmail = req.query.receiverEmail;
