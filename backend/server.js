@@ -336,6 +336,7 @@ app.post(
 
 //ChatGPT Usage: Partial
 app.get('/getLastMessage', async (req, res) => {
+  console.log("Function to get the last chat message");
   try {
     await client.connect();
 

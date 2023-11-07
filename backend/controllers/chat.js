@@ -1,9 +1,7 @@
 const Message = require('../models/message');
-//const express = require("express");
 const {MongoClient} = require("mongodb");
 var admin = require("firebase-admin");
 
-//const app = express();
 
 let wsServer; 
 
@@ -14,6 +12,7 @@ exports.initWebSocket = (webSocketServer) => {
 //ChatGPT Usage: Partial
 // Send a message
 exports.sendMessage = async (req, res) => {
+  console.log("Function to send a chat message");
   try {
     const { text, senderEmail, receiverEmail } = req.body;
 
@@ -79,6 +78,7 @@ async function getUserDetails(userIdentifier) {
     const user = await collection.findOne({ email: userIdentifier });
 
     if (user) {
+      console.log("User is found");
       return {
         email: user.email,
         fcmToken: user.deviceToken,
