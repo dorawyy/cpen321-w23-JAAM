@@ -487,9 +487,9 @@ app.post(
         const startTime = `${newHours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
         try {
-          //await routeEngine.init();
+          await routeEngine.init();
 
-          const result = await mockUserDB.getRoute(defaultLat, defaultLong, latitude, longitude, startTime);
+          const result = routeEngine.getRoute(defaultLat, defaultLong, latitude, longitude, startTime);
           
           const formattedSubtractedTimes = result.map((item) => {
             if (item.Start && item.Start.Time) {
