@@ -24,6 +24,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,6 +33,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -45,6 +48,11 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
 
     protected LocationManager locationManager;
     final static String TAG = "RouteActivity";
+
+    static private String[] cityCoverage = {"Vancouver", "West Vancouver", "North Vancouver",
+            "Lions Bay", "Bowen Island", "Burnaby", "New Westminister", "Richmond", "Surrey",
+            "Delta", "White Rock", "Langley", "Coquitlam", "Port Moody", "Port Coquitlam",
+            "Belcarra", "Anmore", "Pitt Meadows", "Maple Ridge"};
     //ChatGPT usage: No
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +75,7 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
-        Button searchButton = findViewById(R.id.searchButton);
+        FloatingActionButton searchButton = findViewById(R.id.searchButton);
         EditText searchTextView = findViewById(R.id.searchTextField);
         ListView stopListView = findViewById(R.id.stopList);
         findViewById(R.id.routeLoadingProgressBar).setVisibility(View.INVISIBLE);
@@ -120,13 +128,14 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
                     Log.d(TAG, "Solo route string: " + routeString);
                     if(routeString != null) {
                         try{
+                            Log.d(TAG, "displaying route");
+                            displayRoute(routeString, arrayAdapter);
+                        }catch (JSONException e){
                             String error = new JSONArray(routeString).getString(0);
                             if(error.equals("Could not find Route")){
                                 throw new TimeoutException();
                             }
                             Toast.makeText(RouteActivity.this, "Cannot find route, please try again later", Toast.LENGTH_LONG).show();
-                        }catch (JSONException e){
-                            displayRoute(routeString, arrayAdapter);
                         }
 
 
@@ -201,10 +210,18 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
         endPoints.put("startLon", currLocation.getLongitude());
         List<Address> addressList = geocoder.getFromLocationName(search, 1);
         Address address;
-        if (addressList.size() > 0) {
-            address = addressList.get(0);
-            endPoints.put("endLat", address.getLatitude());
-            endPoints.put("endLon", address.getLongitude());
+        if(addressList.size() > 0) {
+            if(addressList.get(0).getCountryName().equals("Canada") && Collections.singletonList(cityCoverage).contains(addressList.get(0).getLocality())) {
+                address = addressList.get(0);
+                endPoints.put("endLat", address.getLatitude());
+                endPoints.put("endLon", address.getLongitude());
+            }
+            else{
+                Toast.makeText(this, "Please enter an address covered by Translink", Toast.LENGTH_LONG).show();
+            }
+        }
+        else{
+            Toast.makeText(this, "Could not find address", Toast.LENGTH_LONG).show();
         }
         String arrivalTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date(System.currentTimeMillis()+ 7200000));
         endPoints.put("startTime", arrivalTime);
@@ -217,6 +234,7 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
         JSONArray route = new JSONArray(routeString);
         JSONObject start;
         JSONObject end;
+        Log.d(TAG, "route array: "+ route);
         for (int i = 0; i < route.length(); i++) {
             Log.d(TAG, "Adding route" + i);
             start = route.getJSONObject(i).getJSONObject("Start");

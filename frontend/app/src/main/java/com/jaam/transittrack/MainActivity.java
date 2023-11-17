@@ -15,6 +15,7 @@ import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -31,6 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,6 +43,10 @@ public class MainActivity extends AppCompatActivity {
 
     private double defaultLat;
     private double defaultLon;
+    static private String[] cityCoverage = {"Vancouver", "West Vancouver", "North Vancouver",
+            "Lions Bay", "Bowen Island", "Burnaby", "New Westminister", "Richmond", "Surrey",
+            "Delta", "White Rock", "Langley", "Coquitlam", "Port Moody", "Port Coquitlam",
+            "Belcarra", "Anmore", "Pitt Meadows", "Maple Ridge"};
 
     //ChatGPT usage: No
     @Override
@@ -56,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
         //work around for not running http requests off main thread. really don't want to deal with race conditions/synchronization
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+        ProgressBar loginProgressBar = findViewById(R.id.loginProgressBar);
+        loginProgressBar.setVisibility(View.INVISIBLE);
 
 
         // Configure sign-in to request the user's ID, email address, and basic
@@ -70,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                loginProgressBar.setVisibility(View.VISIBLE);
                 String addressText = String.valueOf(((EditText)findViewById(R.id.addressEditText)).getText());
                 if(addressText.length() > 0){
                     Geocoder geocoder = new Geocoder(MainActivity.this);
@@ -83,12 +92,23 @@ public class MainActivity extends AppCompatActivity {
                     }
                     Address address;
                     if(addressList.size() > 0) {
-                        address = addressList.get(0);
-                        defaultLat = address.getLatitude();
-                        defaultLon = address.getLongitude();
-                        Log.d(TAG, "launching sign in intent");
-                        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                        signInLauncher.launch(signInIntent);
+                        if(addressList.get(0).getCountryName().equals("Canada") && Collections.singletonList(cityCoverage).contains(addressList.get(0).getLocality())) {
+                            address = addressList.get(0);
+                            defaultLat = address.getLatitude();
+                            defaultLon = address.getLongitude();
+                            Log.d(TAG, "launching sign in intent");
+                            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                            signInLauncher.launch(signInIntent);
+                        }
+                        else{
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    //TODO make custom exception
+                                    Toast.makeText(MainActivity.this, "Please enter a location covered by Translink", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
                     }
                     else{
                         //consider alert dialog instead

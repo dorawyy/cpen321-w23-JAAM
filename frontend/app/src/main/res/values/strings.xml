@@ -10,4 +10,7 @@
     <string name="address_edit_text_hint">Please Enter a Default Address.</string>
     <string name="friend_direct_message_button_text">Chat</string>
     <string name="friend_route_button_text">Route</string>
+    <string name="title_directions">Directions</string>
+    <string name ="title_friends">Friends</string>
+    <string name="title_calendar">Calendar</string>
 </resources>

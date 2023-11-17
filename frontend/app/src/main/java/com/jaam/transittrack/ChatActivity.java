@@ -64,6 +64,8 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
         getIntent().removeExtra("receiverEmail");
         initiateSocketConnection();
         initializeView();
+        arrayAdapter.clear();
+        messagesArrayList.clear();
         makeGetRequestForChatHistory();
 
     }

@@ -23,4 +23,11 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         assertEquals("com.jaam.transittrack", appContext.getPackageName());
     }
+
+    @Test
+    public void testAutentication(){
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        String defaultAddress = "SFU";
+
+    }
 }
