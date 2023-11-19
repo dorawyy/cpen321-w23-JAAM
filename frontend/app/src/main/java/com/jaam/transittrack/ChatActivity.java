@@ -245,7 +245,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
     private void makeGetRequestForChatHistory() {
         //String url = "http://4.205.17.106:8081/api/chat/history";
 
-        HttpUrl url = HttpUrl.parse("https://4.205.17.106:8081/api/chat/history").newBuilder()
+        HttpUrl url = HttpUrl.parse("https://20.200.125.197:8081/api/chat/history").newBuilder()
                 .addQueryParameter("senderEmail", GoogleSignIn.getLastSignedInAccount(this).getEmail())
                 .addQueryParameter("receiverEmail", receiverEmail)
                 .build();
@@ -294,7 +294,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
 
 
     private void postMessageToServer(String message) {
-        String url = "https://4.205.17.106:8081/api/chat/send";
+        String url = "https://20.200.125.197:8081/api/chat/send";
 
 
         if (message != null && !message.isEmpty()) {

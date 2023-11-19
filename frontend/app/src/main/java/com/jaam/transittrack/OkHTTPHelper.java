@@ -16,7 +16,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class OkHTTPHelper {
-    static final private String BASE_URL = "https://4.205.17.106:8081";
+    static final private String BASE_URL = "https://20.200.125.197:8081";
     public static final MediaType JSON
             = MediaType.parse("application/json");
 

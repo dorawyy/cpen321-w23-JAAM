@@ -8,7 +8,7 @@
         </trust-anchors>
     </base-config>
     <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">4.205.17.106</domain>
+        <domain includeSubdomains="true">20.200.125.197</domain>
     </domain-config>
 </network-security-config>
 <!--<network-security-config>-->

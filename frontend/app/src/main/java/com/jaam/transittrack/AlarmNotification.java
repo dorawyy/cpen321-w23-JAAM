@@ -34,7 +34,7 @@ public class AlarmNotification extends BroadcastReceiver {
 
         Toast.makeText(context, "Time for your notification!", Toast.LENGTH_SHORT).show();
 
-        HttpUrl url = HttpUrl.parse("https://4.205.17.106:8081/getFCM").newBuilder()
+        HttpUrl url = HttpUrl.parse("https://20.200.125.197:8081/getFCM").newBuilder()
                 .addQueryParameter("senderEmail", GoogleSignIn.getLastSignedInAccount(context).getEmail())
                 .build();
         Request request = new Request.Builder()
