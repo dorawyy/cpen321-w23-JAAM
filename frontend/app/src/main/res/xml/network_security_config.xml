@@ -5,6 +5,7 @@
             <certificates src="@raw/serverincludesprivatekey"/>
             <certificates src="system"/>
             <certificates src="@raw/serverincludesprivatekey2"/>
+            <certificates src="@raw/android_backend_cert"/>
         </trust-anchors>
     </base-config>
     <domain-config cleartextTrafficPermitted="true">

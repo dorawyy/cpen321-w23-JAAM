@@ -38,7 +38,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
     private static final String TAG = "ChatActivity";
     private String name;
     private WebSocket webSocket;
-    private String SERVER_PATH = "ws://4.205.17.106:8081"; // WebSocket server path
+    private String SERVER_PATH = "ws://20.200.125.197:8081"; // WebSocket server path
 
     private EditText messageEdit;
     private View sendBtn;
@@ -243,7 +243,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
 
     //ChatGPT usage: No
     private void makeGetRequestForChatHistory() {
-        //String url = "http://4.205.17.106:8081/api/chat/history";
+        //String url = "http://20.200.125.197:8081/api/chat/history";
 
         HttpUrl url = HttpUrl.parse("https://20.200.125.197:8081/api/chat/history").newBuilder()
                 .addQueryParameter("senderEmail", GoogleSignIn.getLastSignedInAccount(this).getEmail())

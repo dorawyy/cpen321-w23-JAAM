@@ -38,12 +38,6 @@ public class AuthenticationTest {
     private static final String PACKAGE_NAME = "com.jaam.transittrack";
     private UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
     private int DEFAULT_TIMEOUT = 2000;
-    @Test
-    public void useAppContext() {
-        // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.jaam.transittrack", appContext.getPackageName());
-    }
 
     @Test
     public void testAutentication(){
