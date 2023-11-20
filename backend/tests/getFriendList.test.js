@@ -33,6 +33,10 @@ describe('GET /getFriendList', () => {
     jest.clearAllMocks();
   });
 
+  // Input: Existing user with friends (example - email: test@example.com)
+  // Expected status code: 200
+  // Expected behavior: Return the friend list for an existing user
+  // Expected output: A list with all the friends in the user's friend list {example - FriendsList: ['friend1@example.com', 'friend2@example.com'] }
   // Test case to check if the friend list is returned successfully
   test('should return the friend list for an existing user', async () => {
     // Mock database functions for an existing user
@@ -56,6 +60,10 @@ describe('GET /getFriendList', () => {
     expect(mockUserDB.closeDatabaseConnection).toHaveBeenCalled();
   });
 
+  // Input: Existing user with no friends
+  // Expected status code: 200
+  // Expected behavior: Return "No friends" for a user with no friends
+  // Expected output: 'No friends'
   // Test case to check if the response is correct when the user has no friends
   test('should return "No friends" for a user with no friends', async () => {
     // Mock database functions for an existing user with no friends
@@ -79,6 +87,10 @@ describe('GET /getFriendList', () => {
     expect(mockUserDB.closeDatabaseConnection).toHaveBeenCalled();
   });
 
+  // Input: Non-existent user
+  // Expected status code: 404
+  // Expected behavior: Return "User not found" message
+  // Expected output: 'User not found in the database.'
   // Test case to check the response when the user is not found
   test('should return 404 if the user is not found', async () => {
     // Mock database functions for a user not found
@@ -99,6 +111,10 @@ describe('GET /getFriendList', () => {
     expect(mockUserDB.closeDatabaseConnection).toHaveBeenCalled();
   });
 
+  // Input: Internal server error during database connection
+  // Expected status code: 500
+  // Expected behavior: Return "Error getting friend list" message
+  // Expected output: 'Error getting friend list.'
   // Test case to check the handling of server failure
   test('should handle server failure', async () => {
     // Mock database functions to simulate a server error

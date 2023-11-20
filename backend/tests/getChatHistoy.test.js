@@ -18,7 +18,10 @@ describe('GET /getChatHistory', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
-
+  
+  // Input: Valid sender and receiver email
+  // Expected status code: 200
+  // Expected behavior: Retrieve chat history successfully
   test('should retrieve chat history successfully', async () => {
     const senderEmail = 'j.biden@example.com';
     const receiverEmail = 'c.d@example.com';
@@ -76,6 +79,10 @@ describe('GET /getChatHistory', () => {
     expect(response.status).toBe(200);
   });
 
+  // Input: Valid sender and receiver email, but an error occurs during the operation
+  // Expected status code: 500
+  // Expected behavior: Error response for failed chat history retrieval from the database
+  // Expected output: { error: 'Chat history could not be retrieved' }
   test('should handle errors while retrieving chat history', async () => {
     const senderEmail = 'j.biden@example.com';
     const receiverEmail = 'c.d@example.com';

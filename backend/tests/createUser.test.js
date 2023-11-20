@@ -40,6 +40,11 @@ describe('POST /createUser', () => {
   });
 
   test('should create a new user', async () => {
+  // Input: New user data
+  // Expected status code: 200
+  // Expected behavior: New user data inserted into the database
+  // Expected output: 'New user data inserted into the database'
+
     // Mock database functions for a new user
     mockUserDB.getUserInfoByEmail.mockResolvedValue(null); // No existing user
     //mockUserDB.insertUser.mockResolvedValueOnce({ insertedId: '12345' });
@@ -74,6 +79,11 @@ describe('POST /createUser', () => {
   });
 
   test('should update an existing user', async () => {
+  // Input: Existing user data with changes (for example logging in from a different phone with a new device token)
+  // Expected status code: 200
+  // Expected behavior: User data updated in the database
+  // Expected output: 'User data updated in the database'
+
     // Mock database functions for an existing user
     mockUserDB.getUserInfoByEmail.mockResolvedValueOnce({ email: 'test@example.com' });
     mockUserDB.updateUserByEmail.mockResolvedValueOnce({ modifiedCount: 1 });
@@ -116,6 +126,11 @@ describe('POST /createUser', () => {
   });
 
   test('should handle invalid user object (400)', async () => {
+  // Input: Invalid user data
+  // Expected status code: 400
+  // Expected behavior: Invalid user object response
+  // Expected output: { errors: Array of error messages }
+
     const invalidUserData = {
       email: 'email.com', 
       deviceToken: 'klfhskdns26sdfsd545ssfd',
@@ -141,6 +156,11 @@ describe('POST /createUser', () => {
   });
 
   test('should handle server failure', async () => {
+  // Input: Server failure during database operation
+  // Expected status code: 500
+  // Expected behavior: Server failure response
+  // Expected output: 'Error inserting/updating user data into the database'
+
     // Mock database functions to simulate a server error
     mockUserDB.connectToDatabase.mockRejectedValueOnce(new Error('Connection error'));
 
@@ -167,6 +187,11 @@ describe('POST /createUser', () => {
   });
   
   test('should handle no changes in user update', async () => {
+  // Input: Existing user data with no changes
+  // Expected status code: 200
+  // Expected behavior: User data not updated because the user logged in with the same credentials as expected.
+  // Expected output: 'User data not updated. No changes were made.'
+
     // Mock database functions for an existing user
     mockUserDB.getUserInfoByEmail.mockResolvedValueOnce({ email: 'test@example.com' });
     mockUserDB.updateUserByEmail.mockResolvedValueOnce({ modifiedCount: 0 });

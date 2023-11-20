@@ -38,7 +38,11 @@ describe('GET /getFCM', () => {
     afterEach(() => {
       jest.clearAllMocks();
     });
-  
+    
+  // Input: Valid user email with existing device token
+  // Expected status code: 201
+  // Expected behavior: Send an alert successfully
+  // Expected output: { message: 'Alert sent successfully' }
     test('should send an alert successfully', async () => {
       // Mocking the necessary data and functions
       const userEmail = 'test@example.com';
@@ -59,7 +63,11 @@ describe('GET /getFCM', () => {
       expect(admin.messaging().sendToDevice).toHaveBeenCalledTimes(1);
       expect(mockUserDB.closeDatabaseConnection).toHaveBeenCalledTimes(1);
     });
-  
+    
+  // Input: User does not exist with the provided email
+  // Expected status code: 404
+  // Expected behavior: Could not send a journey alert successfully
+  // Expected output: { message: 'Could not send journey alert' }
     test('should handle case where user does not exist', async () => {
       // Mocking the necessary data and functions
       const userEmail = 'nonexistent@example.com';
@@ -76,7 +84,11 @@ describe('GET /getFCM', () => {
       expect(mockUserDB.getUserInfoByEmail).toHaveBeenCalledWith(userEmail);
       expect(mockUserDB.closeDatabaseConnection).toHaveBeenCalledTimes(1);
     });
-  
+    
+  // Input: Internal server error during database connection
+  // Expected status code: 500
+  // Expected behavior: Internal server error during calling the endpoint getFCM
+  // Expected output: { message: 'An error occurred while getFCM.' }
     test('should handle internal server error', async () => {
       // Mocking an error during database connection
       mockUserDB.connectToDatabase.mockRejectedValue(new Error('Database connection error'));

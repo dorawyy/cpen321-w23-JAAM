@@ -32,35 +32,17 @@ jest.mock('firebase-admin', () => {
   };
 });
 
-// jest.mock('./models/message.js', () => {
-//     const mockSave = jest.fn();
-//     class MockMessage {
-//       constructor({ text, senderEmail, receiverEmail, timestamp }) {
-//         this.text = text;
-//         this.senderEmail = senderEmail;
-//         this.receiverEmail = receiverEmail;
-//         this.timestamp = timestamp;
-//       }
-  
-//       save() {
-//         mockSave();
-//       }
-//     }
-  
-//     return MockMessage;
-//   });
-
-  jest.mock('../models/message.js', () => {
-    return jest.fn().mockImplementation(({ text, senderEmail, receiverEmail, timestamp }) => {
-      return {
-        text,
-        senderEmail,
-        receiverEmail,
-        timestamp,
-        save: jest.fn(),
-      };
-    });
+jest.mock('../models/message.js', () => {
+  return jest.fn().mockImplementation(({ text, senderEmail, receiverEmail, timestamp }) => {
+    return {
+      text,
+      senderEmail,
+      receiverEmail,
+      timestamp,
+      save: jest.fn(),
+    };
   });
+});
 
 const app = makeApp(mockUserDB);
 
@@ -79,6 +61,10 @@ describe('POST /sendMessage', () => {
   });
 
   test('should send a message successfully', async () => {
+    // Input: Valid message data with an existing receiver
+    // Expected status code: 201
+    // Expected behavior: Message sent successfully
+    // Expected output: { message: 'Message sent successfully' }
     const requestBody = {
       text: 'Hello!',
       senderEmail: 'sender@example.com',
@@ -97,11 +83,14 @@ describe('POST /sendMessage', () => {
       .post('/api/chat/send')
       .send(requestBody);
 
+    // Assertions
     expect(response.status).toBe(201);
     expect(response.body).toEqual({ message: 'Message sent successfully' });
 
+    // Verify that getUserDetails is called with the correct email
     expect(mockUserDB.getUserDetails).toHaveBeenCalledWith(requestBody.receiverEmail);
 
+    // Verify that sendToDevice is called with the correct arguments
     expect(admin.messaging().sendToDevice).toHaveBeenCalledWith(
       mockReceiverUser.fcmToken,
       expect.objectContaining({
@@ -114,14 +103,18 @@ describe('POST /sendMessage', () => {
 
     // Ensure that the Message class is used with the correct properties
     expect(Message).toHaveBeenCalledWith({
-        text: requestBody.text,
-        senderEmail: requestBody.senderEmail,
-        receiverEmail: requestBody.receiverEmail,
-        timestamp: expect.any(Date),
-      });
+      text: requestBody.text,
+      senderEmail: requestBody.senderEmail,
+      receiverEmail: requestBody.receiverEmail,
+      timestamp: expect.any(Date),
+    });
   });
 
   test('should handle the case when the receiver is not found', async () => {
+    // Input: Nonexistent receiver
+    // Expected status code: 400
+    // Expected behavior: Receiver not found
+    // Expected output: { error: 'Receiver not found' }
     const requestBody = {
       text: 'Hello!',
       senderEmail: 'sender@example.com',
@@ -134,18 +127,23 @@ describe('POST /sendMessage', () => {
       .post('/api/chat/send')
       .send(requestBody);
   
+    // Assertions
     expect(response.status).toBe(400);
     expect(response.body).toEqual({ error: 'Receiver not found' });
   
-    // Ensure that getUserDetails is called with the correct email
+    // Verify that getUserDetails is called with the correct email
     expect(mockUserDB.getUserDetails).toHaveBeenCalledWith(requestBody.receiverEmail);
   
-    // Ensure that other functions are not called in this case
+    // Verify that other functions are not called in this case
     expect(admin.messaging().sendToDevice).not.toHaveBeenCalled();
     expect(Message).not.toHaveBeenCalled();
   });
 
   test('should give FCM token empty', async () => {
+    // Input: Receiver with an empty FCM token
+    // Expected status code: 400
+    // Expected behavior: FCM token is empty
+    // Expected output: { error: 'FCM token is empty' }
     const requestBody = {
       text: 'Hello!',
       senderEmail: 'sender@example.com',
@@ -164,12 +162,19 @@ describe('POST /sendMessage', () => {
       .post('/api/chat/send')
       .send(requestBody);
 
+    // Assertions
     expect(response.status).toBe(400);
     expect(response.body).toEqual({ error: 'FCM token is empty' });
 
+    // Verify that getUserDetails is called with the correct email
     expect(mockUserDB.getUserDetails).toHaveBeenCalledWith(requestBody.receiverEmail);
   });
+
   test('should handle the case when the message cannot be sent', async () => {
+    // Input: Valid message data with an existing receiver, but message sending fails
+    // Expected status code: 500
+    // Expected behavior: Message could not be sent
+    // Expected output: { error: 'Message could not be sent' }
     const requestBody = {
       text: 'Hello!',
       senderEmail: 'sender@example.com',
@@ -191,13 +196,14 @@ describe('POST /sendMessage', () => {
       .post('/api/chat/send')
       .send(requestBody);
   
+    // Assertions
     expect(response.status).toBe(500);
     expect(response.body).toEqual({ error: 'Message could not be sent' });
   
-    // Ensure that getUserDetails is called with the correct email
+    // Verify that getUserDetails is called with the correct email
     expect(mockUserDB.getUserDetails).toHaveBeenCalledWith(requestBody.receiverEmail);
   
-    // Ensure that sendToDevice is called with the correct arguments
+    // Verify that sendToDevice is called with the correct arguments
     expect(admin.messaging().sendToDevice).toHaveBeenCalledWith(
       mockReceiverUser.fcmToken,
       expect.objectContaining({
@@ -208,12 +214,12 @@ describe('POST /sendMessage', () => {
       })
     );
   
-    // Ensure that Message is instantiated with the correct properties
+    // Verify that Message is instantiated with the correct properties
     expect(Message).toHaveBeenCalledWith({
       text: requestBody.text,
       senderEmail: requestBody.senderEmail,
       receiverEmail: requestBody.receiverEmail,
       timestamp: expect.any(Date),
     });
-  });  
+  });
 });

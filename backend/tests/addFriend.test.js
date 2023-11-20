@@ -30,7 +30,10 @@ describe('POST /addFriend', () => {
   });
 
   test('should add a friend to both FriendLists', async () => {
-    // Mock database functions for an existing user and friend
+    // Input: Existing user and existing friend
+    // Expected status code: 200
+    // Expected behavior: Friend added to both FriendLists
+    // Expected output: "Friend added to both FriendLists."
     mockUserDB.getUserInfoByEmail
       .mockResolvedValueOnce({ email: 'test@example.com' }) // Existing user
       .mockResolvedValueOnce({ email: 'friend@example.com' }); // Existing friend
@@ -38,7 +41,6 @@ describe('POST /addFriend', () => {
     mockUserDB.updateUserByEmail.mockResolvedValueOnce({ modifiedCount: 1 }); // User update
     mockUserDB.updateUserByEmail.mockResolvedValueOnce({ modifiedCount: 1 }); // Friend update
 
-    // Make the request to your endpoint
     const response = await request(app)
       .post('/addFriend')
       .send({
@@ -49,6 +51,42 @@ describe('POST /addFriend', () => {
     // Assertions
     expect(response.statusCode).toBe(200);
     expect(response.text).toBe("Friend added to both FriendLists.");
+    // Verify that database functions were called as expected
+    expect(mockUserDB.connectToDatabase).toHaveBeenCalled();
+    expect(mockUserDB.getUserInfoByEmail).toHaveBeenCalledWith('test@example.com');
+    expect(mockUserDB.getUserInfoByEmail).toHaveBeenCalledWith('friend@example.com');
+    expect(mockUserDB.updateUserByEmail).toHaveBeenCalledWith(
+      'test@example.com',
+      { FriendsList: 'friend@example.com' }
+    );
+    expect(mockUserDB.updateUserByEmail).toHaveBeenCalledWith(
+      'friend@example.com',
+      { FriendsList: 'test@example.com' }
+    );
+    expect(mockUserDB.closeDatabaseConnection).toHaveBeenCalled();
+  });
+
+  test('should handle friend already added', async () => {
+    // Input: Existing user and existing friend, friend already added
+    // Expected status code: 200
+    // Expected behavior: Friend already added, no changes
+    // Expected output: "Friend added to both FriendLists."
+    mockUserDB.getUserInfoByEmail
+      .mockResolvedValueOnce({ email: 'test@example.com' }) // Existing user
+      .mockResolvedValueOnce({ email: 'friend@example.com' }); // Existing friend
+
+    mockUserDB.updateUserByEmail.mockResolvedValueOnce({ modifiedCount: 0 }); // User update
+    mockUserDB.updateUserByEmail.mockResolvedValueOnce({ modifiedCount: 0 }); // Friend update
+
+    const response = await request(app)
+      .post('/addFriend')
+      .send({
+        userEmail: 'test@example.com',
+        friendEmail: 'friend@example.com',
+      });
+
+    // Assertions
+    expect(response.text).toBe("Friend added to both FriendLists.");
 
     // Verify that database functions were called as expected
     expect(mockUserDB.connectToDatabase).toHaveBeenCalled();
@@ -65,70 +103,28 @@ describe('POST /addFriend', () => {
     expect(mockUserDB.closeDatabaseConnection).toHaveBeenCalled();
   });
 
-
-test('should handle friend already added', async () => {
-    // Mock database functions for an existing user and friend
-    mockUserDB.getUserInfoByEmail
-      .mockResolvedValueOnce({ email: 'test@example.com' }) // Existing user
-      .mockResolvedValueOnce({ email: 'friend@example.com' }); // Existing friend
-  
-    // Simulate that the friend has already been added
-    //mockUserDB.updateUserByEmail.mockResolvedValueOnce({ modifiedCount: 0 });
-    mockUserDB.updateUserByEmail.mockResolvedValueOnce({ modifiedCount: 0 });
-    mockUserDB.updateUserByEmail.mockResolvedValueOnce({ modifiedCount: 0 });
-  
-    // Make the request to your endpoint
-    const response = await request(app)
-      .post('/addFriend')
-      .send({
-        userEmail: 'test@example.com',
-        friendEmail: 'friend@example.com',
-      });
-  
-    // Assertions
-    expect(response.text).toBe("Friend added to both FriendLists.");
-  
-    // Verify that database functions were called as expected
-    expect(mockUserDB.connectToDatabase).toHaveBeenCalled();
-    expect(mockUserDB.getUserInfoByEmail).toHaveBeenCalledWith('test@example.com');
-    expect(mockUserDB.getUserInfoByEmail).toHaveBeenCalledWith('friend@example.com');
-    expect(mockUserDB.updateUserByEmail).toHaveBeenCalledWith(
-      'test@example.com',
-      { FriendsList: 'friend@example.com' }
-    );
-    expect(mockUserDB.updateUserByEmail).toHaveBeenCalledWith(
-      'friend@example.com',
-      { FriendsList: 'test@example.com' }
-    );
-    expect(mockUserDB.closeDatabaseConnection).toHaveBeenCalled();
-  
-    // // Verify log message for the user
-    // expect(app.userLogMessage).toBe("Friend already added to the user's FriendsList.");
-  
-    // // Verify log message for the friend
-    // expect(app.friendLogMessage).toBe("User added to the friend's FriendsList.");
-  });  
-
   test('should handle friend not found', async () => {
-    // Mock database functions for an existing user but friend not found
+    // Input: Existing user but friend not found
+    // Expected status code: 404
+    // Expected behavior: Friend not found, no changes
+    // Expected output: "Friend not found in the database."
     mockUserDB.getUserInfoByEmail
       .mockResolvedValueOnce({ email: 'test@example.com' }) // Existing user
       .mockResolvedValueOnce(null); // Friend not found
 
-      mockUserDB.updateUserByEmail.mockResolvedValueOnce({ modifiedCount: 1 });
-  
-    // Make the request to your endpoint
+    mockUserDB.updateUserByEmail.mockResolvedValueOnce({ modifiedCount: 1 });
+
     const response = await request(app)
       .post('/addFriend')
       .send({
         userEmail: 'test@example.com',
         friendEmail: 'nonexistent@example.com', // Friend not found in the database
       });
-  
+
     // Assertions
     expect(response.statusCode).toBe(404);
     expect(response.text).toBe("Friend not found in the database.");
-  
+
     // Verify that database functions were called as expected
     expect(mockUserDB.connectToDatabase).toHaveBeenCalled();
     expect(mockUserDB.getUserInfoByEmail).toHaveBeenCalledWith('test@example.com');
@@ -137,10 +133,12 @@ test('should handle friend already added', async () => {
   });
 
   test('should handle user not found', async () => {
-    // Mock database function for a user not found
+    // Input: User not found
+    // Expected status code: 404
+    // Expected behavior: User not found, no changes
+    // Expected output: "User not found in the database."
     mockUserDB.getUserInfoByEmail.mockResolvedValueOnce(null);
 
-    // Make the request to your endpoint
     const response = await request(app)
       .post('/addFriend')
       .send({
@@ -159,10 +157,12 @@ test('should handle friend already added', async () => {
   });
 
   test('should handle server failure', async () => {
-    // Mock database function to simulate a server error
+    // Input: Simulate a server error
+    // Expected status code: 500
+    // Expected behavior: Error adding friend
+    // Expected output: "Error adding friend."
     mockUserDB.connectToDatabase.mockRejectedValueOnce(new Error('Connection error'));
 
-    // Make the request to your endpoint
     const response = await request(app)
       .post('/addFriend')
       .send({
@@ -178,13 +178,15 @@ test('should handle friend already added', async () => {
     expect(mockUserDB.connectToDatabase).toHaveBeenCalled();
     expect(mockUserDB.closeDatabaseConnection).toHaveBeenCalled();
   });
-  
+
   test('should handle validation error', async () => {
-    // Make the request with invalid data
+    // Input: Invalid data
+    // Expected status code: 400
+    // Expected behavior: Validation error, no changes to the database
+    // Expected output: Array of validation errors
     const response = await request(app)
       .post('/addFriend')
       .send({
-        // Invalid data, missing required fields or incorrect format
         userEmail: 'invalid_email',
         friendEmail: 'friend@example.com',
       });
@@ -200,6 +202,4 @@ test('should handle friend already added', async () => {
     expect(mockUserDB.updateUserByEmail).not.toHaveBeenCalled();
     expect(mockUserDB.closeDatabaseConnection).not.toHaveBeenCalled();
   });
-
-
 });

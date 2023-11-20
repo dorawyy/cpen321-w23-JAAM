@@ -22,6 +22,10 @@ jest.mock('../mockUserDB', () => {
   const app = makeApp(mockUserDB);
 
   describe('GET /', () => {
+  // Input: Request to the root endpoint
+  // Expected status code: 200
+  // Expected behavior: Respond with "Hello World!"
+  // Expected output: 'Hello World!'
     test('responds with "Hello World!"', async () => {
       const response = await request(app).get('/');
       expect(response.status).toBe(200);
