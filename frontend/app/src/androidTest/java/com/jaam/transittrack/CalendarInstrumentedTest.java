@@ -3,6 +3,9 @@ package com.jaam.transittrack;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
+
+import static java.lang.Thread.sleep;
 
 import android.content.Context;
 import android.content.Intent;
@@ -31,12 +34,27 @@ public class CalendarInstrumentedTest {
     private int DEFAULT_TIMEOUT = 2000;
 
     @Test
-    public void testCalendarUpload(){
+    public void testCalendarUpload() throws InterruptedException {
+
+        UiObject2 calendarButton = device.findObject(By.text("Get Google Calendar"));
+        if(calendarButton != null){
+            calendarButton.click();
+        }
+        //wait 10 seconds for calendar to sync
+        sleep(10000);
+        //checks for alert dialog
+        UiObject2 positiveDialogButton = device.findObject(By.text("OK"));
+        if(positiveDialogButton != null){
+            positiveDialogButton.click();
+        }
+        else{
+            fail("Dialog not found");
+        }
 
     }
 
     @Before
-    public void startMainActivityFromHomeScreen() {
+    public void startMainActivityFromHomeScreen() throws InterruptedException {
         // Initialize UiDevice instance
         device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
 
@@ -64,12 +82,12 @@ public class CalendarInstrumentedTest {
         navigateToCalendar();
     }
 
-    private void navigateToCalendar(){
+    private void navigateToCalendar() throws InterruptedException {
         UiObject2 allowLocationPermsButton = device.findObject(By.text("Allow only while using the app"));
         if(allowLocationPermsButton != null){
             allowLocationPermsButton.click();
         }
-        String defaultAddress = "SFU";
+        String defaultAddress = "2142 E 53rd Ave, Vancouver BC";
         Espresso.onView(ViewMatchers.withId(R.id.addressEditText)).perform(typeText(defaultAddress));
         UiObject2 signInButton = device.findObject(By.text("Sign in"));
         if(signInButton != null){
@@ -83,5 +101,6 @@ public class CalendarInstrumentedTest {
         if(calendarActivityButton != null){
             calendarActivityButton.click();
         }
+        sleep(1000);
     }
 }

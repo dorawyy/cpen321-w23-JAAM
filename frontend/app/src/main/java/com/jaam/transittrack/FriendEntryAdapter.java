@@ -58,6 +58,7 @@ public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, Loca
     public FriendEntryAdapter(ArrayList<String> list, Context context) {
         //TODO avoid repeating again
         locationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
+        final boolean gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -110,6 +111,7 @@ public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, Loca
             public void onClick(View v) {
                 Intent chatIntent = new Intent(context, ChatActivity.class);
                 chatIntent.putExtra("receiverEmail", tvContact.getText());
+                Log.d(TAG, (String) tvContact.getText());
                 context.startActivity(chatIntent);
             }
         });

@@ -3,6 +3,7 @@ package com.jaam.transittrack;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -14,6 +15,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -170,7 +172,7 @@ public class CalendarActivity extends AppCompatActivity {
         Events events = null;
         try {
             events = mService.events().list("primary")
-                    .setTimeMin(now)
+                    .setTimeMin(now).setMaxResults(100)
                     .execute();
         } catch (UserRecoverableAuthIOException e) {
 
@@ -187,6 +189,15 @@ public class CalendarActivity extends AppCompatActivity {
         if (items.isEmpty()) {
 //            Toast.makeText(CalendarActivity.this, "No upcoming events found!", Toast.LENGTH_LONG).show();
             Log.d(TAG, "No upcoming events");
+            new AlertDialog.Builder(this)
+                    .setTitle("Google Calendar")
+                    .setMessage("No upcoming events, try adding events to google calendar with locations")
+                    .setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
             //System.out.println("No upcoming events found.");
         } else {
             //ChatGPT usage: Partial
@@ -209,6 +220,7 @@ public class CalendarActivity extends AppCompatActivity {
                     calendarJSON.put("time", start);
                     String time = OkHTTPHelper.sendCalendar(calendarJSON);
                     parseTimeJSON(time);
+                    if(alarmHours.size() > 0 && alarmMinutes.size()>0)
                     alertTransitNotification(alarmHours.get(0), alarmMinutes.get(0));
                 }
                 if (start == null) {
@@ -217,6 +229,21 @@ public class CalendarActivity extends AppCompatActivity {
                 Log.d(TAG, event.getSummary() + " (" + start + ") @ " + loc);
                 
             }
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    new AlertDialog.Builder(CalendarActivity.this)
+                            .setTitle("Google Calendar")
+                            .setMessage("Successfully synced calendar! \n Got the first 100 events.")
+                            .setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .create().show();
+                }
+            });
             //Toast.makeText(this, "Successfully synced calendar with server!", Toast.LENGTH_SHORT);
 
         }
@@ -292,7 +319,6 @@ public class CalendarActivity extends AppCompatActivity {
                 Log.d(TAG, "Alarm Hours: " + alarmHours.get(i));
                 Log.d(TAG, "Alarm Minutes: " + alarmMinutes.get(i));
             }
-
 
             // Use 'alarmHours' and 'alarmMinutes' ArrayLists as needed
         } catch (JSONException e) {

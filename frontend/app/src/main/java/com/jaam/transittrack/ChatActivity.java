@@ -15,6 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.firebase.Firebase;
+import com.google.firebase.messaging.FirebaseMessagingService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,6 +24,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -46,6 +50,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
     private static ArrayList<Message> messagesArrayList = new ArrayList<>();
     private static ArrayList<String> messageHistory = new ArrayList<>();
     private ArrayAdapter<String> arrayAdapter;
+    private Timer chatHistoryTimer;
 
 
     private String receiverEmail = "d.trump@example.com";
@@ -54,7 +59,13 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_chat);
-
+            chatHistoryTimer = new Timer();
+            chatHistoryTimer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    makeGetRequestForChatHistory();
+                }
+            }, 100, 5000);
             arrayAdapter = new ArrayAdapter<>(this, R.layout.layout_message, R.id.messageTextView, messageHistory);
             ListView chatHistory = findViewById(R.id.messageListView);
             chatHistory.setAdapter(arrayAdapter);
@@ -68,6 +79,12 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
         messagesArrayList.clear();
         makeGetRequestForChatHistory();
 
+    }
+
+    @Override
+    protected void onPause(){
+            super.onPause();
+            chatHistoryTimer.purge();
     }
     //ChatGPT usage: Partial
     private void sendHttpMessage(String message) {
@@ -245,6 +262,8 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
     private void makeGetRequestForChatHistory() {
         //String url = "http://20.200.125.197:8081/api/chat/history";
 
+        Log.d(TAG, receiverEmail);
+
         HttpUrl url = HttpUrl.parse("https://20.200.125.197:8081/api/chat/history").newBuilder()
                 .addQueryParameter("senderEmail", GoogleSignIn.getLastSignedInAccount(this).getEmail())
                 .addQueryParameter("receiverEmail", receiverEmail)
@@ -351,6 +370,8 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
                     } else {
                         // Handle the unsuccessful response here
                         Log.e(TAG, "Failed to send message. Server returned non-successful response: " + response.code());
+                        Log.e(TAG, response.message());
+
                     }
                 }
             });
