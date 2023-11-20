@@ -20,6 +20,8 @@ jobs:
 
     - name: Install dependencies
       run: npm install
+      working-directory: JAAM-project/backend
 
     - name: Run tests
       run: npm test
+      working-directory: JAAM-project/backend
