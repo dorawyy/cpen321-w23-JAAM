@@ -1,22 +1,21 @@
 const Message = require('../models/message');
+const express = require("express");
 const {MongoClient} = require("mongodb");
 var admin = require("firebase-admin");
+const { getUserDetails } = require('../mockUserDB');
+const mockUserDB = require('../mockUserDB');
 
+const app = express();
 
-let wsServer; 
-
-exports.initWebSocket = (webSocketServer) => {
-  wsServer = webSocketServer;
-};
-
-//ChatGPT Usage: Partial
 // Send a message
 exports.sendMessage = async (req, res) => {
-  console.log("Function to send a chat message");
   try {
     const { text, senderEmail, receiverEmail } = req.body;
 
     console.log("receiverEmail " + receiverEmail)
+
+    // Hardcoded receiver email address
+    //const receiverEmail = 'r@example.com';
 
     const receiverDetails = await getUserDetails(receiverEmail);
 
@@ -33,16 +32,9 @@ exports.sendMessage = async (req, res) => {
 
     await newMessage.save();
 
-    if (wsServer) {
-      const messageToSend = {
-        type: 'message',
-        text,
-        senderEmail,
-        receiverEmail,
-        timestamp: newMessage.timestamp,
-      };
-
-      wsServer.broadcast(JSON.stringify(messageToSend));
+    // You can handle FCM tokens here based on senderEmail and receiverDetails.fcmToken
+    if (!receiverDetails.fcmToken) {
+      return res.status(400).json({ error: 'FCM token is empty' });
     }
 
     // Send a push notification to the receiver
@@ -63,42 +55,40 @@ exports.sendMessage = async (req, res) => {
   }
 };
 
-//ChatGPT Usage: No
-async function getUserDetails(userIdentifier) {
-  const uri = 'mongodb://127.0.0.1:27017';
-  const client = new MongoClient(uri);
+// async function getUserDetails(userIdentifier) {
+//   const uri = 'mongodb://127.0.0.1:27017'; // MongoDB connection URI
+//   const client = new MongoClient(uri);
 
-  try {
-    await client.connect();
+//   try {
+//     await client.connect();
 
-    const db = client.db('userDB'); 
-    const collection = db.collection('userInfo');
+//     const db = client.db('userDB'); // Replace with your database name
+//     const collection = db.collection('userInfo'); // Replace with your collection name
 
-    // Query the database to find user details based on userIdentifier
-    const user = await collection.findOne({ email: userIdentifier });
+//     // Query the database to find user details based on userIdentifier
+//     const user = await collection.findOne({ email: userIdentifier });
 
-    if (user) {
-      const obj = {
-        email: user.email,
-        fcmToken: user.deviceToken,
-      };
-      return obj;
-    } else {
-      console.log("User not found")
-      return null;
-    }
-  } catch (error) {
-    console.error('Error retrieving user details:', error);
-    return null;
-  } finally {
-    await client.close();
-  }
-}  
+//     if (user) {
+//       return {
+//         email: user.email,
+//         fcmToken: user.deviceToken,
+//       };
+//     } else {
+//       console.log("User not found")
+//       return null; // User not found
+//     }
+//   } catch (error) {
+//     console.error('Error retrieving user details:', error);
+//     return null; // Handle the error appropriately in your application
+//   } finally {
+//     await client.close();
+//   }
+// }
+  
 
-//ChatGPT Usage: No
 // Get chat history
+// Get chat history for all entries in the database
 exports.getChatHistory = async (req, res) => {
-  console.log("Function to get chat history");
   try {
     const senderEmail = req.query.senderEmail;
     const receiverEmail = req.query.receiverEmail;
@@ -107,9 +97,10 @@ exports.getChatHistory = async (req, res) => {
     console.log(receiverEmail)
 
     // Use senderEmail and receiverEmail to filter the chat history
-    const chatHistory = await Message.find({ senderEmail, receiverEmail }).sort({ timestamp: -1 }).limit(10);
+    //const chatHistory = await Message.find({ senderEmail, receiverEmail }).sort({ timestamp: -1 }).limit(10);
+    const chatHistory = await mockUserDB.getChatHistory({ senderEmail, receiverEmail });
 
-    chatHistory.reverse();
+    //chatHistory.reverse();
 
     res.status(200).json(chatHistory);
   } catch (error) {
@@ -117,5 +108,3 @@ exports.getChatHistory = async (req, res) => {
     res.status(500).json({ error: 'Chat history could not be retrieved' });
   }
 };
-
-  

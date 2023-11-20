@@ -14,9 +14,20 @@
     "websocket": "^1.0.34"
   },
   "devDependencies": {
-    "jest": "^29.7.0"
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3"
   },
   "scripts": {
     "test": "jest"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "app.js",
+      "**/*.js",
+      "!node_modules/**",
+      "!tests/**",
+      "!**/*.test.js"
+    ]
   }
 }
