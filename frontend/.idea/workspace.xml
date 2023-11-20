@@ -2,9 +2,7 @@
 <project version="4">
   <component name="AndroidLayouts">
     <shared>
-      <config>
-        <device id="_android_virtual_device_id_Pixel_6_API_29" />
-      </config>
+      <config />
     </shared>
   </component>
   <component name="AutoImportSettings">
@@ -12,24 +10,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5243575c-4ed2-4c47-856c-11776a0223f1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/raw/serverincludesprivatekey2.pem" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/CalendarActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/CalendarActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/FriendEntryAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/FriendEntryAdapter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/FriendListActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/FriendListActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/OkHTTPHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/OkHTTPHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/RouteActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/RouteActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/xml/network_security_config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/xml/network_security_config.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_friend_list.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_friend_list.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\Work\.android\avd\Pixel_6_API_29.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\Aditya\.android\avd\CPEN321_Tutorial.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -114,7 +105,7 @@
         <entry key="$PROJECT_DIR$" value="feature/no-ref/authentication" />
       </map>
     </option>
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/app/src/main/res/xml/network_security_config.xml" root0="FORCE_HIGHLIGHTING" />
@@ -319,6 +310,12 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Android App.app" />
+      <item itemvalue="Gradle.JAAM-project [signingReport]" />
+      <item itemvalue="Gradle.JAAM-project:app [build]" />
+      <item itemvalue="Gradle.JAAM-project:app [signingReport]" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.JAAM-project [signingReport]" />
@@ -337,37 +334,5 @@
       <updated>1698129849081</updated>
     </task>
     <servers />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/ChatActivity.java</url>
-          <line>84</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/ChatActivity.java</url>
-          <line>328</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/ChatActivity.java</url>
-          <line>367</line>
-          <properties method="onResponse">
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/jaam/transittrack/ChatActivity.java</url>
-          <line>360</line>
-          <properties method="onFailure">
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
