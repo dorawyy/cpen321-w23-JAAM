@@ -5,22 +5,32 @@ on:
     branches:
       - main
       - test/backend
-
+      
 jobs:
-  test:
+  Jest:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - name: Run Tests
+        run: |
+          npm install 
+          npm test
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '14'
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
 
-    - name: Install dependencies
-      run: npm install
+#     steps:
+#     - name: Checkout code
+#       uses: actions/checkout@v4
 
-    - name: Run tests
-      run: npx jest
+#     - name: Set up Node.js
+#       uses: actions/setup-node@v3
+#       with:
+#         node-version: '14'
+
+#     - name: Install dependencies
+#       run: npm install
+
+#     - name: Run tests
+#       run: npx jest
