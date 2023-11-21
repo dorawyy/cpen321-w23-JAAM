@@ -1,26 +1,49 @@
 package com.jaam.transittrack;
 
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withParent;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.Before;
+
+import androidx.test.rule.GrantPermissionRule;
 import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.By;
 import androidx.test.uiautomator.UiObject2;
 import androidx.test.uiautomator.Until;
 import androidx.test.espresso.Espresso;
 
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.*;
 
@@ -38,6 +61,15 @@ public class AuthenticationTest {
     private static final String PACKAGE_NAME = "com.jaam.transittrack";
     private UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
     private int DEFAULT_TIMEOUT = 2000;
+    @Rule
+    public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
+            new ActivityScenarioRule<>(MainActivity.class);
+
+    @Rule
+    public GrantPermissionRule mGrantPermissionRule =
+            GrantPermissionRule.grant(
+                    "android.permission.ACCESS_FINE_LOCATION",
+                    "android.permission.ACCESS_COARSE_LOCATION");
 
     @Test
     public void testAutentication(){
@@ -74,7 +106,23 @@ public class AuthenticationTest {
     }
 
     @Test
-    public void testNoLocationPerms(){
+    public void testNoAddress(){
+        UiObject2 signInButton = device.findObject(By.text("Sign in"));
+        if(signInButton != null){
+            signInButton.click();
+        }
+        else{
+            Log.d("AUTHENTICATION TESTING", "Google Sign in Button Not Found");
+        }
+        UiObject2 dialogText = device.findObject(By.text("Please enter a default address from where you'd like to start your journeys!"));
+        if(dialogText == null){
+            fail("Dialog not found");
+        }
+        UiObject2 positiveDialogButton = device.findObject(By.text("OK"));
+        if(positiveDialogButton != null){
+            positiveDialogButton.click();
+        }
+
 
     }
 
@@ -98,32 +146,80 @@ public class AuthenticationTest {
         }
     }
 
-    @Before
-    public void startMainActivityFromHomeScreen() {
-        // Initialize UiDevice instance
-        device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+//    @Test
+//    public void testBadLocation() {
+//        ViewInteraction appCompatEditText = onView(
+//                allOf(withId(R.id.addressEditText),
+//                        childAtPosition(
+//                                childAtPosition(
+//                                        withId(android.R.id.content),
+//                                        0),
+//                                3),
+//                        isDisplayed()));
+//        appCompatEditText.perform(replaceText("Calgary Tower"), closeSoftKeyboard());
+//
+//        ViewInteraction fx = onView(
+//                allOf(withText("Sign in"),
+//                        childAtPosition(
+//                                allOf(withId(R.id.sign_in_button),
+//                                        childAtPosition(
+//                                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+//                                                1)),
+//                                0),
+//                        isDisplayed()));
+//        fx.perform(click());
+//
+//        ViewInteraction textView = onView(
+//                allOf(withId(android.R.id.message), withText("Please enter an address covered by Translink."),
+//                        withParent(withParent(withId(com.google.android.material.R.id.scrollView))),
+//                        isDisplayed()));
+//        textView.check(matches(withText("Please enter an address covered by Translink.")));
+//    }
+//
+//    private static Matcher<View> childAtPosition(
+//            final Matcher<View> parentMatcher, final int position) {
+//
+//        return new TypeSafeMatcher<View>() {
+//            @Override
+//            public void describeTo(Description description) {
+//                description.appendText("Child at position " + position + " in parent ");
+//                parentMatcher.describeTo(description);
+//            }
+//
+//            @Override
+//            public boolean matchesSafely(View view) {
+//                ViewParent parent = view.getParent();
+//                return parent instanceof ViewGroup && parentMatcher.matches(parent)
+//                        && view.equals(((ViewGroup) parent).getChildAt(position));
+//            }
+//        };
+//    }
 
-        // Start from the home screen
-        device.pressHome();
-
-        // Wait for launcher
-        final String launcherPackage = device.getLauncherPackageName();
-        assertThat(launcherPackage, notNullValue());
-        device.wait(Until.hasObject(By.pkg(launcherPackage).depth(0)),
-                LAUNCH_TIMEOUT);
-
-        // Launch the app
-        Context context = ApplicationProvider.getApplicationContext();
-        final Intent intent = context.getPackageManager()
-                .getLaunchIntentForPackage(PACKAGE_NAME);
-        // Clear out any previous instances
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        context.startActivity(intent);
-
-        // Wait for the app to appear
-        device.wait(Until.hasObject(By.pkg(PACKAGE_NAME).depth(0)),
-                LAUNCH_TIMEOUT);
-    }
-
+//    @Before
+//    public void startMainActivityFromHomeScreen() {
+//        // Initialize UiDevice instance
+//        device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+//
+//        // Start from the home screen
+//        device.pressHome();
+//
+//        // Wait for launcher
+//        final String launcherPackage = device.getLauncherPackageName();
+//        assertThat(launcherPackage, notNullValue());
+//        device.wait(Until.hasObject(By.pkg(launcherPackage).depth(0)),
+//                LAUNCH_TIMEOUT);
+//
+//        // Launch the app
+//        Context context = ApplicationProvider.getApplicationContext();
+//        final Intent intent = context.getPackageManager()
+//                .getLaunchIntentForPackage(PACKAGE_NAME);
+//        // Clear out any previous instances
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        context.startActivity(intent);
+//
+//        // Wait for the app to appear
+//        device.wait(Until.hasObject(By.pkg(PACKAGE_NAME).depth(0)),
+//                LAUNCH_TIMEOUT);
+//    }
 
 }
