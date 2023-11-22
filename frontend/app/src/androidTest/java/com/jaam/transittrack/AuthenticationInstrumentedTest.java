@@ -1,51 +1,27 @@
 package com.jaam.transittrack;
 
 
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.typeText;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withParent;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.junit.Assert.fail;
 
-import android.content.Context;
-import android.content.Intent;
+import static java.lang.Thread.sleep;
+
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
 
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.Espresso;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.rule.GrantPermissionRule;
+import androidx.test.uiautomator.By;
+import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiObject2;
+import androidx.test.uiautomator.Until;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.Before;
-
-import androidx.test.rule.GrantPermissionRule;
-import androidx.test.uiautomator.UiDevice;
-import androidx.test.uiautomator.By;
-import androidx.test.uiautomator.UiObject2;
-import androidx.test.uiautomator.Until;
-import androidx.test.espresso.Espresso;
-
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.core.IsNull.notNullValue;
-import static org.junit.Assert.*;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -55,7 +31,7 @@ import java.lang.reflect.InvocationTargetException;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
-public class AuthenticationTest {
+public class AuthenticationInstrumentedTest {
 
     private static final int LAUNCH_TIMEOUT = 5000;
     private static final String PACKAGE_NAME = "com.jaam.transittrack";
@@ -106,7 +82,7 @@ public class AuthenticationTest {
     }
 
     @Test
-    public void testNoAddress(){
+    public void testNoAddress() throws InterruptedException {
         UiObject2 signInButton = device.findObject(By.text("Sign in"));
         if(signInButton != null){
             signInButton.click();
@@ -114,6 +90,7 @@ public class AuthenticationTest {
         else{
             Log.d("AUTHENTICATION TESTING", "Google Sign in Button Not Found");
         }
+        sleep(1000);
         UiObject2 dialogText = device.findObject(By.text("Please enter a default address from where you'd like to start your journeys!"));
         if(dialogText == null){
             fail("Dialog not found");
@@ -122,8 +99,6 @@ public class AuthenticationTest {
         if(positiveDialogButton != null){
             positiveDialogButton.click();
         }
-
-
     }
 
     @Test()
