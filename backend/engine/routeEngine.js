@@ -1,5 +1,4 @@
 const fs = require('fs');
-const LOG = true;  
 const stops_exclude = ["stop_desc", "stop_url", "parent_station", "stop_code", "zone_id", "location_type", "stop_code"];
 const stop_times_exclude = ["arrival_time", "stop_headsign", "pickup_type", "drop_off_type", "shape_dist_traveled"];
 const trips_exclude = ["route_id", "direction_id", "shape_id", "trip_short_name", "block_id", "wheelchair_accessible", "bikes_allowed"];
@@ -17,21 +16,17 @@ const generated_trips_path = './engine/generated/trips.json';
 
 var stops;
 var trips;
-// var routes_path = './engine/translink_data/routes.txt';
+var routes_path = './engine/translink_data/routes.txt';
 // var calendar_path = './engine/translink_data/calendar.txt';
 
 // ChatGPT Usage: PARTIAL
 async function init() {
     if (fs.existsSync(generated_stops_path) && fs.existsSync(generated_trips_path)) {
-        if (LOG) {
             console.log("Files exist");
-        }
     } else {
-        if (LOG) {
             console.log("Files not found");
-        }
 
-
+        var routes = await parseTranslinkFile(routes_path);
         stops = await parseTranslinkFile(stops_path);
         var stop_times = await parseTranslinkFile(stop_times_path);
         trips = await parseTranslinkFile(trips_path);
@@ -53,13 +48,8 @@ async function init() {
 function parseGeneratedFile(path) {
     return new Promise(function(resolve, reject) {
         fs.readFile(path, 'utf8', (err, data) => {
-            if (err) {
-                reject(err);
-            }
 
-            if (LOG) {
-                console.log("Parsing File: ", path);
-            }
+            console.log("Parsing File: ", path);
             resolve(JSON.parse(data));
         });
     });
@@ -69,17 +59,12 @@ function parseGeneratedFile(path) {
 function parseTranslinkFile(path)  {
     return new Promise(function(resolve, reject) {
         fs.readFile(path, 'utf8', (err, data) => {
-            if (err) {
-                reject(err);
-            }
 
-            if (LOG) {
-                console.log("Parsing File: ", path);
-            }
+            console.log("Parsing File: ", path);
 
 
             var output = {};
-            var lines = data.split('\r\n');
+            var lines = data.split('\n');
             lines.pop();    // Get rid of the element that results from after the last newline
             var words;
             var titles = lines[0].split(',');
@@ -132,6 +117,7 @@ function parseTranslinkFile(path)  {
 
 // ChatGPT Usage: NO
 function addTripsToStops(trips, stops) {
+    console.log("Adding Trips to Stops");
     stops.trips = [];
     stops.trip_pos = [];
     stops.id = stops.stop_id;
@@ -163,9 +149,7 @@ function addTripsToStops(trips, stops) {
 
 // ChatGPT Usage: NO 
 function addStopTimesToTrips(stop_times, trips) {
-    if (LOG) {
-        console.log("Adding Stop Times to Trips");
-    }
+    console.log("Adding Stop Times to Trips");
     trips.name = trips.trip_headsign;
     trips.trip_headsign = undefined;
     trips.id = trips.trip_id;

@@ -2,7 +2,7 @@ const request = require('supertest');
 const makeApp = require('../../app.js');
 const mockUserDB = require('../../mockUserDB.js');
 const { describe } = require('@jest/globals');
-
+const NUM_TESTS = 100;
 
 jest.mock('../../mockUserDB', () => {
 	const originalModule = jest.requireActual('../../mockUserDB');
@@ -116,7 +116,7 @@ const app = makeApp(mockUserDB);
 
 // Interface POST server/getRoute
 describe('/getRoute nonfunctional, feeding randomly chosen start / end points in Vancouver to the /getRoute endpoint', () => {
-	for (var i = 0; i < 100; i++) {
+	for (var i = 0; i < NUM_TESTS; i++) {
 		const requestData = {
 			startLat: getRandomLat(),
 			startLon: getRandomLon(),
