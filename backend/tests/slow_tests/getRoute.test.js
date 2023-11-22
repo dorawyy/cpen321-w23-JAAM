@@ -97,7 +97,7 @@ describe('/getRoute, get routes between two locations', () => {
 	// Ex Status: 200
 	// Ex Behaviour: Returns correct route
 	// Ex Output: Valid Route
-	test.concurrent('get very short route', async () => {
+	test('get very short route', async () => {
 		const requestData = {
 			startLat: 49.23448197693943,
 			startLon: -123.14438232,
@@ -115,7 +115,7 @@ describe('/getRoute, get routes between two locations', () => {
 	// Ex Status: 200
 	// Ex Behaviour: Tries to find route but fails
 	// Ex Output: Not a Route
-	test.concurrent('try to get route too early for busses to be running', async () => {
+	test('try to get route too early for busses to be running', async () => {
 		const requestData = {
 			startLat: 49.23448197693943,
 			startLon: -123.14438232,
@@ -133,7 +133,7 @@ describe('/getRoute, get routes between two locations', () => {
 	// Ex Status: 400
 	// Ex Behaviour: Refuses to find a route
 	// Ex Output: Not a Route
-	test.concurrent('invalid input', async () => {
+	test('invalid input', async () => {
 		const requestData = {
 			garbage: 120
 		};
@@ -147,7 +147,7 @@ describe('/getRoute, get routes between two locations', () => {
 	// Ex Status: 200
 	// Ex Behaviour: Returns correct route
 	// Ex Output: Valid Route
-	test.concurrent('get mid sized route', async () => {
+	test('get mid sized route', async () => {
 		const requestData = {
 			startLat: 49.28171253103366,
 			startLon: -123.05614,
@@ -166,7 +166,7 @@ describe('/getRoute, get routes between two locations', () => {
 	// Ex Status: 200
 	// Ex Behaviour: Returns correct route
 	// Ex Output: Valid Route
-	test.concurrent('get route in Surrey', async () => {
+	test('get route in Surrey', async () => {
 		const requestData = {
 			startLat: 49.13396756582007,
 			startLon: -122.8792349277,
@@ -185,7 +185,7 @@ describe('/getRoute, get routes between two locations', () => {
 	// Ex Status: 200
 	// Ex Behaviour: Returns correct route
 	// Ex Output: Valid Route
-	test.concurrent('get route in Richmond', async () => {
+	test('get route in Richmond', async () => {
 		const requestData = {
 			startLat: 49.15587849555075,
 			startLon: -123.1143441168,
@@ -204,7 +204,7 @@ describe('/getRoute, get routes between two locations', () => {
 	// Ex Status: 200
 	// Ex Behaviour: Returns correct route, but taking a while to compute
 	// Ex Output: Valid Route
-	test.concurrent('get route from Richmond to Vancouver', async () => {
+	test('get route from Richmond to Vancouver', async () => {
 		const requestData = {
 			startLat: 49.1846533666348,
 			startLon: -123.0914190345,

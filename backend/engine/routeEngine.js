@@ -4,7 +4,7 @@ const stop_times_exclude = ["arrival_time", "stop_headsign", "pickup_type", "dro
 const trips_exclude = ["route_id", "direction_id", "shape_id", "trip_short_name", "block_id", "wheelchair_accessible", "bikes_allowed"];
 // const routes_exclude = ["agency_id", "route_desc", "route_type", "route_url", "route_color", "route_text_color"];
 // const calendar_exclude = ["start_date", "end_date"];
-const scan_range = 500;
+const scan_range = 100;
 const lat_calc_constant = 360 / (4.0075 * 10^7);
 
 const stop_times_path = './engine/translink_data/stop_times.txt';
@@ -178,16 +178,16 @@ function addStopTimesToTrips(stop_times, trips) {
 // ChatGPT Usage: PARTIAL
 function getAllStopsWithinRange(stops, range, lat, long) {
     var inRange = new Set();
-    var xRange =  range / 111320;
-    var yRange = lat_calc_constant * range / (Math.cos(lat));
-    var xMax = long + xRange;
-    var xMin = long - xRange;
-    var yMax = lat + yRange;
-    var yMin = lat - yRange;
+    var xRange =  Math.abs(range / 111320.0);
+    var yRange = range / (111320.0 * (Math.cos(lat * Math.PI / 180)));
+    var xMax = parseFloat(long + xRange);
+    var xMin = parseFloat(long - xRange);
+    var yMax = parseFloat(lat + yRange);
+    var yMin = parseFloat(lat - yRange);
     var i;
     for (i = 0; i < stops.id.length; i++) {
-        if (parseFloat(stops.lon[i]) > xMin && parseFloat(stops.lon[i]) < xMax
-            && parseFloat(stops.lat[i])> yMin && parseFloat(stops.lat[i]) < yMax) {
+        if ((stops.lon[i] > xMin) && (stops.lon[i] < xMax)
+            && (stops.lat[i]> yMin) && (stops.lat[i] < yMax)) {
                 inRange.add(i);
             }
         }
@@ -196,7 +196,7 @@ function getAllStopsWithinRange(stops, range, lat, long) {
 
 // ChatGPT Usage: NO
 function findStopsNearStop(stops, range, stop_index) {
-    return getAllStopsWithinRange(stops, scan_range, stops.lat[stop_index], stops.lon[stop_index]);
+    return getAllStopsWithinRange(stops, range, stops.lat[stop_index], stops.lon[stop_index]);
 }
 
 // ChatGPT Usage: YES
@@ -281,13 +281,16 @@ function getRoute(startLat, startLon, endLat, endLon, endTime) {
         }
 
         for (i = 0; i < paths.length; i++) {
-            findStopsNearStop(stops, 500, paths[i][0][0]).forEach(new_stop => {
-                if (!old_reached.has(new_stop)) {
-                    temp.push([[new_stop, paths[i][0][1]-300, "Walk", paths[i][0][1]], ...paths[i]]);
-                    reached.add(new_stop);
-                }
-                temp.push([new_stop, ...paths[i]]);
-            });
+			if (paths[i][0][2] != "Walk") {
+				for (var distance = scan_range; distance < scan_range*5; distance += scan_range) {
+					findStopsNearStop(stops, distance, paths[i][0][0]).forEach(new_stop => {
+						if (!old_reached.has(new_stop)) {
+							temp.push([[new_stop, paths[i][0][1]-distance, "Walk", paths[i][0][1]], ...paths[i]]);
+							reached.add(new_stop);
+						}
+					});
+				}
+			}
         }
         paths = temp;
 
@@ -297,7 +300,7 @@ function getRoute(startLat, startLon, endLat, endLon, endTime) {
                 start = stop;
             }
         });
-         if (reached.size - reached_count < 20) {
+         if (reached.size - reached_count < 25) {
             break;
         }
     }
