@@ -19,7 +19,6 @@ jest.mock('../mockUserDB', () => {
   };
 });
 
-// Create an instance of the app with the mockUserDB
 const app = makeApp(mockUserDB);
 
 // Describe block for the test suite
@@ -45,7 +44,6 @@ describe('GET /getFriendList', () => {
       FriendsList: ['friend1@example.com', 'friend2@example.com'],
     });
 
-    // Make the request to the endpoint
     const response = await request(app)
       .get('/getFriendList')
       .query({ userEmail: 'test@example.com' });
@@ -72,7 +70,6 @@ describe('GET /getFriendList', () => {
       FriendsList: [],
     });
 
-    // Make the request to the endpoint
     const response = await request(app)
       .get('/getFriendList')
       .query({ userEmail: 'test@example.com' });
@@ -96,7 +93,6 @@ describe('GET /getFriendList', () => {
     // Mock database functions for a user not found
     mockUserDB.getUserInfoByEmail.mockResolvedValueOnce(null);
 
-    // Make the request to the endpoint
     const response = await request(app)
       .get('/getFriendList')
       .query({ userEmail: 'nonexistent@example.com' });
@@ -120,7 +116,6 @@ describe('GET /getFriendList', () => {
     // Mock database functions to simulate a server error
     mockUserDB.connectToDatabase.mockRejectedValueOnce(new Error('Connection error'));
 
-    // Make the request to the endpoint
     const response = await request(app)
       .get('/getFriendList')
       .query({ userEmail: 'test@example.com' });
