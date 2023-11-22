@@ -66,14 +66,10 @@ describe('POST /createUser', () => {
     // Assertions
     expect(response.statusCode).toBe(200);
     expect(response.text).toBe('New user data inserted into the database');
-    // Add more assertions as needed
 
     // Verify that database functions were called as expected
     expect(mockUserDB.connectToDatabase).toHaveBeenCalled();
     expect(mockUserDB.insertUser).toHaveBeenCalled();
-
-    // Check the arguments that insertUser was called with
-    //expect(mockUserDB.insertUser.mock.calls[0][0]).toMatchObject(userData);
 
     expect(mockUserDB.closeDatabaseConnection).toHaveBeenCalled();
   });
@@ -108,7 +104,6 @@ describe('POST /createUser', () => {
     // Assertions
     expect(response.statusCode).toBe(200);
     expect(response.text).toBe('User data updated in the database');
-    // Add more assertions as needed
 
     // Verify that database functions were called as expected
     expect(mockUserDB.connectToDatabase).toHaveBeenCalled();
@@ -148,7 +143,6 @@ describe('POST /createUser', () => {
     expect(response.statusCode).toBe(400);
     expect(response.body.errors).toBeDefined();
     expect(response.body.errors).toBeInstanceOf(Array);
-    // Add more assertions for specific error responses if needed
 
     // Verify that database functions were not called
     expect(mockUserDB.connectToDatabase).not.toHaveBeenCalled();
@@ -172,7 +166,6 @@ describe('POST /createUser', () => {
       defaultLon: -123.063863,
     };
 
-    // Make the request to your endpoint
     const response = await request(app)
       .post('/createUser')
       .send(userData);
@@ -196,7 +189,6 @@ describe('POST /createUser', () => {
     mockUserDB.getUserInfoByEmail.mockResolvedValueOnce({ email: 'test@example.com' });
     mockUserDB.updateUserByEmail.mockResolvedValueOnce({ modifiedCount: 0 });
   
-    // Make the request to your endpoint
     const response = await request(app)
       .post('/createUser')
       .send({
