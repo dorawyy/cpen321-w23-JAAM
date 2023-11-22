@@ -294,9 +294,9 @@ app.post(
 
         const startTime = `${newHours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
-          //await routeEngine.init();
+          await routeEngine.init();
 
-          const result = await database.getRoute(defaultLat, defaultLong, latitude, longitude, startTime);
+          const result = await routeEngine.getRoute(defaultLat, defaultLong, latitude, longitude, startTime);
           
           const formattedSubtractedTimes = result.map((item) => {
             if (item.Start && item.Start.Time) {
@@ -380,12 +380,7 @@ app.post('/getFriendRoute', [
           await routeEngine.init();
           result = routeEngine.getPartnerRoute(startLat, startLon, defaultLat, defaultLong, endLat, endLon, endTime);
           console.log(result);
-    
-          if (result) {
             res.json({result});
-          } else {
-            res.status(400).send('Invalid or missing data');
-          }
         } else {
           console.log(error);
           res.status(500).json({ error: 'User does not exist in the DB' });

@@ -146,12 +146,12 @@ describe('/getFriendRoute, get shared route for two friends', () => {
 			endLat: 49.23482386066171, 
 			endLon: -123.1631612677039,
 			endTime: "14:00:00",
-			friendEmail: "garbage"
+			friendEmail: "garbage@email.com"
 		};
 		const response = await request(app)
 			.post('/getFriendRoute')
 			.send(requestData);
-		expect(response.status).toBe(400);
-		expect(JSON.parse(response.text).errors.length > 0).toBe(true);
+		expect(response.status).toBe(500);
+		expect(JSON.parse(response.text).includes("does not exist")).toBe(true);
 	}, 60000);
 });
