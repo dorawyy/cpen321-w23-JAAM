@@ -1,0 +1,5237 @@
+
+> test
+> jest slow_tests/nonfunctional/routeEngine.test.js
+
+  console.log
+    {
+      startLat: 49.23845745103606,
+      startLon: -123.0801265434191,
+      endLat: 49.25866936956243,
+      endLon: -123.07385925975284,
+      startTime: '09:29:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Northbound Arthur Dr @ 3800 Block',
+          Lat: '49.072966',
+          Long: '-123.078453',
+          Time: '09:21:05',
+          Bus: '601 Bridgeport Station'
+        },
+        End: {
+          Stop: 'Eastbound Ladner Trunk Rd @ 53 St',
+          Lat: '49.090133',
+          Long: '-123.075491',
+          Time: '09:26:06',
+          Bus: '601 Bridgeport Station'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.23514892322679,
+      startLon: -123.13642097617227,
+      endLat: 49.25294220347205,
+      endLon: -123.1199572893039,
+      startTime: '17:01:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound Williams Rd @ No. 3 Rd',
+          Lat: '49.1408',
+          Long: '-123.135801',
+          Time: '16:43:31',
+          Bus: '413 Riverport'
+        },
+        End: {
+          Stop: 'Eastbound Williams Rd @ Severn Dr',
+          Lat: '49.140717',
+          Long: '-123.118719',
+          Time: '16:46:34',
+          Bus: '413 Riverport'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.25355193933387,
+      startLon: -123.03829143976348,
+      endLat: 49.25438993378531,
+      endLon: -123.07374023558953,
+      startTime: '09:08:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound E Hastings St @ Windermere St',
+          Lat: '49.281219',
+          Long: '-123.036936',
+          Time: '08:50:39',
+          Bus: '14 UBC'
+        },
+        End: {
+          Stop: 'Westbound E Hastings St @ Commercial Dr',
+          Lat: '49.281362',
+          Long: '-123.071174',
+          Time: '08:59:00',
+          Bus: '14 UBC'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.25094379979546,
+      startLon: -123.03649561189441,
+      endLat: 49.26231118200493,
+      endLon: -123.13850720384549,
+      startTime: '18:18:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound E Hastings St @ Windermere St',
+          Lat: '49.281219',
+          Long: '-123.036936',
+          Time: '17:35:06',
+          Bus: '14 UBC'
+        },
+        End: {
+          Stop: 'Westbound W Cloverleaf @ Granville St',
+          Lat: '49.266837',
+          Long: '-123.139046',
+          Time: '18:17:00',
+          Bus: '14 UBC'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.23610909805484,
+      startLon: -123.13891266677474,
+      endLat: 49.246722010987696,
+      endLon: -123.05684189389163,
+      startTime: '12:47:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Northbound Granville St @ W 5th Ave',
+          Lat: '49.267404',
+          Long: '-123.138259',
+          Time: '12:14:00',
+          Bus: '16 29th Ave Station'
+        },
+        End: {
+          Stop: 'Eastbound E Hastings St @ Templeton Dr',
+          Lat: '49.281098',
+          Long: '-123.059289',
+          Time: '12:43:30',
+          Bus: '16 29th Ave Station'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.23587418154665,
+      startLon: -123.054502543952,
+      endLat: 49.25464210156947,
+      endLon: -123.15802489053014,
+      startTime: '08:03:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound E Hastings St @ Penticton St',
+          Lat: '49.281243',
+          Long: '-123.053371',
+          Time: '07:30:24',
+          Bus: '14 UBC'
+        },
+        End: {
+          Stop: 'Westbound W 4th Ave @ Yew St',
+          Lat: '49.268242',
+          Long: '-123.155847',
+          Time: '07:59:30',
+          Bus: '14 UBC'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.241293026379644,
+      startLon: -123.16108139129246,
+      endLat: 49.23439562758452,
+      endLon: -123.03473562406313,
+      startTime: '14:27:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound W 4th Ave @ Balsam St',
+          Lat: '49.268188',
+          Long: '-123.159306',
+          Time: '13:30:43',
+          Bus: '14 Hastings'
+        },
+        End: {
+          Stop: 'Eastbound E Hastings St @ Windermere St',
+          Lat: '49.281027',
+          Long: '-123.035464',
+          Time: '14:22:30',
+          Bus: '14 Hastings'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.25381087254625,
+      startLon: -123.03163891584293,
+      endLat: 49.24945267581727,
+      endLon: -123.05871360624845,
+      startTime: '15:08:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound E 49 Ave @ Tyne St',
+          Lat: '49.224736',
+          Long: '-123.032636',
+          Time: '14:59:00',
+          Bus: '49 UBC'
+        },
+        End: {
+          Stop: 'Westbound E 49 Ave @ Nanaimo St',
+          Lat: '49.225118',
+          Long: '-123.05961',
+          Time: '15:05:26',
+          Bus: '49 UBC'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.2573905580397,
+      startLon: -123.1434437987172,
+      endLat: 49.2370076730589,
+      endLon: -123.13151794196135,
+      startTime: '15:24:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound Williams Rd @ Deagle Rd',
+          Lat: '49.140863',
+          Long: '-123.144505',
+          Time: '14:52:55',
+          Bus: '413 Riverport'
+        },
+        End: {
+          Stop: 'Eastbound Williams Rd @ Pigott Dr',
+          Lat: '49.140794',
+          Long: '-123.131381',
+          Time: '14:55:26',
+          Bus: '413 Riverport'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.25352739097473,
+      startLon: -123.09349959591786,
+      endLat: 49.25008460902685,
+      endLon: -123.12585749149049,
+      startTime: '18:58:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound E 41 Ave @ St. George St',
+          Lat: '49.233046',
+          Long: '-123.094859',
+          Time: '18:37:52',
+          Bus: '41 41st Ave/To Crown'
+        },
+        End: {
+          Stop: 'Westbound W 41st Ave @ Willow St',
+          Lat: '49.233946',
+          Long: '-123.124174',
+          Time: '18:45:40',
+          Bus: '41 41st Ave/To Crown'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.23445590061166,
+      startLon: -123.17505605359412,
+      endLat: 49.26054700315528,
+      endLon: -123.07142391517759,
+      startTime: '07:49:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound W 16 Ave @ Trutch St',
+          Lat: '49.257636',
+          Long: '-123.175459',
+          Time: '07:14:32',
+          Bus: '33 16th & 33RD Avenue/To 29th Avenue Station'
+        },
+        End: {
+          Stop: 'Eastbound E 33 Ave @ Argyle St',
+          Lat: '49.240064',
+          Long: '-123.070849',
+          Time: '07:36:35',
+          Bus: '33 16th & 33RD Avenue/To 29th Avenue Station'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.25091047296002,
+      startLon: -123.16423763227449,
+      endLat: 49.25585477985379,
+      endLon: -123.18514594489858,
+      startTime: '12:27:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound Williams Rd @ Lassam Rd',
+          Lat: '49.141076',
+          Long: '-123.164211',
+          Time: '12:07:07',
+          Bus: '413 Steveston'
+        },
+        End: {
+          Stop: 'Westbound Steveston Hwy @ 2nd Ave',
+          Lat: '49.133836',
+          Long: '-123.184704',
+          Time: '12:16:21',
+          Bus: '413 Steveston'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.240921551785476,
+      startLon: -123.09796920007382,
+      endLat: 49.255770138039836,
+      endLon: -123.16083833344251,
+      startTime: '20:16:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound E Broadway @ Scotia St',
+          Lat: '49.262926',
+          Long: '-123.098697',
+          Time: '19:57:17',
+          Bus: '9 Alma'
+        },
+        End: {
+          Stop: 'Westbound W Broadway @ Balsam St',
+          Lat: '49.264051',
+          Long: '-123.160487',
+          Time: '20:15:22',
+          Bus: '9 Alma'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.241095180032815,
+      startLon: -123.07210164137264,
+      endLat: 49.24769807863999,
+      endLon: -123.02833377412233,
+      startTime: '15:48:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound E Hastings St @ McLean Dr',
+          Lat: '49.281191',
+          Long: '-123.073421',
+          Time: '15:28:26',
+          Bus: '14 Hastings'
+        },
+        End: {
+          Stop: 'Eastbound E Hastings St @ Cassiar St',
+          Lat: '49.281014',
+          Long: '-123.029969',
+          Time: '15:42:29',
+          Bus: '14 Hastings'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.26275408947665,
+      startLon: -123.12096915444397,
+      endLat: 49.24587086514452,
+      endLon: -123.03458993459878,
+      startTime: '13:48:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound W Broadway @ Willow St',
+          Lat: '49.26323',
+          Long: '-123.121293',
+          Time: '13:16:47',
+          Bus: '9 Boundary'
+        },
+        End: {
+          Stop: 'Eastbound E Broadway @ Rupert St',
+          Lat: '49.261781',
+          Long: '-123.033192',
+          Time: '13:43:47',
+          Bus: '9 Boundary'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.23723687150701,
+      startLon: -123.07051688698246,
+      endLat: 49.261611541998555,
+      endLon: -123.15894664278035,
+      startTime: '11:30:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound E 41 Ave @ Commercial St',
+          Lat: '49.232719',
+          Long: '-123.069244',
+          Time: '11:01:40',
+          Bus: '41 41st Ave/To Crown'
+        },
+        End: {
+          Stop: 'Westbound W 41 Ave @ Vine St',
+          Lat: '49.234721',
+          Long: '-123.160343',
+          Time: '11:22:08',
+          Bus: '41 41st Ave/To Crown'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.24524443054526,
+      startLon: -123.10423086090135,
+      endLat: 49.24254299314217,
+      endLon: -123.09288351483917,
+      startTime: '10:24:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound Cambie Rd @ Shell Rd',
+          Lat: '49.18467',
+          Long: '-123.103428',
+          Time: '09:55:44',
+          Bus: '405 Five Road'
+        },
+        End: {
+          Stop: 'Southbound No. 5 Rd @ Steveston Hwy',
+          Lat: '49.134132',
+          Long: '-123.092199',
+          Time: '10:19:16',
+          Bus: '405 Five Road'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.25261228522087,
+      startLon: -123.04014331779476,
+      endLat: 49.25935200338044,
+      endLon: -123.03946471733016,
+      startTime: '09:40:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    TypeError: Cannot read properties of undefined (reading 'length')
+        at Object.length [as getRoute] (/home/singh/School/321/temp/JAAM-project/backend/engine/routeEngine.js:323:44)
+        at getRoute (/home/singh/School/321/temp/JAAM-project/backend/app.js:345:32)
+
+      at log (app.js:350:13)
+
+  console.log
+    {
+      startLat: 49.25449334027581,
+      startLon: -123.11204874536415,
+      endLat: 49.243055536810004,
+      endLon: -123.12305394294174,
+      startTime: '17:52:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound W Pender St @ Seymour St',
+          Lat: '49.283818',
+          Long: '-123.113429',
+          Time: '17:46:02',
+          Bus: '7 Dunbar'
+        },
+        End: {
+          Stop: 'Southbound Granville St @ Nelson St',
+          Lat: '49.278877',
+          Long: '-123.123712',
+          Time: '17:51:10',
+          Bus: '7 Dunbar'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.256667800927985,
+      startLon: -123.12507441990392,
+      endLat: 49.234553023833314,
+      endLon: -123.09801211420108,
+      startTime: '20:15:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound Williams Rd @ Garden City Rd',
+          Lat: '49.140767',
+          Long: '-123.124509',
+          Time: '20:09:05',
+          Bus: '408 Riverport'
+        },
+        End: {
+          Stop: 'Eastbound Williams Rd @ Seacote Rd',
+          Lat: '49.140618',
+          Long: '-123.097504',
+          Time: '20:14:12',
+          Bus: '408 Riverport'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.23621329923702,
+      startLon: -123.14840308477737,
+      endLat: 49.25989211309387,
+      endLon: -123.1778666775059,
+      startTime: '13:03:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound Williams Rd @ Gilbert Rd',
+          Lat: '49.141026',
+          Long: '-123.148379',
+          Time: '12:45:58',
+          Bus: '413 Steveston'
+        },
+        End: {
+          Stop: 'Westbound Moncton St @ Easthope Ave',
+          Lat: '49.125227',
+          Long: '-123.177476',
+          Time: '12:54:55',
+          Bus: '413 Steveston'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.2538123263665,
+      startLon: -123.0679903892143,
+      endLat: 49.257840213607274,
+      endLon: -123.03908029560795,
+      startTime: '12:26:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound E Hastings St @ Commercial Dr',
+          Lat: '49.28111',
+          Long: '-123.069698',
+          Time: '12:10:00',
+          Bus: '14 Hastings'
+        },
+        End: {
+          Stop: 'Eastbound E Hastings St @ Lillooet St',
+          Lat: '49.281041',
+          Long: '-123.038301',
+          Time: '12:21:16',
+          Bus: '14 Hastings'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.25712281576513,
+      startLon: -123.15224520235331,
+      endLat: 49.26033666876936,
+      endLon: -123.14405002225202,
+      startTime: '13:38:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound Williams Rd @ Sheridan Rd',
+          Lat: '49.140905',
+          Long: '-123.151539',
+          Time: '13:30:43',
+          Bus: '413 Riverport'
+        },
+        End: {
+          Stop: 'Eastbound Williams Rd @ Deagle Rd',
+          Lat: '49.140863',
+          Long: '-123.144505',
+          Time: '13:31:58',
+          Bus: '413 Riverport'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.23318016616181,
+      startLon: -123.1723592363524,
+      endLat: 49.25685084582607,
+      endLon: -123.04350547487476,
+      startTime: '12:29:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound W 16 Ave @ Carnarvon St',
+          Lat: '49.257583',
+          Long: '-123.17185',
+          Time: '11:45:42',
+          Bus: '33 16th & 33RD Avenue/To 29th Avenue Station'
+        },
+        End: {
+          Stop: '29th Avenue Station @ Bay 1',
+          Lat: '49.244269',
+          Long: '-123.045608',
+          Time: '12:25:00',
+          Bus: '33 16th & 33RD Avenue/To 29th Avenue Station'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.25478687725628,
+      startLon: -123.16250367504789,
+      endLat: 49.23686009662654,
+      endLon: -123.08534281822546,
+      startTime: '08:17:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound Steveston Hwy @ Kingfisher Dr',
+          Lat: '49.133462',
+          Long: '-123.160811',
+          Time: '07:38:44',
+          Bus: '407 Bridgeport'
+        },
+        End: {
+          Stop: 'Eastbound Bridgeport Rd @ 12400 Block',
+          Lat: '49.19189',
+          Long: '-123.086226',
+          Time: '08:12:11',
+          Bus: '407 Bridgeport'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.23873113737731,
+      startLon: -123.06005967409821,
+      endLat: 49.256304076650224,
+      endLon: -123.16533931249892,
+      startTime: '17:52:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound E Hastings St @ Templeton Dr',
+          Lat: '49.28126',
+          Long: '-123.060231',
+          Time: '17:10:17',
+          Bus: '14 UBC'
+        },
+        End: {
+          Stop: 'Westbound W 4th Ave @ Trafalgar St',
+          Lat: '49.268401',
+          Long: '-123.164962',
+          Time: '17:50:46',
+          Bus: '14 UBC'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.247325882335296,
+      startLon: -123.13340862436118,
+      endLat: 49.25983358151322,
+      endLon: -123.07828236945575,
+      startTime: '10:20:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound W Georgia St @ Denman St',
+          Lat: '49.292217',
+          Long: '-123.133397',
+          Time: '09:45:18',
+          Bus: '19 Kingsway/To Metrotown Station'
+        },
+        End: {
+          Stop: 'Eastbound Kingsway @ Clark Dr',
+          Lat: '49.250834',
+          Long: '-123.077633',
+          Time: '10:15:38',
+          Bus: '19 Kingsway/To Metrotown Station'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.25356526925706,
+      startLon: -123.09156496610096,
+      endLat: 49.25959170440322,
+      endLon: -123.09417593652985,
+      startTime: '10:45:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    TypeError: Cannot read properties of undefined (reading 'length')
+        at Object.length [as getRoute] (/home/singh/School/321/temp/JAAM-project/backend/engine/routeEngine.js:323:44)
+        at getRoute (/home/singh/School/321/temp/JAAM-project/backend/app.js:345:32)
+
+      at log (app.js:350:13)
+
+  console.log
+    {
+      startLat: 49.24291397746559,
+      startLon: -123.10122759617423,
+      endLat: 49.23660486735571,
+      endLon: -123.15531384475419,
+      startTime: '15:39:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Northbound Shell Rd @ Maddocks Rd',
+          Lat: '49.136313',
+          Long: '-123.102996',
+          Time: '15:28:02',
+          Bus: '413 Steveston'
+        },
+        End: {
+          Stop: 'Westbound Williams Rd @ Swift Lane',
+          Lat: '49.141058',
+          Long: '-123.155105',
+          Time: '15:37:37',
+          Bus: '413 Steveston'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.24606499057757,
+      startLon: -123.03257113962351,
+      endLat: 49.25017670418942,
+      endLon: -123.06125785797502,
+      startTime: '08:15:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound E 49 Ave @ Tyne St',
+          Lat: '49.224736',
+          Long: '-123.032636',
+          Time: '08:03:00',
+          Bus: '49 UBC'
+        },
+        End: {
+          Stop: 'Westbound E 49 Ave @ Nanaimo St',
+          Lat: '49.225118',
+          Long: '-123.05961',
+          Time: '08:10:04',
+          Bus: '49 UBC'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.25805637642394,
+      startLon: -123.0716456622298,
+      endLat: 49.248940393014436,
+      endLon: -123.07589609166008,
+      startTime: '19:39:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    TypeError: Cannot read properties of undefined (reading 'length')
+        at Object.length [as getRoute] (/home/singh/School/321/temp/JAAM-project/backend/engine/routeEngine.js:323:44)
+        at getRoute (/home/singh/School/321/temp/JAAM-project/backend/app.js:345:32)
+
+      at log (app.js:350:13)
+
+  console.log
+    {
+      startLat: 49.24847758347409,
+      startLon: -123.10463298627126,
+      endLat: 49.23901571779327,
+      endLon: -123.11046374001043,
+      startTime: '13:57:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Northbound Shell Rd @ Maddocks Rd',
+          Lat: '49.136313',
+          Long: '-123.102996',
+          Time: '13:28:02',
+          Bus: '413 Steveston'
+        },
+        End: {
+          Stop: 'Westbound Williams Rd @ Aragon Rd',
+          Lat: '49.140789',
+          Long: '-123.108306',
+          Time: '13:29:58',
+          Bus: '413 Steveston'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.2485325932199,
+      startLon: -123.03567678915203,
+      endLat: 49.262942514786474,
+      endLon: -123.056524242666,
+      startTime: '08:00:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound E Hastings St @ Windermere St',
+          Lat: '49.281219',
+          Long: '-123.036936',
+          Time: '07:51:52',
+          Bus: '14 UBC'
+        },
+        End: {
+          Stop: 'Westbound E Hastings St @ Nanaimo St',
+          Lat: '49.281242',
+          Long: '-123.057254',
+          Time: '07:57:14',
+          Bus: '14 UBC'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.23709294609323,
+      startLon: -123.17850605094193,
+      endLat: 49.25966907693383,
+      endLon: -123.08438763200466,
+      startTime: '15:32:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound Steveston Hwy @ Ransford Gate',
+          Lat: '49.133682',
+          Long: '-123.1771',
+          Time: '14:35:46',
+          Bus: '407 Bridgeport'
+        },
+        End: {
+          Stop: 'Eastbound Bridgeport Rd @ Sweden Way',
+          Lat: '49.191866',
+          Long: '-123.082197',
+          Time: '15:31:45',
+          Bus: '407 Bridgeport'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.25279294471682,
+      startLon: -123.09432172431376,
+      endLat: 49.24298545927572,
+      endLon: -123.12278465117024,
+      startTime: '14:55:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound E Broadway @ St. George St',
+          Lat: '49.262598',
+          Long: '-123.093535',
+          Time: '14:40:27',
+          Bus: '9 UBC'
+        },
+        End: {
+          Stop: 'Westbound W Broadway @ Willow St',
+          Lat: '49.263437',
+          Long: '-123.12286',
+          Time: '14:52:00',
+          Bus: '9 UBC'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.235305548123705,
+      startLon: -123.15117364617517,
+      endLat: 49.24859304060155,
+      endLon: -123.06274952653266,
+      startTime: '15:10:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound Williams Rd @ Sheridan Rd',
+          Lat: '49.140905',
+          Long: '-123.151539',
+          Time: '14:40:43',
+          Bus: '413 Riverport'
+        },
+        End: {
+          Stop: 'Northbound Entertainment Blvd @ Steveston Hwy',
+          Lat: '49.134871',
+          Long: '-123.064805',
+          Time: '14:57:00',
+          Bus: '413 Riverport'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.239739464141415,
+      startLon: -123.145736791197,
+      endLat: 49.23565184036235,
+      endLon: -123.10115548729036,
+      startTime: '15:49:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound Williams Rd @ Deagle Rd',
+          Lat: '49.140863',
+          Long: '-123.144505',
+          Time: '15:32:55',
+          Bus: '413 Riverport'
+        },
+        End: {
+          Stop: 'Eastbound Steveston Hwy @ Shell Rd',
+          Lat: '49.133305',
+          Long: '-123.102447',
+          Time: '15:43:08',
+          Bus: '413 Riverport'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.26212903421866,
+      startLon: -123.16230503317325,
+      endLat: 49.247387564674725,
+      endLon: -123.1774651368804,
+      startTime: '17:22:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound Inglewood Ave @ Sinclair St',
+          Lat: '49.334618',
+          Long: '-123.163501',
+          Time: '17:13:00',
+          Bus: '252 Inglewood'
+        },
+        End: {
+          Stop: 'Westbound Mathers Ave @ 23 St',
+          Lat: '49.338384',
+          Long: '-123.17516',
+          Time: '17:15:49',
+          Bus: '252 Inglewood'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.247138295865646,
+      startLon: -123.06346169360614,
+      endLat: 49.25476588101068,
+      endLon: -123.02418718950315,
+      startTime: '20:43:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Ladner Exchange @ Bay 3',
+          Lat: '49.087654',
+          Long: '-123.061833',
+          Time: '20:33:00',
+          Bus: '310 Scottsdale'
+        },
+        End: {
+          Stop: 'Southbound 72 St @ Hwy 10',
+          Lat: '49.089637',
+          Long: '-123.024115',
+          Time: '20:37:48',
+          Bus: '310 Scottsdale'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.24794271773517,
+      startLon: -123.06739765761381,
+      endLat: 49.251904363307936,
+      endLon: -123.16939227856703,
+      startTime: '16:21:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound N Grandview Hwy @ Commercial Dr',
+          Lat: '49.263172',
+          Long: '-123.068542',
+          Time: '15:55:00',
+          Bus: '99 UBC B-Line'
+        },
+        End: {
+          Stop: 'Westbound W Broadway @ Macdonald St',
+          Lat: '49.264156',
+          Long: '-123.167544',
+          Time: '16:20:38',
+          Bus: '99 UBC B-Line'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.2589556532036,
+      startLon: -123.04787649077353,
+      endLat: 49.26196338192974,
+      endLon: -123.07150274687854,
+      startTime: '15:29:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound E Hastings St @ Kaslo St',
+          Lat: '49.281226',
+          Long: '-123.047423',
+          Time: '15:18:39',
+          Bus: '14 UBC'
+        },
+        End: {
+          Stop: 'Westbound E Hastings St @ Commercial Dr',
+          Lat: '49.281362',
+          Long: '-123.071174',
+          Time: '15:25:00',
+          Bus: '14 UBC'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.23888064579721,
+      startLon: -123.06904471028213,
+      endLat: 49.2442542415433,
+      endLon: -123.14263564203618,
+      startTime: '16:36:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound N Grandview Hwy @ Commercial Dr',
+          Lat: '49.263172',
+          Long: '-123.068542',
+          Time: '16:15:00',
+          Bus: '99 UBC B-Line'
+        },
+        End: {
+          Stop: 'Westbound W Broadway @ Granville St',
+          Lat: '49.263732',
+          Long: '-123.140158',
+          Time: '16:33:50',
+          Bus: '99 UBC B-Line'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.24930674959775,
+      startLon: -123.05948641209153,
+      endLat: 49.248786292317256,
+      endLon: -123.031695800491,
+      startTime: '10:01:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound E Hastings St @ Templeton Dr',
+          Lat: '49.281098',
+          Long: '-123.059289',
+          Time: '09:49:34',
+          Bus: '14 Hastings'
+        },
+        End: {
+          Stop: 'Eastbound E Hastings St @ Cassiar St',
+          Lat: '49.281014',
+          Long: '-123.029969',
+          Time: '09:56:47',
+          Bus: '14 Hastings'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.23310136055153,
+      startLon: -123.1499637486396,
+      endLat: 49.2530490322459,
+      endLon: -123.12183183962108,
+      startTime: '09:40:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound Williams Rd @ Sheridan Rd',
+          Lat: '49.140905',
+          Long: '-123.151539',
+          Time: '09:30:43',
+          Bus: '413 Riverport'
+        },
+        End: {
+          Stop: 'Eastbound Williams Rd @ Garden City Rd',
+          Lat: '49.140767',
+          Long: '-123.124509',
+          Time: '09:35:32',
+          Bus: '413 Riverport'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.26160615237097,
+      startLon: -123.12611486330698,
+      endLat: 49.26331607140912,
+      endLon: -123.03600758476611,
+      startTime: '12:54:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound W 41 Ave @ Oak St',
+          Lat: '49.2338',
+          Long: '-123.126888',
+          Time: '12:38:03',
+          Bus: 'R4 To Joyce Station'
+        },
+        End: {
+          Stop: 'Northbound Joyce St @ Kingsway',
+          Lat: '49.234391',
+          Long: '-123.03552',
+          Time: '12:53:36',
+          Bus: 'R4 To Joyce Station'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.2534058270481,
+      startLon: -123.13913726985912,
+      endLat: 49.26416274963895,
+      endLon: -123.14807897846009,
+      startTime: '09:04:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound Williams Rd @ Greenlees Rd',
+          Lat: '49.140973',
+          Long: '-123.139719',
+          Time: '08:55:16',
+          Bus: '413 Steveston'
+        },
+        End: {
+          Stop: 'Westbound Williams Rd @ Gilbert Rd',
+          Lat: '49.141026',
+          Long: '-123.148379',
+          Time: '08:56:35',
+          Bus: '413 Steveston'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.23385334847104,
+      startLon: -123.08205857451851,
+      endLat: 49.23453340015082,
+      endLon: -123.1640795173411,
+      startTime: '13:24:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound E Broadway @ Windsor St',
+          Lat: '49.262532',
+          Long: '-123.083724',
+          Time: '12:54:33',
+          Bus: '9 Alma'
+        },
+        End: {
+          Stop: 'Westbound W Broadway @ Trafalgar St',
+          Lat: '49.264113',
+          Long: '-123.165212',
+          Time: '13:20:16',
+          Bus: '9 Alma'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.24715307428084,
+      startLon: -123.14613654650974,
+      endLat: 49.24478516193497,
+      endLon: -123.13952352770981,
+      startTime: '17:23:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound Williams Rd @ Deagle Rd',
+          Lat: '49.140863',
+          Long: '-123.144505',
+          Time: '17:21:01',
+          Bus: '413 Riverport'
+        },
+        End: {
+          Stop: 'Eastbound Williams Rd @ Dunoon Dr',
+          Lat: '49.140824',
+          Long: '-123.138612',
+          Time: '17:21:59',
+          Bus: '413 Riverport'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.2340490139863,
+      startLon: -123.06551984340362,
+      endLat: 49.24735739114768,
+      endLon: -123.14176489517389,
+      startTime: '15:42:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound E Broadway @ Semlin Dr',
+          Lat: '49.262384',
+          Long: '-123.064374',
+          Time: '15:10:49',
+          Bus: '9 Alma'
+        },
+        End: {
+          Stop: 'Westbound W Broadway @ Granville St',
+          Lat: '49.263732',
+          Long: '-123.140158',
+          Time: '15:34:37',
+          Bus: '9 Alma'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.24852319214144,
+      startLon: -123.15789967402712,
+      endLat: 49.26204471658677,
+      endLon: -123.11943919694042,
+      startTime: '09:17:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound Williams Rd @ No. 2 Rd',
+          Lat: '49.140935',
+          Long: '-123.158519',
+          Time: '08:49:52',
+          Bus: '413 Riverport'
+        },
+        End: {
+          Stop: 'Eastbound Williams Rd @ Severn Dr',
+          Lat: '49.140717',
+          Long: '-123.118719',
+          Time: '08:57:12',
+          Bus: '413 Riverport'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.25087249190398,
+      startLon: -123.18301516946111,
+      endLat: 49.25401665381802,
+      endLon: -123.11182509574452,
+      startTime: '19:09:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound W Broadway @ Alma St',
+          Lat: '49.264263',
+          Long: '-123.184623',
+          Time: '18:51:04',
+          Bus: '99 To Boundary B-Line'
+        },
+        End: {
+          Stop: 'Broadway-City Hall Station @ Bay 1',
+          Lat: '49.263107',
+          Long: '-123.114283',
+          Time: '19:05:00',
+          Bus: '99 To Boundary B-Line'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.251813612789846,
+      startLon: -123.06202145936014,
+      endLat: 49.24027128525899,
+      endLon: -123.08199009732856,
+      startTime: '10:24:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound E Broadway @ Lakewood Dr',
+          Lat: '49.262356',
+          Long: '-123.062394',
+          Time: '10:18:24',
+          Bus: '9 Alma'
+        },
+        End: {
+          Stop: 'Westbound E Broadway @ Glen Dr',
+          Lat: '49.262497',
+          Long: '-123.080761',
+          Time: '10:22:49',
+          Bus: '9 Alma'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.2335779038443,
+      startLon: -123.03061154186514,
+      endLat: 49.251678136381486,
+      endLon: -123.13185993438032,
+      startTime: '20:58:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound E Broadway @ Cassiar St',
+          Lat: '49.262053',
+          Long: '-123.031548',
+          Time: '20:28:27',
+          Bus: '9 Alma'
+        },
+        End: {
+          Stop: 'Westbound W Broadway @ Spruce St',
+          Lat: '49.26354',
+          Long: '-123.129369',
+          Time: '20:51:00',
+          Bus: '9 Alma'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.25716197049509,
+      startLon: -123.06167875974371,
+      endLat: 49.25008044055498,
+      endLon: -123.08102296894283,
+      startTime: '08:45:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound E Broadway @ Lakewood Dr',
+          Lat: '49.262356',
+          Long: '-123.062394',
+          Time: '08:36:41',
+          Bus: '9 Alma'
+        },
+        End: {
+          Stop: 'Westbound E Broadway @ Clark Dr',
+          Lat: '49.262499',
+          Long: '-123.078554',
+          Time: '08:39:45',
+          Bus: '9 Alma'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.245236075577814,
+      startLon: -123.16229551099791,
+      endLat: 49.24422450533333,
+      endLon: -123.1259562480889,
+      startTime: '14:05:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound Williams Rd @ Lassam Rd',
+          Lat: '49.140958',
+          Long: '-123.163303',
+          Time: '13:58:16',
+          Bus: '413 Riverport'
+        },
+        End: {
+          Stop: 'Eastbound Williams Rd @ Garden City Rd',
+          Lat: '49.140767',
+          Long: '-123.124509',
+          Time: '14:04:55',
+          Bus: '413 Riverport'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.25106575509474,
+      startLon: -123.1809215095431,
+      endLat: 49.250507752190515,
+      endLon: -123.18034356143261,
+      startTime: '12:31:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    TypeError: Cannot read properties of undefined (reading 'length')
+        at Object.length [as getRoute] (/home/singh/School/321/temp/JAAM-project/backend/engine/routeEngine.js:323:44)
+        at getRoute (/home/singh/School/321/temp/JAAM-project/backend/app.js:345:32)
+
+      at log (app.js:350:13)
+
+  console.log
+    {
+      startLat: 49.26303708842508,
+      startLon: -123.06350678657091,
+      endLat: 49.2551584485686,
+      endLon: -123.06127795080288,
+      startTime: '12:43:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound E Hastings St @ Victoria Dr',
+          Lat: '49.28108',
+          Long: '-123.064979',
+          Time: '12:39:35',
+          Bus: '14 Hastings'
+        },
+        End: {
+          Stop: 'Eastbound E Hastings St @ Templeton Dr',
+          Lat: '49.281098',
+          Long: '-123.059289',
+          Time: '12:41:30',
+          Bus: '14 Hastings'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.26424149113928,
+      startLon: -123.1708844814204,
+      endLat: 49.24343382913363,
+      endLon: -123.10510623437962,
+      startTime: '18:40:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound Williams Rd @ Railway Ave',
+          Lat: '49.140958',
+          Long: '-123.169241',
+          Time: '18:07:15',
+          Bus: '413 Riverport'
+        },
+        End: {
+          Stop: 'Eastbound Steveston Hwy @ Shell Rd',
+          Lat: '49.133305',
+          Long: '-123.102447',
+          Time: '18:20:34',
+          Bus: '413 Riverport'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.25865023848922,
+      startLon: -123.15487076030568,
+      endLat: 49.25758187925264,
+      endLon: -123.16398896114517,
+      startTime: '09:22:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound Williams Rd @ Swift Lane',
+          Lat: '49.141058',
+          Long: '-123.155105',
+          Time: '08:57:35',
+          Bus: '413 Steveston'
+        },
+        End: {
+          Stop: 'Westbound Williams Rd @ Lassam Rd',
+          Lat: '49.141076',
+          Long: '-123.164211',
+          Time: '08:58:58',
+          Bus: '413 Steveston'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.255097300832496,
+      startLon: -123.12164724846238,
+      endLat: 49.246392582723324,
+      endLon: -123.0795598758319,
+      startTime: '13:20:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound W Broadway @ Willow St',
+          Lat: '49.26323',
+          Long: '-123.121293',
+          Time: '12:58:19',
+          Bus: '9 Commercial-Broadway Station'
+        },
+        End: {
+          Stop: 'Eastbound E Broadway @ Glen Dr',
+          Lat: '49.262322',
+          Long: '-123.080869',
+          Time: '13:11:13',
+          Bus: '9 Commercial-Broadway Station'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.23325766385234,
+      startLon: -123.17135274999889,
+      endLat: 49.254202002716845,
+      endLon: -123.06351560762464,
+      startTime: '18:48:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Northbound Railway Ave @ Hollymount Gate',
+          Lat: '49.136998',
+          Long: '-123.169701',
+          Time: '18:06:08',
+          Bus: '413 Riverport'
+        },
+        End: {
+          Stop: 'Northbound Entertainment Blvd @ Steveston Hwy',
+          Lat: '49.134871',
+          Long: '-123.064805',
+          Time: '18:27:00',
+          Bus: '413 Riverport'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.24526552426745,
+      startLon: -123.03589325613216,
+      endLat: 49.2568693304492,
+      endLon: -123.10568426909688,
+      startTime: '15:04:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound E Hastings St @ Windermere St',
+          Lat: '49.281219',
+          Long: '-123.036936',
+          Time: '14:39:52',
+          Bus: '14 UBC'
+        },
+        End: {
+          Stop: 'Westbound W Hastings St @ Carrall St',
+          Lat: '49.281733',
+          Long: '-123.105366',
+          Time: '15:00:58',
+          Bus: '14 UBC'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.24737160501089,
+      startLon: -123.12777290484688,
+      endLat: 49.25284709584006,
+      endLon: -123.09082065867914,
+      startTime: '10:27:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound W Georgia St @ Broughton St',
+          Lat: '49.289356',
+          Long: '-123.128526',
+          Time: '10:01:19',
+          Bus: '240 Lynn Valley'
+        },
+        End: {
+          Stop: 'Eastbound W Keith Rd @ Bewicke Ave',
+          Lat: '49.319929',
+          Long: '-123.090448',
+          Time: '10:23:53',
+          Bus: '240 Lynn Valley'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.25882665722048,
+      startLon: -123.11458573006136,
+      endLat: 49.26038386503177,
+      endLon: -123.03105671669128,
+      startTime: '17:15:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Granville Station @ Platform 2',
+          Lat: '49.283136',
+          Long: '-123.115744',
+          Time: '17:01:00',
+          Bus: 'Expo Line To King George'
+        },
+        End: {
+          Stop: 'Joyce-Collingwood Station @ Platform 2',
+          Lat: '49.238353',
+          Long: '-123.031827',
+          Time: '17:14:00',
+          Bus: 'Expo Line To King George'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.25762541860315,
+      startLon: -123.17176504573624,
+      endLat: 49.2352129358151,
+      endLon: -123.03815733133521,
+      startTime: '15:45:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound Marine Dr @ 22 St',
+          Lat: '49.330567',
+          Long: '-123.170678',
+          Time: '15:02:39',
+          Bus: '255 Capilano University - via 15th St & Lonsdale'
+        },
+        End: {
+          Stop: 'Eastbound E Keith Rd @ Mountain Hwy',
+          Lat: '49.313198',
+          Long: '-123.037449',
+          Time: '15:40:28',
+          Bus: '255 Capilano University - via 15th St & Lonsdale'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.26357579531099,
+      startLon: -123.13400052424811,
+      endLat: 49.261665763318256,
+      endLon: -123.16861156805285,
+      startTime: '20:24:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound Lansdowne Rd @ Cooney Rd',
+          Lat: '49.173932',
+          Long: '-123.132947',
+          Time: '20:01:32',
+          Bus: '407 Gilbert'
+        },
+        End: {
+          Stop: 'Westbound Steveston Hwy @ Railway Ave',
+          Lat: '49.133808',
+          Long: '-123.170376',
+          Time: '20:19:18',
+          Bus: '407 Gilbert'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.244197603345704,
+      startLon: -123.02919583235024,
+      endLat: 49.24639277664297,
+      endLon: -123.12015748386528,
+      startTime: '07:27:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound E Hastings St @ Skeena St',
+          Lat: '49.281215',
+          Long: '-123.028984',
+          Time: '07:03:35',
+          Bus: '14 UBC'
+        },
+        End: {
+          Stop: 'Southbound Granville St @ Robson St',
+          Lat: '49.28172',
+          Long: '-123.119373',
+          Time: '07:26:27',
+          Bus: '14 UBC'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.23440926779429,
+      startLon: -123.11132890956819,
+      endLat: 49.23859311840246,
+      endLon: -123.04245169545577,
+      startTime: '12:39:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound W Hastings St @ Homer St',
+          Lat: '49.283054',
+          Long: '-123.110546',
+          Time: '12:14:54',
+          Bus: '16 29th Ave Station'
+        },
+        End: {
+          Stop: 'Southbound Renfrew St @ E Hastings St',
+          Lat: '49.280776',
+          Long: '-123.044219',
+          Time: '12:36:49',
+          Bus: '16 29th Ave Station'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.26184937758027,
+      startLon: -123.0480718713723,
+      endLat: 49.24939286496602,
+      endLon: -123.09013945901218,
+      startTime: '10:49:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound E Hastings St @ Kaslo St',
+          Lat: '49.281226',
+          Long: '-123.047423',
+          Time: '10:35:35',
+          Bus: '14 UBC'
+        },
+        End: {
+          Stop: 'Westbound E Hastings St @ Hawks Ave',
+          Lat: '49.2812',
+          Long: '-123.087667',
+          Time: '10:48:35',
+          Bus: '14 UBC'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.2576745544545,
+      startLon: -123.1711725180907,
+      endLat: 49.254586067706484,
+      endLon: -123.14111817863156,
+      startTime: '16:06:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Northbound Railway Ave @ Hollymount Gate',
+          Lat: '49.136998',
+          Long: '-123.169701',
+          Time: '15:56:25',
+          Bus: '413 Riverport'
+        },
+        End: {
+          Stop: 'Eastbound Williams Rd @ Dunoon Dr',
+          Lat: '49.140824',
+          Long: '-123.138612',
+          Time: '16:03:01',
+          Bus: '413 Riverport'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.25925732847524,
+      startLon: -123.1575920948318,
+      endLat: 49.24153096753763,
+      endLon: -123.17267735394829,
+      startTime: '17:26:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Northbound 15 St @ Ottawa Ave',
+          Lat: '49.340258',
+          Long: '-123.156826',
+          Time: '16:58:26',
+          Bus: '251 Queens'
+        },
+        End: {
+          Stop: 'Westbound Queens Ave @ 22 St',
+          Lat: '49.341849',
+          Long: '-123.171085',
+          Time: '17:00:48',
+          Bus: '251 Queens'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.26424042870322,
+      startLon: -123.1228677638622,
+      endLat: 49.24735395089583,
+      endLon: -123.13005662659911,
+      startTime: '10:06:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound W Georgia St @ Burrard St',
+          Lat: '49.284954',
+          Long: '-123.121726',
+          Time: '09:49:23',
+          Bus: '250 Dundarave To 25th & Marine'
+        },
+        End: {
+          Stop: 'Westbound Marine Dr @ Capilano River',
+          Lat: '49.326544',
+          Long: '-123.130004',
+          Time: '10:03:25',
+          Bus: '250 Dundarave To 25th & Marine'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.24810220672627,
+      startLon: -123.16592640540549,
+      endLat: 49.25825673031793,
+      endLon: -123.17000596947635,
+      startTime: '14:30:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound Williams Rd @ Lassam Rd',
+          Lat: '49.141076',
+          Long: '-123.164211',
+          Time: '14:19:07',
+          Bus: '413 Steveston'
+        },
+        End: {
+          Stop: 'Westbound Williams Rd @ 5100 Block',
+          Lat: '49.141079',
+          Long: '-123.167982',
+          Time: '14:19:44',
+          Bus: '413 Steveston'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.242539456057,
+      startLon: -123.06916731099886,
+      endLat: 49.26204047551795,
+      endLon: -123.14395240403977,
+      startTime: '14:43:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound E 41 Ave @ Commercial St',
+          Lat: '49.232719',
+          Long: '-123.069244',
+          Time: '14:16:19',
+          Bus: '41 41st Ave/To Crown'
+        },
+        End: {
+          Stop: 'Westbound W 41 Ave @ Marguerite St',
+          Lat: '49.234499',
+          Long: '-123.145101',
+          Time: '14:36:26',
+          Bus: '41 41st Ave/To Crown'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.252445563694415,
+      startLon: -123.0685789529415,
+      endLat: 49.25714684066828,
+      endLon: -123.12754895546874,
+      startTime: '15:35:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound Ladner Trunk Rd @ 55B St',
+          Lat: '49.090125',
+          Long: '-123.068162',
+          Time: '15:02:12',
+          Bus: '601 Bridgeport Station'
+        },
+        End: {
+          Stop: 'Bridgeport Station @ Bay 1 Unloading Only',
+          Lat: '49.195515',
+          Long: '-123.125911',
+          Time: '15:25:00',
+          Bus: '601 Bridgeport Station'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.2373112772638,
+      startLon: -123.17780500912147,
+      endLat: 49.242964225641515,
+      endLon: -123.03615999307276,
+      startTime: '09:00:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound Marine Dr @ 24 St',
+          Lat: '49.333977',
+          Long: '-123.178898',
+          Time: '08:05:40',
+          Bus: '255 Capilano University - via 15th St & Lonsdale'
+        },
+        End: {
+          Stop: 'Eastbound E Keith Rd @ Mountain Hwy',
+          Lat: '49.313198',
+          Long: '-123.037449',
+          Time: '08:42:28',
+          Bus: '255 Capilano University - via 15th St & Lonsdale'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.24928198469956,
+      startLon: -123.03005380087676,
+      endLat: 49.24161256039584,
+      endLon: -123.05916415399797,
+      startTime: '11:59:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound E Hastings St @ Skeena St',
+          Lat: '49.281215',
+          Long: '-123.028984',
+          Time: '11:44:54',
+          Bus: '14 UBC'
+        },
+        End: {
+          Stop: 'Westbound E Hastings St @ Nanaimo St',
+          Lat: '49.281242',
+          Long: '-123.057254',
+          Time: '11:53:37',
+          Bus: '14 UBC'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.23939974989684,
+      startLon: -123.13745619151996,
+      endLat: 49.24950773720833,
+      endLon: -123.15159237514392,
+      startTime: '12:43:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound Williams Rd @ No. 3 Rd',
+          Lat: '49.140951',
+          Long: '-123.137149',
+          Time: '12:14:42',
+          Bus: '413 Steveston'
+        },
+        End: {
+          Stop: 'Westbound Williams Rd @ Sheridan Rd',
+          Lat: '49.141041',
+          Long: '-123.151186',
+          Time: '12:16:59',
+          Bus: '413 Steveston'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.23403466287654,
+      startLon: -123.18221944285087,
+      endLat: 49.2624144647721,
+      endLon: -123.08120784364218,
+      startTime: '17:41:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound Steveston Hwy @ No. 1 Rd',
+          Lat: '49.133706',
+          Long: '-123.182049',
+          Time: '16:35:41',
+          Bus: '407 Bridgeport via Vulcan'
+        },
+        End: {
+          Stop: 'Eastbound Vulcan Way @ Sweden Way',
+          Lat: '49.194847',
+          Long: '-123.082255',
+          Time: '17:27:29',
+          Bus: '407 Bridgeport via Vulcan'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.236268163011694,
+      startLon: -123.14945194627916,
+      endLat: 49.264064723958754,
+      endLon: -123.15019228826246,
+      startTime: '07:16:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    TypeError: Cannot read properties of undefined (reading 'length')
+        at Object.length [as getRoute] (/home/singh/School/321/temp/JAAM-project/backend/engine/routeEngine.js:323:44)
+        at getRoute (/home/singh/School/321/temp/JAAM-project/backend/app.js:345:32)
+
+      at log (app.js:350:13)
+
+  console.log
+    {
+      startLat: 49.26179772543149,
+      startLon: -123.16974478792635,
+      endLat: 49.258529912011774,
+      endLon: -123.1323080236552,
+      startTime: '12:29:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound Williams Rd @ Railway Ave',
+          Lat: '49.140958',
+          Long: '-123.169241',
+          Time: '12:07:35',
+          Bus: '413 Riverport'
+        },
+        End: {
+          Stop: 'Eastbound Williams Rd @ Pigott Dr',
+          Lat: '49.140794',
+          Long: '-123.131381',
+          Time: '12:14:18',
+          Bus: '413 Riverport'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.25334342383198,
+      startLon: -123.11094932679157,
+      endLat: 49.239539170125525,
+      endLon: -123.07185805471237,
+      startTime: '12:05:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound W Hastings St @ Homer St',
+          Lat: '49.283054',
+          Long: '-123.110546',
+          Time: '11:50:54',
+          Bus: '16 29th Ave Station'
+        },
+        End: {
+          Stop: 'Eastbound E Hastings St @ McLean Dr',
+          Lat: '49.281191',
+          Long: '-123.073421',
+          Time: '12:02:36',
+          Bus: '16 29th Ave Station'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.2578841889142,
+      startLon: -123.16811710197406,
+      endLat: 49.25841413098716,
+      endLon: -123.03869927026365,
+      startTime: '11:33:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Northbound Macdonald St @ W 7th Ave',
+          Lat: '49.266074',
+          Long: '-123.168302',
+          Time: '10:39:18',
+          Bus: '14 Hastings'
+        },
+        End: {
+          Stop: 'Eastbound E Hastings St @ Lillooet St',
+          Lat: '49.281041',
+          Long: '-123.038301',
+          Time: '11:28:51',
+          Bus: '14 Hastings'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.24251752527706,
+      startLon: -123.04509514622194,
+      endLat: 49.24837820429458,
+      endLon: -123.10913372203215,
+      startTime: '14:06:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound E Hastings St @ Renfrew St',
+          Lat: '49.281229',
+          Long: '-123.044631',
+          Time: '13:43:01',
+          Bus: 'R5 Burrard Station'
+        },
+        End: {
+          Stop: 'Westbound W Hastings St @ Abbott St',
+          Lat: '49.282004',
+          Long: '-123.10684',
+          Time: '13:59:15',
+          Bus: 'R5 Burrard Station'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.24578470081825,
+      startLon: -123.0905332781246,
+      endLat: 49.239993372354824,
+      endLon: -123.02636649028919,
+      startTime: '08:35:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound E Hastings St @ Princess Ave',
+          Lat: '49.281081',
+          Long: '-123.090971',
+          Time: '08:09:33',
+          Bus: '14 Hastings'
+        },
+        End: {
+          Stop: 'Kootenay Loop @ Bay 5',
+          Lat: '49.281385',
+          Long: '-123.026363',
+          Time: '08:27:00',
+          Bus: '14 Hastings'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.238569075237926,
+      startLon: -123.16261443106877,
+      endLat: 49.25771498958751,
+      endLon: -123.10976856828346,
+      startTime: '19:44:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound Williams Rd @ Lassam Rd',
+          Lat: '49.140958',
+          Long: '-123.163303',
+          Time: '19:16:54',
+          Bus: '413 Riverport'
+        },
+        End: {
+          Stop: 'Eastbound Williams Rd @ Aquila Rd',
+          Lat: '49.140658',
+          Long: '-123.108713',
+          Time: '19:24:39',
+          Bus: '413 Riverport'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.25241584768295,
+      startLon: -123.17236996196267,
+      endLat: 49.25599865468209,
+      endLon: -123.13834166514472,
+      startTime: '12:46:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound Williams Rd @ Freshwater Dr',
+          Lat: '49.140964',
+          Long: '-123.171279',
+          Time: '12:25:04',
+          Bus: '406 Railway Ave to Brighouse Station'
+        },
+        End: {
+          Stop: 'Richmond-Brighouse Station @ Bay 2',
+          Lat: '49.167576',
+          Long: '-123.135746',
+          Time: '12:40:00',
+          Bus: '406 Railway Ave to Brighouse Station'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.25535090501148,
+      startLon: -123.05048314434126,
+      endLat: 49.26150728794934,
+      endLon: -123.07956057566618,
+      startTime: '16:37:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound E Broadway @ Penticton St',
+          Lat: '49.262111',
+          Long: '-123.051889',
+          Time: '16:27:46',
+          Bus: '9 Alma'
+        },
+        End: {
+          Stop: 'Westbound E Broadway @ Clark Dr',
+          Lat: '49.262499',
+          Long: '-123.078554',
+          Time: '16:34:46',
+          Bus: '9 Alma'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.260425078433364,
+      startLon: -123.12333065750884,
+      endLat: 49.248906581152895,
+      endLon: -123.15458348542592,
+      startTime: '10:15:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound W Broadway @ Willow St',
+          Lat: '49.263433',
+          Long: '-123.122318',
+          Time: '10:08:13',
+          Bus: '99 UBC B-Line'
+        },
+        End: {
+          Stop: 'Westbound W Broadway @ Arbutus St',
+          Lat: '49.263936',
+          Long: '-123.154352',
+          Time: '10:14:07',
+          Bus: '99 UBC B-Line'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.254687836553835,
+      startLon: -123.07455357122902,
+      endLat: 49.2412187778753,
+      endLon: -123.13114240716791,
+      startTime: '12:01:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound E Broadway @ McLean Dr',
+          Lat: '49.262487',
+          Long: '-123.07607',
+          Time: '11:42:39',
+          Bus: '9 Alma'
+        },
+        End: {
+          Stop: 'Westbound W Broadway @ Spruce St',
+          Lat: '49.26354',
+          Long: '-123.129369',
+          Time: '11:59:00',
+          Bus: '9 Alma'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.2467165613551,
+      startLon: -123.10358054313862,
+      endLat: 49.23935821066399,
+      endLon: -123.05796341503596,
+      startTime: '20:32:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound Marine Dr @ Lloyd Ave',
+          Lat: '49.32375',
+          Long: '-123.105298',
+          Time: '20:16:11',
+          Bus: '240 Lynn Valley'
+        },
+        End: {
+          Stop: 'Northbound Boulevard Cres @ E 19 St',
+          Lat: '49.326339',
+          Long: '-123.056094',
+          Time: '20:30:51',
+          Bus: '240 Lynn Valley'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.25115487918462,
+      startLon: -123.0928700250502,
+      endLat: 49.233091437846475,
+      endLon: -123.14753321119798,
+      startTime: '12:18:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound E Broadway @ St. George St',
+          Lat: '49.262598',
+          Long: '-123.093535',
+          Time: '11:57:27',
+          Bus: '9 Alma'
+        },
+        End: {
+          Stop: 'Westbound W Broadway @ Burrard St',
+          Lat: '49.263829',
+          Long: '-123.146302',
+          Time: '12:17:42',
+          Bus: '9 Alma'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.25078280620636,
+      startLon: -123.0721333647545,
+      endLat: 49.2344915862549,
+      endLon: -123.09451305557785,
+      startTime: '18:06:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound Commerce Parkway @ No. 6 Rd',
+          Lat: '49.176092',
+          Long: '-123.071177',
+          Time: '17:52:40',
+          Bus: '416 Brighouse Station'
+        },
+        End: {
+          Stop: 'Westbound Cambie Rd @ No. 5 Rd',
+          Lat: '49.184632',
+          Long: '-123.092077',
+          Time: '18:04:08',
+          Bus: '416 Brighouse Station'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.252146543707795,
+      startLon: -123.11197876779444,
+      endLat: 49.237678187277695,
+      endLon: -123.07289462274215,
+      startTime: '20:02:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound W Hastings St @ Homer St',
+          Lat: '49.283054',
+          Long: '-123.110546',
+          Time: '19:44:32',
+          Bus: '16 29th Ave Station'
+        },
+        End: {
+          Stop: 'Eastbound E Hastings St @ McLean Dr',
+          Lat: '49.281191',
+          Long: '-123.073421',
+          Time: '19:57:28',
+          Bus: '16 29th Ave Station'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.25036351903678,
+      startLon: -123.17579642296435,
+      endLat: 49.259869657390105,
+      endLon: -123.1789975605056,
+      startTime: '13:09:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    TypeError: Cannot read properties of undefined (reading 'length')
+        at Object.length [as getRoute] (/home/singh/School/321/temp/JAAM-project/backend/engine/routeEngine.js:323:44)
+        at getRoute (/home/singh/School/321/temp/JAAM-project/backend/app.js:345:32)
+
+      at log (app.js:350:13)
+
+  console.log
+    {
+      startLat: 49.25961767931516,
+      startLon: -123.06637895516137,
+      endLat: 49.241698012130485,
+      endLon: -123.08512070438042,
+      startTime: '18:36:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Westbound Harvest Dr @ 57 St',
+          Lat: '49.084363',
+          Long: '-123.065208',
+          Time: '18:21:55',
+          Bus: '606 Ladner Ring'
+        },
+        End: {
+          Stop: 'Westbound 45 Ave @ 51 St',
+          Lat: '49.085201',
+          Long: '-123.083005',
+          Time: '18:25:10',
+          Bus: '606 Ladner Ring'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.25798482105357,
+      startLon: -123.0252207633371,
+      endLat: 49.24438488415792,
+      endLon: -123.06665685050706,
+      startTime: '07:11:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Kootenay Loop @ Bay 5',
+          Lat: '49.281385',
+          Long: '-123.026363',
+          Time: '07:03:00',
+          Bus: '14 UBC'
+        },
+        End: {
+          Stop: 'Westbound E Hastings St @ Victoria Dr',
+          Lat: '49.281297',
+          Long: '-123.066124',
+          Time: '07:10:54',
+          Bus: '14 UBC'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.2401182967479,
+      startLon: -123.05142623508304,
+      endLat: 49.26161788509119,
+      endLon: -123.03238930645966,
+      startTime: '11:22:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound E Broadway @ Penticton St',
+          Lat: '49.261916',
+          Long: '-123.051333',
+          Time: '11:17:18',
+          Bus: '99 To Boundary B-Line'
+        },
+        End: {
+          Stop: 'Eastbound E Broadway @ Rupert St',
+          Lat: '49.261781',
+          Long: '-123.033192',
+          Time: '11:20:41',
+          Bus: '99 To Boundary B-Line'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.2615855689902,
+      startLon: -123.17231524620138,
+      endLat: 49.236918431963616,
+      endLon: -123.13282976440945,
+      startTime: '19:00:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Southbound Agar Dr @ Inglis Dr',
+          Lat: '49.179832',
+          Long: '-123.173796',
+          Time: '18:35:00',
+          Bus: '412 Bridgeport Station'
+        },
+        End: {
+          Stop: 'Eastbound Sea Island Way @ No. 3 Rd',
+          Lat: '49.190896',
+          Long: '-123.132234',
+          Time: '18:47:14',
+          Bus: '412 Bridgeport Station'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+  console.log
+    {
+      startLat: 49.246280269376264,
+      startLon: -123.13380868206465,
+      endLat: 49.235442027374305,
+      endLon: -123.11395118817225,
+      startTime: '11:42:00'
+    }
+
+      at log (app.js:339:13)
+
+  console.log
+    Files exist
+
+      at Object.log [as init] (engine/routeEngine.js:25:21)
+
+  console.log
+    Parsing File:  ./engine/generated/stops.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Parsing File:  ./engine/generated/trips.json
+
+      at log (engine/routeEngine.js:52:21)
+
+  console.log
+    Setup Complete
+
+      at Object.log [as init] (engine/routeEngine.js:44:13)
+
+  console.log
+    [
+      {
+        Start: {
+          Stop: 'Eastbound W Georgia St @ Denman St',
+          Lat: '49.292217',
+          Long: '-123.133397',
+          Time: '11:34:28',
+          Bus: '250 Vancouver'
+        },
+        End: {
+          Stop: 'Eastbound W Georgia St @ Hamilton St',
+          Lat: '49.280019',
+          Long: '-123.114489',
+          Time: '11:40:00',
+          Bus: '250 Vancouver'
+        }
+      }
+    ]
+
+      at log (app.js:346:13)
+
+------------------------------|---------|----------|---------|---------|-------------------------------------------------------------
+File                          | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s                                           
+------------------------------|---------|----------|---------|---------|-------------------------------------------------------------
+All files                     |   13.21 |     6.43 |   12.03 |   21.05 |                                                             
+ backend                      |   11.23 |     5.73 |    7.01 |   11.35 |                                                             
+  app.js                      |      25 |    12.06 |   23.52 |   25.24 | 21-65,78,87-118,130-191,197-218,271-319,336,366-397,402-429 
+  database.js                 |   33.33 |      100 |       0 |      40 | 5-10                                                        
+  mockUserDB.js               |   11.94 |        0 |       0 |    12.5 | 40-100,191-216,223-267,272-313                              
+  server.js                   |       0 |      100 |       0 |       0 | 1-47                                                        
+  server_old.js               |       0 |        0 |       0 |       0 | 1-519                                                       
+ backend/controllers          |   27.27 |        0 |       0 |   27.27 |                                                             
+  chat.js                     |   27.27 |        0 |       0 |   27.27 | 12-54,92-108                                                
+ backend/coverage/lcov-report |       0 |        0 |       0 |       0 |                                                             
+  block-navigation.js         |       0 |        0 |       0 |       0 | 2-87                                                        
+  prettify.js                 |       0 |        0 |       0 |       0 | 2                                                           
+  sorter.js                   |       0 |        0 |       0 |       0 | 2-196                                                       
+ backend/engine               |   54.95 |    59.52 |      60 |   55.55 |                                                             
+  routeEngine.js              |   54.95 |    59.52 |      60 |   55.55 | 27-38,60-172,285-289,301,307-308,346-357                    
+ backend/models               |     100 |      100 |     100 |     100 |                                                             
+  message.js                  |     100 |      100 |     100 |     100 |                                                             
+ backend/routes               |     100 |      100 |     100 |     100 |                                                             
+  chatRoute.js                |     100 |      100 |     100 |     100 |                                                             
+------------------------------|---------|----------|---------|---------|-------------------------------------------------------------

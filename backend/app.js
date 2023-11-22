@@ -378,7 +378,7 @@ app.post('/getFriendRoute', [
           const defaultLong = userExists.defaultLon;
     
           await routeEngine.init();
-          result = routeEngine.getPartnerRoute(startLat1, startLon1, defaultLat, defaultLong, endLat, endLon, endTime);
+          result = routeEngine.getPartnerRoute(startLat, startLon, defaultLat, defaultLong, endLat, endLon, endTime);
           console.log(result);
     
           if (result) {

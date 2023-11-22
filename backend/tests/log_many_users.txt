@@ -1,0 +1,527 @@
+
+> test
+> jest quick_tests/nonfunctional/chatManyUsers.test.js
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+  console.log
+    receiverEmail 0@example.com
+
+      at log (controllers/chat.js:15:13)
+
+------------------------------|---------|----------|---------|---------|---------------------------------------------------------------------------------
+File                          | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s                                                               
+------------------------------|---------|----------|---------|---------|---------------------------------------------------------------------------------
+All files                     |    5.78 |      0.4 |     1.5 |    9.26 |                                                                                 
+ backend                      |    8.15 |        0 |    1.75 |    8.24 |                                                                                 
+  app.js                      |   16.82 |        0 |    5.88 |   16.99 | 21-65,78,87-118,130-191,197-218,252-253,257-258,271-319,334-353,366-397,402-429 
+  database.js                 |   33.33 |      100 |       0 |      40 | 5-10                                                                            
+  mockUserDB.js               |   11.94 |        0 |       0 |    12.5 | 40-100,191-216,223-267,272-313                                                  
+  server.js                   |       0 |      100 |       0 |       0 | 1-47                                                                            
+  server_old.js               |       0 |        0 |       0 |       0 | 1-519                                                                           
+ backend/controllers          |    60.6 |       50 |      50 |    60.6 |                                                                                 
+  chat.js                     |    60.6 |       50 |      50 |    60.6 | 23,37,53-54,92-108                                                              
+ backend/coverage/lcov-report |       0 |        0 |       0 |       0 |                                                                                 
+  block-navigation.js         |       0 |        0 |       0 |       0 | 2-87                                                                            
+  prettify.js                 |       0 |        0 |       0 |       0 | 2                                                                               
+  sorter.js                   |       0 |        0 |       0 |       0 | 2-196                                                                           
+ backend/engine               |    6.43 |        0 |       0 |    6.56 |                                                                                 
+  routeEngine.js              |    6.43 |        0 |       0 |    6.56 | 24-357                                                                          
+ backend/models               |       0 |      100 |     100 |       0 |                                                                                 
+  message.js                  |       0 |      100 |     100 |       0 | 1-22                                                                            
+ backend/routes               |     100 |      100 |     100 |     100 |                                                                                 
+  chatRoute.js                |     100 |      100 |     100 |     100 |                                                                                 
+------------------------------|---------|----------|---------|---------|---------------------------------------------------------------------------------
