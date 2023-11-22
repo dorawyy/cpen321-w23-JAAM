@@ -1,7 +1,9 @@
 package com.jaam.transittrack;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.Editable;
@@ -61,7 +63,7 @@ public class FriendListActivity extends AppCompatActivity {
 
         addFriendButton = findViewById(R.id.addFriendButton);
 
-        refreshFriendsListBtn = (FloatingActionButton) findViewById(R.id.friendsListRefreshButton);
+        refreshFriendsListBtn = findViewById(R.id.friendsListRefreshButton);
 
         friendEmailTextView = findViewById(R.id.friendEmailEditText);
         //ChatGPT usage: No
@@ -95,21 +97,24 @@ public class FriendListActivity extends AppCompatActivity {
                 String textViewContent = String.valueOf(friendEmailTextView.getText());
                 JSONObject friendReqBody = new JSONObject();
                 try {
-                    friendReqBody.put("userEmail",GoogleSignIn.getLastSignedInAccount(FriendListActivity.this).getEmail());
-                    friendReqBody.put("friendEmail",textViewContent);
+                    friendReqBody.put("userEmail", GoogleSignIn.getLastSignedInAccount(FriendListActivity.this).getEmail());
+                    friendReqBody.put("friendEmail", textViewContent);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 try {
-                    OkHTTPHelper.sendFriendRequest(friendReqBody);
+                    String responseString = OkHTTPHelper.sendFriendRequest(friendReqBody);
+                    if (responseString.equals("Friend not found in the database."))
+                        showNewErrorAlertDialog("Friend", "Email is not registered with a user. \nPlease try a different one.");
+                    else {
+                        friends.add(textViewContent);
+                        friendEntryAdapter.notifyDataSetChanged();
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (TimeoutException e) {
                     Toast.makeText(FriendListActivity.this, "Server timeout, please try again", Toast.LENGTH_SHORT).show();
                 }
-
-                friends.add(textViewContent);
-                friendEntryAdapter.notifyDataSetChanged();
             }
         });
 
@@ -119,9 +124,10 @@ public class FriendListActivity extends AppCompatActivity {
             public void onClick(View v) {
                 makeGetRequestForFriendsList();
 
-                Toast.makeText(FriendListActivity.this, "Friends List Received", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(FriendListActivity.this, "Friends List Received", Toast.LENGTH_SHORT).show();
             }
         });
+        makeGetRequestForFriendsList();
     }
 
     public List<String> parseFriendsListJson(String jsonString) {
@@ -141,13 +147,13 @@ public class FriendListActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         friends.clear();
-        Log.d(TAG, "Parsed Email List: "+emailList);
+        Log.d(TAG, "Parsed Email List: " + emailList);
 
-        for(String email : emailList){
+        for (String email : emailList) {
             friends.add(email);
         }
 
-        Log.d(TAG, "Friends post refresh: "+friends);
+        Log.d(TAG, "Friends post refresh: " + friends);
 
         friendEntryAdapter.notifyDataSetChanged();
         return emailList;
@@ -176,12 +182,12 @@ public class FriendListActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String responseData = response.body().string();
-                    Log.d(TAG,"makeGetRequestFriendsList successful: "+ responseData);
+                    Log.d(TAG, "makeGetRequestFriendsList successful: " + responseData);
                     try {
                         JSONObject historyArray = new JSONObject(responseData);
                         runOnUiThread(() -> parseFriendsListJson(String.valueOf(historyArray)));
                     } catch (JSONException e) {
-                        Log.d(TAG, "makeGetRequestFriendsList Failed: "+ e.getMessage());
+                        Log.d(TAG, "makeGetRequestFriendsList Failed: " + e.getMessage());
                         e.printStackTrace();
                     }
                 } else {
@@ -190,5 +196,15 @@ public class FriendListActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void showNewErrorAlertDialog(String title, String message) {
+        new AlertDialog.Builder(FriendListActivity.this).setTitle(title).setMessage(message)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create().show();
     }
 }
