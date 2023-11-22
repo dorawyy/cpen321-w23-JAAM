@@ -4,12 +4,10 @@ import static androidx.test.espresso.action.ViewActions.typeText;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
-
 import static java.lang.Thread.sleep;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
