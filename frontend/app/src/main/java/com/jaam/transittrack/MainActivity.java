@@ -1,13 +1,5 @@
 package com.jaam.transittrack;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
@@ -18,6 +10,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     private double defaultLat;
     private double defaultLon;
-    static private String[] cityCoverage = {"Vancouver", "West Vancouver", "North Vancouver",
+    static private String[] cityCoverage = {"University Endowment Lands","Vancouver", "West Vancouver", "North Vancouver",
             "Lions Bay", "Bowen Island", "Burnaby", "New Westminister", "Richmond", "Surrey",
             "Delta", "White Rock", "Langley", "Coquitlam", "Port Moody", "Port Coquitlam",
             "Belcarra", "Anmore", "Pitt Meadows", "Maple Ridge"};

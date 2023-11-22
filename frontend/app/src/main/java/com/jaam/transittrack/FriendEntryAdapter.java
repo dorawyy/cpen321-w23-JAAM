@@ -2,7 +2,6 @@ package com.jaam.transittrack;
 
 
 import android.Manifest;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,7 +26,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,7 +48,7 @@ public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, Loca
     private Location currLocation;
     protected LocationManager locationManager;
 
-    static private String[] cityCoverage = {"Vancouver", "West Vancouver", "North Vancouver",
+    static private String[] cityCoverage = {"University Endowment Lands","Vancouver", "West Vancouver", "North Vancouver",
             "Lions Bay", "Bowen Island", "Burnaby", "New Westminister", "Richmond", "Surrey",
             "Delta", "White Rock", "Langley", "Coquitlam", "Port Moody", "Port Coquitlam",
             "Belcarra", "Anmore", "Pitt Meadows", "Maple Ridge"};
