@@ -10,7 +10,7 @@ jest.mock('../models/message', () => ({
 const app = makeApp(mockUserDB);
 
 jest.mock('../mockUserDB', () => ({
-    ...jest.requireActual('../mockUserDB'), // Use the actual implementation for other functions
+    ...jest.requireActual('../mockUserDB'),
     getChatHistory: jest.fn(),
   }));
 
