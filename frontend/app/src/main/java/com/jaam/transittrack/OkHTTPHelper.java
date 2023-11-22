@@ -1,13 +1,11 @@
 package com.jaam.transittrack;
 
 
-
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -60,14 +58,15 @@ public class OkHTTPHelper {
         return response.body().string();
     }
     //ChatGPT usage: No
-    static void sendFriendRequest(JSONObject body) throws IOException, TimeoutException{
+    static String sendFriendRequest(JSONObject body) throws IOException, TimeoutException{
         RequestBody reqBody = RequestBody.create(body.toString(), JSON);
         Request request = new Request.Builder()
                 .url(BASE_URL + "/addFriend")
                 .post(reqBody)
                 .header("Connection", "close")
                 .build();
-        client.newCall(request).execute();
+        Response response = client.newCall(request).execute();
+        return response.body().string();
     }
     //ChatGPT usage: No
     static String sendCalendar(JSONObject req) throws IOException, TimeoutException{
