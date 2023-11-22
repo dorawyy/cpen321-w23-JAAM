@@ -368,7 +368,7 @@ app.post('/getFriendRoute', [
       return res.status(400).json({ errors: errors.array() });
     }
     try {
-        const { startLat1, startLon1, endLat, endLon, endTime, friendEmail } = req.body;
+        const { startLat, startLon, endLat, endLon, endTime, friendEmail } = req.body;
     
         await database.connectToDatabase();
         const userExists = await database.getUserInfoByEmail(friendEmail);

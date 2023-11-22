@@ -10,7 +10,6 @@
     "mongoose": "^7.6.3",
     "nock": "^13.3.8",
     "node-schedule": "^2.1.1",
-    "supertest": "^6.3.3",
     "websocket": "^1.0.34"
   },
   "devDependencies": {
