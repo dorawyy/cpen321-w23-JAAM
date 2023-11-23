@@ -296,7 +296,7 @@ module.exports = function(database) {
 
 					await routeEngine.init();
 
-					const result = await routeEngine.getRoute(defaultLat, defaultLong, latitude, longitude, startTime);
+					const result = routeEngine.getRoute(defaultLat, defaultLong, latitude, longitude, startTime);
 
 					const formattedSubtractedTimes = result.map((item) => {
 						if (item.Start && item.Start.Time) {
