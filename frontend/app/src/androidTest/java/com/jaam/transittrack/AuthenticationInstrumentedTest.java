@@ -79,6 +79,7 @@ public class AuthenticationInstrumentedTest {
         else{
             Log.d("AUTHENTICATION TESTING", "Cannot find email: crabapple569@gmail.com");
         }
+        Log.d("AUTHENTICATION TEST", "authentication test pass");
     }
 
     @Test
@@ -99,6 +100,7 @@ public class AuthenticationInstrumentedTest {
         if(positiveDialogButton != null){
             positiveDialogButton.click();
         }
+        Log.d("AUTHENTICATION TEST", "no address test pass");
     }
 
     @Test()
@@ -119,6 +121,7 @@ public class AuthenticationInstrumentedTest {
         else{
             fail("Dialog not found");
         }
+        Log.d("AUTOMATED TEST", "bad address test pass");
     }
 
 //    @Test

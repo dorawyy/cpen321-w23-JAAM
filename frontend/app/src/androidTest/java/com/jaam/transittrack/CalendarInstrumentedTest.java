@@ -8,6 +8,7 @@ import static java.lang.Thread.sleep;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
@@ -48,7 +49,7 @@ public class CalendarInstrumentedTest {
         else{
             fail("Dialog not found");
         }
-
+        Log.d("CALENDAR TEST", "get calendar test pass");
     }
 
     @Before

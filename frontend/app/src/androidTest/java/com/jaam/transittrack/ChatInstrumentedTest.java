@@ -18,6 +18,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.fail;
 import static java.lang.Thread.sleep;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -58,6 +59,7 @@ public class ChatInstrumentedTest {
 
     @Test
     public void testSendMessage(){
+        Log.d("CHAT TEST", "starting send message test");
         String testMessage = "this is an automated test message";
         Espresso.onView(ViewMatchers.withId(R.id.messageEdit)).perform(typeText(testMessage));
         Espresso.onView(ViewMatchers.withId(R.id.sendBtn)).perform(click());
@@ -65,23 +67,26 @@ public class ChatInstrumentedTest {
         if(sentMessage == null){
             fail("Message not found");
         }
-
+        Log.d("CHAT TEST", "send message test pass");
     }
     @Test
     public void testEmptyMessage() throws InterruptedException {
+        Log.d("CHAT TEST", "starting empty message test");
         Espresso.onView(ViewMatchers.withId(R.id.sendBtn))
                 .check(ViewAssertions.matches(
                         withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)));
+        Log.d("CHAT TEST", "empty message test pass");
     }
 
 @Test
 public void testCharLimit(){
+    Log.d("CHAT TEST", "starting char limit test");
         String testMessage = Strings.repeat("a",241);
         Espresso.onView(ViewMatchers.withId(R.id.messageEdit)).perform(typeText(testMessage));
     Espresso.onView(ViewMatchers.withId(R.id.sendBtn))
             .check(ViewAssertions.matches(
                     withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)));
-
+    Log.d("CHAT TEST", "char limit test pass");
 }
 
     @Before

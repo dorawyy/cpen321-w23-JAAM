@@ -16,6 +16,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.fail;
 import static java.lang.Thread.sleep;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -58,15 +59,17 @@ public class RouteInstrumentedTest {
     @Test
     public void testGetRoute() throws InterruptedException {
         sleep(2000);
+        Log.d("ROUTE TEST", "starting get route test");
         UiObject2 searchField = device.findObject(By.text("Search"));
         searchField.setText("UBC Bus Loop");
         Espresso.onView((withId(R.id.searchButton))).perform(click());
         Espresso.onData(anything()).inAdapterView(allOf(withId(R.id.stopList),isDisplayed())).atPosition(0).check(matches(isDisplayed()));
-
+        Log.d("ROUTE TEST", "get route test pass");
     }
     @Test
     public void testGetRouteBadLocation() throws InterruptedException {
         sleep(2000);
+        Log.d("ROUTE TEST", "starting bad location route test");
         UiObject2 searchField = device.findObject(By.text("Search"));
         searchField.setText("Calgary Tower");
         Espresso.onView((withId(R.id.searchButton))).perform(click());
@@ -74,14 +77,17 @@ public class RouteInstrumentedTest {
         if(dialogText == null){
             fail("Dialog not found");
         }
+        Log.d("ROUTE TEST", "bad location route test pass");
     }
     @Test
     public void testNoLocation(){
+        Log.d("ROUTE TEST", "starting no location route test");
         //for some god forsaken reason, setting the button to not clickable doesn't work.
         Espresso.onView((withId(R.id.searchButton))).perform(click());
         if(device.findObject(By.text("Please enter an address.")) == null){
             fail("Dialog not found");
         }
+        Log.d("ROUTE TEST", "no location route test pass");
     }
     @Before
     public void navigateToRoutes() throws InterruptedException {
