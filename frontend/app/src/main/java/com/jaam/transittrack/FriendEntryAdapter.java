@@ -2,7 +2,6 @@ package com.jaam.transittrack;
 
 
 import android.Manifest;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,7 +26,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,6 +33,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -48,10 +47,16 @@ public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, Loca
 
     private Location currLocation;
     protected LocationManager locationManager;
+
+    static private String[] cityCoverage = {"University Endowment Lands","Vancouver", "West Vancouver", "North Vancouver",
+            "Lions Bay", "Bowen Island", "Burnaby", "New Westminister", "Richmond", "Surrey",
+            "Delta", "White Rock", "Langley", "Coquitlam", "Port Moody", "Port Coquitlam",
+            "Belcarra", "Anmore", "Pitt Meadows", "Maple Ridge"};
     //ChatGPT usage: No
     public FriendEntryAdapter(ArrayList<String> list, Context context) {
         //TODO avoid repeating again
         locationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
+        final boolean gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -104,6 +109,7 @@ public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, Loca
             public void onClick(View v) {
                 Intent chatIntent = new Intent(context, ChatActivity.class);
                 chatIntent.putExtra("receiverEmail", tvContact.getText());
+                Log.d(TAG, (String) tvContact.getText());
                 context.startActivity(chatIntent);
             }
         });
@@ -133,47 +139,54 @@ public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, Loca
                             Log.d(TAG, "Could not get location");
                         }
                         Address address;
-                        if (addressList.size() > 0) {
-                            address = addressList.get(0);
-                            Double endLat = address.getLatitude();
-                            Double endLon = address.getLongitude();
-                            JSONObject jsonObject = new JSONObject();
-                            try {
-                                jsonObject.put("startLat1", startLat1);
-                                jsonObject.put("startLon1", startLon1);
-                                jsonObject.put("friendEmail", friendEmail);
-                                jsonObject.put("endLat", endLat);
-                                jsonObject.put("endLon", endLon);
-                                jsonObject.put("endTime", new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date(System.currentTimeMillis()+ 7200000)));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                Log.d(TAG, "Could not parse JSON");
-                            }
-                            try {
-                                Intent routeIntent = new Intent(context, RouteActivity.class);
-                                JSONObject responseObj = new JSONObject( OkHTTPHelper.getFriendRoute(jsonObject));
+                        if(addressList.size() > 0) {
+                            if(addressList.get(0).getCountryName().equals("Canada") && Collections.singletonList(cityCoverage).contains(addressList.get(0).getLocality())) {
+                                address = addressList.get(0);
+                                Double endLat = address.getLatitude();
+                                Double endLon = address.getLongitude();
+                                JSONObject jsonObject = new JSONObject();
 
-                                Log.d(TAG,"Friend Route response: "+responseObj.toString());
-                                JSONArray commonArray = responseObj.getJSONObject("result").getJSONArray("Common");
-                                JSONArray aArray = responseObj.getJSONObject("result").getJSONArray("A");
-                                JSONArray combinedArray = new JSONArray();
-                                for(int i = 0; i < aArray.length(); i++){
-                                    combinedArray.put(aArray.getJSONObject(i));
+                                try {
+                                    jsonObject.put("startLat1", startLat1);
+                                    jsonObject.put("startLon1", startLon1);
+                                    jsonObject.put("friendEmail", friendEmail);
+                                    jsonObject.put("endLat", endLat);
+                                    jsonObject.put("endLon", endLon);
+                                    jsonObject.put("endTime", new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date(System.currentTimeMillis() + 7200000)));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Log.d(TAG, "Could not parse JSON");
                                 }
-                                for(int i = 0; i < commonArray.length(); i++){
-                                    combinedArray.put(commonArray.getJSONObject(i));
+                                try {
+                                    Intent routeIntent = new Intent(context, RouteActivity.class);
+                                    JSONObject responseObj = new JSONObject(OkHTTPHelper.getFriendRoute(jsonObject));
+
+                                    Log.d(TAG, "Friend Route response: " + responseObj.toString());
+                                    JSONArray commonArray = responseObj.getJSONObject("result").getJSONArray("Common");
+                                    JSONArray aArray = responseObj.getJSONObject("result").getJSONArray("A");
+                                    JSONArray combinedArray = new JSONArray();
+                                    for (int i = 0; i < aArray.length(); i++) {
+                                        combinedArray.put(aArray.getJSONObject(i));
+                                    }
+                                    for (int i = 0; i < commonArray.length(); i++) {
+                                        combinedArray.put(commonArray.getJSONObject(i));
+                                    }
+                                    String routeString = combinedArray.toString();
+                                    Log.d(TAG, routeString);
+                                    routeIntent.putExtra("routeString", routeString);
+                                    context.startActivity(routeIntent);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                    Log.d(TAG, "OkHTTPHelper failed");
+                                } catch (TimeoutException | JSONException e) {
+                                    Toast.makeText(context, "No route found", Toast.LENGTH_SHORT).show();
                                 }
-                                String routeString = combinedArray.toString();
-                                Log.d(TAG, routeString);
-                                routeIntent.putExtra("routeString", routeString);
-                                context.startActivity(routeIntent);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                                Log.d(TAG, "OkHTTPHelper failed");
-                            } catch (TimeoutException | JSONException e){
-                                Toast.makeText(context, "No route found", Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                Toast.makeText(context, "Please enter an address covered by Translink", Toast.LENGTH_SHORT).show();
                             }
                         }
+                        Toast.makeText(context, "Could not find address.", Toast.LENGTH_SHORT).show();
                     }
                 });
                 alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

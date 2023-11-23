@@ -22,6 +22,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -38,7 +40,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
     private static final String TAG = "ChatActivity";
     private String name;
     private WebSocket webSocket;
-    private String SERVER_PATH = "ws://4.205.17.106:8081"; // WebSocket server path
+    private String SERVER_PATH = "ws://20.200.125.197:8081"; // WebSocket server path
 
     private EditText messageEdit;
     private View sendBtn;
@@ -46,27 +48,51 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
     private static ArrayList<Message> messagesArrayList = new ArrayList<>();
     private static ArrayList<String> messageHistory = new ArrayList<>();
     private ArrayAdapter<String> arrayAdapter;
+    private Timer chatHistoryTimer;
 
 
     private String receiverEmail = "d.trump@example.com";
+
     //ChatGPT usage: No
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_chat);
-
-            arrayAdapter = new ArrayAdapter<>(this, R.layout.layout_message, R.id.messageTextView, messageHistory);
-            ListView chatHistory = findViewById(R.id.messageListView);
-            chatHistory.setAdapter(arrayAdapter);
-
-            name = getIntent().getStringExtra("name");
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_chat);
+        arrayAdapter = new ArrayAdapter<>(this, R.layout.layout_message, R.id.messageTextView, messageHistory);
+        ListView chatHistory = findViewById(R.id.messageListView);
+        chatHistory.setAdapter(arrayAdapter);
+        name = getIntent().getStringExtra("name");
         receiverEmail = getIntent().getStringExtra("receiverEmail");
         getIntent().removeExtra("receiverEmail");
         initiateSocketConnection();
         initializeView();
-        makeGetRequestForChatHistory();
+        //regularly poll backend for chat history... TODO fix later
+        chatHistoryTimer = new Timer();
+        chatHistoryTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                messagesArrayList.clear();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        arrayAdapter.clear();
+                    }
+                });
+                makeGetRequestForChatHistory();
+            }
+        }, 100, 5000);
+//        arrayAdapter.clear();
+//        messagesArrayList.clear();
+//        makeGetRequestForChatHistory();
 
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        chatHistoryTimer.purge();
+    }
+
     //ChatGPT usage: Partial
     private void sendHttpMessage(String message) {
         JSONObject jsonObject = new JSONObject();
@@ -87,12 +113,13 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
 
             // Clear the message edit text or perform any UI update after sending the message
         } catch (JSONException e) {
-            Log.d(TAG,"Cannot parse JSON.");
+            Log.d(TAG, "Cannot parse JSON.");
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     //ChatGPT usage: No
     private void initiateSocketConnection() {
         OkHttpClient client = new OkHttpClient();
@@ -121,14 +148,19 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
         if (string.isEmpty()) {
             resetMessageEdit();
         } else {
+            if (string.length() > 240) {
+                sendBtn.setVisibility(View.INVISIBLE);
+            } else {
+                sendHttpMessage(string); // Invoke sending message via HTTP
+                Log.d("Sent message inside ChatActivity: ", str);
 
-            sendHttpMessage(string); // Invoke sending message via HTTP
-            Log.d("Sent message inside ChatActivity: ", str);
+                sendBtn.setVisibility(View.VISIBLE);
+            }
 
-            sendBtn.setVisibility(View.VISIBLE);
         }
 
     }
+
     //ChatGPT usage: No
     private void resetMessageEdit() {
 
@@ -141,6 +173,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
 
 
     }
+
     //ChatGPT usage: No
     private class SocketListener extends WebSocketListener {
 
@@ -159,6 +192,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
             });
 
         }
+
         //ChatGPT usage: No
         @Override
         public void onMessage(WebSocket webSocket, String text) {
@@ -181,6 +215,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
 
         }
     }
+
     //ChatGPT usage: No
     private void initializeView() {
 
@@ -205,7 +240,6 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
                 postMessageToServer(jsonObject.getString("message"));
 
 
-
                 resetMessageEdit();
 
             } catch (JSONException e) {
@@ -219,6 +253,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
         });
 
     }
+
     //ChatGPT usage: No
     public void parseChatHistory(JSONArray chatHistory) {
 
@@ -229,7 +264,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
                 JSONObject message = chatHistory.getJSONObject(i);
                 Message currMsg = new Message(message.getString("senderEmail"), message.getString("receiverEmail"), message.getString("text"));
                 messagesArrayList.add(currMsg);
-                arrayAdapter.add(message.getString("senderEmail") +": "+ message.getString("text"));
+                arrayAdapter.add(message.getString("senderEmail") + ": " + message.getString("text"));
                 Log.d(TAG, message.toString());
                 arrayAdapter.notifyDataSetChanged();
 
@@ -241,9 +276,11 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
 
     //ChatGPT usage: No
     private void makeGetRequestForChatHistory() {
-        //String url = "http://4.205.17.106:8081/api/chat/history";
+        //String url = "http://20.200.125.197:8081/api/chat/history";
 
-        HttpUrl url = HttpUrl.parse("https://4.205.17.106:8081/api/chat/history").newBuilder()
+        Log.d(TAG, receiverEmail);
+
+        HttpUrl url = HttpUrl.parse("https://20.200.125.197:8081/api/chat/history").newBuilder()
                 .addQueryParameter("senderEmail", GoogleSignIn.getLastSignedInAccount(this).getEmail())
                 .addQueryParameter("receiverEmail", receiverEmail)
                 .build();
@@ -265,14 +302,14 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String responseData = response.body().string();
-                    Log.d(TAG,"makeGetRequestForChatHistory successful: "+ responseData);
+                    Log.d(TAG, "makeGetRequestForChatHistory successful: " + responseData);
                     // Process the chat history data here and update the adapter
                     try {
                         JSONArray historyArray = new JSONArray(responseData);
 //                        parseChatHistory(historyArray);
                         runOnUiThread(() -> parseChatHistory(historyArray));
                     } catch (JSONException e) {
-                        Log.d(TAG, "makeGetRequestForChatHistory Failed: "+ e.getMessage());
+                        Log.d(TAG, "makeGetRequestForChatHistory Failed: " + e.getMessage());
                         e.printStackTrace();
                     }
                 } else {
@@ -292,7 +329,7 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
 
 
     private void postMessageToServer(String message) {
-        String url = "https://4.205.17.106:8081/api/chat/send";
+        String url = "https://20.200.125.197:8081/api/chat/send";
 
 
         if (message != null && !message.isEmpty()) {
@@ -349,6 +386,8 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
                     } else {
                         // Handle the unsuccessful response here
                         Log.e(TAG, "Failed to send message. Server returned non-successful response: " + response.code());
+                        Log.e(TAG, response.message());
+
                     }
                 }
             });

@@ -1,12 +1,6 @@
 package com.jaam.transittrack;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -15,7 +9,15 @@ import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.ProgressBar;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -26,11 +28,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.jaam.transittrack.exceptions.AddressException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
 
     private double defaultLat;
     private double defaultLon;
+    static private String[] cityCoverage = {"University Endowment Lands","Vancouver", "West Vancouver", "North Vancouver",
+            "Lions Bay", "Bowen Island", "Burnaby", "New Westminister", "Richmond", "Surrey",
+            "Delta", "White Rock", "Langley", "Coquitlam", "Port Moody", "Port Coquitlam",
+            "Belcarra", "Anmore", "Pitt Meadows", "Maple Ridge"};
 
     //ChatGPT usage: No
     @Override
@@ -56,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
         //work around for not running http requests off main thread. really don't want to deal with race conditions/synchronization
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+        ProgressBar loginProgressBar = findViewById(R.id.loginProgressBar);
+        loginProgressBar.setVisibility(View.INVISIBLE);
 
 
         // Configure sign-in to request the user's ID, email address, and basic
@@ -70,34 +80,22 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                loginProgressBar.setVisibility(View.VISIBLE);
                 String addressText = String.valueOf(((EditText)findViewById(R.id.addressEditText)).getText());
                 if(addressText.length() > 0){
-                    Geocoder geocoder = new Geocoder(MainActivity.this);
-                    List<Address> addressList = null;
                     try {
-                        addressList = geocoder.getFromLocationName(addressText, 1);
-                    } catch (IOException e) {
-                        Log.d(TAG,"address search failed: " + e.getMessage());
-                        Toast.makeText(MainActivity.this, "Network connection not available. Please try again later!", Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    Address address;
-                    if(addressList.size() > 0) {
-                        address = addressList.get(0);
+                        Address address =  getAddressFromString(addressText);
                         defaultLat = address.getLatitude();
                         defaultLon = address.getLongitude();
                         Log.d(TAG, "launching sign in intent");
                         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
                         signInLauncher.launch(signInIntent);
-                    }
-                    else{
-                        //consider alert dialog instead
-                        Toast.makeText(MainActivity.this, "Could not find address, please try again.", Toast.LENGTH_LONG).show();
+                    } catch (AddressException e) {
+                        e.printStackTrace();
                     }
                 }
                 else{
-                    //consider alert dialog instead
-                    Toast.makeText(MainActivity.this, "Please enter a default address from where you'd like to start your journeys!", Toast.LENGTH_LONG).show();
+                    showNewErrorAlertDialog("Default Address", "Please enter a default address from where you'd like to start your journeys!");
                 }
 
             }
@@ -118,7 +116,8 @@ public class MainActivity extends AppCompatActivity {
             else{
                 Log.d(TAG, "result data:" + result.getData());
                 //Log.d(TAG, result.getData()?.getDataString());
-                Toast.makeText(MainActivity.this, "Could not sign into google account. Please check internet connection.", Toast.LENGTH_LONG).show();
+//                Toast.makeText(MainActivity.this, "Could not sign into google account. Please check internet connection.", Toast.LENGTH_LONG).show();
+                showNewErrorAlertDialog("Google Sign In Error", "Please contact the developer.");
             }
             Log.d(TAG, "result: "+ result.getResultCode());
 
@@ -199,7 +198,8 @@ public class MainActivity extends AppCompatActivity {
                                         Log.d(TAG, "Create user post request failed: "+e.getMessage());
                                         Log.d(TAG, "Failure Status Code: "+ e.getCause());
                                         //maybe better to have alert dialog
-                                        Toast.makeText(MainActivity.this, "Server unavailable, please try again later.",Toast.LENGTH_LONG).show();
+//                                        Toast.makeText(MainActivity.this, "Server unavailable, please try again later.",Toast.LENGTH_LONG).show();
+                                        showNewErrorAlertDialog("Server Error", "The server is unavailable, please try again later.");
                                         //don't want to crash
                                         //throw new RuntimeException(e);
                                     }
@@ -228,5 +228,38 @@ public class MainActivity extends AppCompatActivity {
             updateUI(null);
         }
     }
+    private Address getAddressFromString(String search) throws AddressException{
+        Address address = null;
+        Geocoder geocoder = new Geocoder(MainActivity.this);
+        List<Address> addressList = null;
+        try {
+            addressList = geocoder.getFromLocationName(search, 1);
+        }catch (IOException e){
+            showNewErrorAlertDialog("Network Error", "Try turning airplane mode on and off.");
+//            Toast.makeText(MainActivity.this, "Network error! Try turning airplane mode on and off.", Toast.LENGTH_LONG).show();
+            throw new AddressException(e.getMessage());
+        }
+        if(addressList.size() == 0 ){
+            showNewErrorAlertDialog("Address Error", "Could not find address, please enter a different one.");
+//            Toast.makeText(MainActivity.this, "Could not find address, please enter a different one.", Toast.LENGTH_LONG).show();
+            throw new AddressException("Could not find address");
+        }
+        address = addressList.get(0);
+        if (!address.getCountryName().equals("Canada") || !Arrays.stream(cityCoverage).anyMatch(addressList.get(0).getLocality()::equals)){
+            showNewErrorAlertDialog("Address Error", "Please enter an address covered by Translink.");
+            throw new AddressException("Address is outside Greater Vancouver Area");
+        }
 
+        return address;
+    }
+
+    private void showNewErrorAlertDialog(String title, String message){
+        new AlertDialog.Builder(MainActivity.this).setTitle(title).setMessage(message)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create().show();
+    }
 }

@@ -1,14 +1,11 @@
 package com.jaam.transittrack;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Address;
-import android.location.Location;
 import android.location.Geocoder;
+import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -18,11 +15,17 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.jaam.transittrack.exceptions.AddressException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +34,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -45,6 +49,11 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
 
     protected LocationManager locationManager;
     final static String TAG = "RouteActivity";
+
+    static private String[] cityCoverage = {"University Endowment Lands","Vancouver", "West Vancouver", "North Vancouver",
+            "Lions Bay", "Bowen Island", "Burnaby", "New Westminister", "Richmond", "Surrey",
+            "Delta", "White Rock", "Langley", "Coquitlam", "Port Moody", "Port Coquitlam",
+            "Belcarra", "Anmore", "Pitt Meadows", "Maple Ridge"};
     //ChatGPT usage: No
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +76,9 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
-        Button searchButton = findViewById(R.id.searchButton);
+        FloatingActionButton searchButton = findViewById(R.id.searchButton);
+        searchButton.setAlpha(.5f);
+        searchButton.setClickable(false);
         EditText searchTextView = findViewById(R.id.searchTextField);
         ListView stopListView = findViewById(R.id.stopList);
         findViewById(R.id.routeLoadingProgressBar).setVisibility(View.INVISIBLE);
@@ -76,8 +87,6 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.route_layout, R.id.textView2, stops);
         stopListView.setAdapter(arrayAdapter);
-
-
 
         //ChatGPT usage: No
         searchTextView.addTextChangedListener(new TextWatcher() {
@@ -115,18 +124,23 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
 
                 String routeString = null;
                 try {
-
+                    if(String.valueOf(searchTextView.getText()).length() < 1){
+                        showNewErrorAlertDialog("Route", "Please enter an address.");
+                        return;
+                    }
                     routeString = getRoute(currLocation, String.valueOf(searchTextView.getText()));
+
                     Log.d(TAG, "Solo route string: " + routeString);
                     if(routeString != null) {
                         try{
+                            Log.d(TAG, "displaying route");
+                            displayRoute(routeString, arrayAdapter);
+                        }catch (JSONException e){
                             String error = new JSONArray(routeString).getString(0);
                             if(error.equals("Could not find Route")){
                                 throw new TimeoutException();
                             }
                             Toast.makeText(RouteActivity.this, "Cannot find route, please try again later", Toast.LENGTH_LONG).show();
-                        }catch (JSONException e){
-                            displayRoute(routeString, arrayAdapter);
                         }
 
 
@@ -199,12 +213,12 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
         JSONObject endPoints = new JSONObject();
         endPoints.put("startLat", currLocation.getLatitude());
         endPoints.put("startLon", currLocation.getLongitude());
-        List<Address> addressList = geocoder.getFromLocationName(search, 1);
-        Address address;
-        if (addressList.size() > 0) {
-            address = addressList.get(0);
+        try {
+            Address address = getAddressFromString(search);
             endPoints.put("endLat", address.getLatitude());
             endPoints.put("endLon", address.getLongitude());
+        } catch (AddressException e) {
+            e.printStackTrace();
         }
         String arrivalTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date(System.currentTimeMillis()+ 7200000));
         endPoints.put("startTime", arrivalTime);
@@ -217,6 +231,7 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
         JSONArray route = new JSONArray(routeString);
         JSONObject start;
         JSONObject end;
+        Log.d(TAG, "route array: "+ route);
         for (int i = 0; i < route.length(); i++) {
             Log.d(TAG, "Adding route" + i);
             start = route.getJSONObject(i).getJSONObject("Start");
@@ -229,6 +244,40 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
 
         }
 
+    }
+    private void showNewErrorAlertDialog(String title, String message){
+        new AlertDialog.Builder(RouteActivity.this).setTitle(title).setMessage(message)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create().show();
+    }
+    private Address getAddressFromString(String search) throws AddressException {
+        Address address = null;
+        Geocoder geocoder = new Geocoder(RouteActivity.this);
+        List<Address> addressList = null;
+        try {
+            addressList = geocoder.getFromLocationName(search, 1);
+        }catch (IOException e){
+            showNewErrorAlertDialog("Network Error", "Try turning airplane mode on and off.");
+//            Toast.makeText(MainActivity.this, "Network error! Try turning airplane mode on and off.", Toast.LENGTH_LONG).show();
+            throw new AddressException(e.getMessage());
+        }
+        if(addressList.size() == 0 ){
+            showNewErrorAlertDialog("Address Error", "Could not find address, please enter a different one.");
+//            Toast.makeText(MainActivity.this, "Could not find address, please enter a different one.", Toast.LENGTH_LONG).show();
+            throw new AddressException("Could not find address");
+        }
+        address = addressList.get(0);
+        if (!address.getCountryName().equals("Canada") || !Arrays.stream(cityCoverage).anyMatch(addressList.get(0).getLocality()::equals)){
+            showNewErrorAlertDialog("Address Error", "Please enter an address covered by Translink.");
+            System.err.println("Address got from search: "+address);
+            throw new AddressException("Address is outside Greater Vancouver Area");
+        }
+
+        return address;
     }
 
 }

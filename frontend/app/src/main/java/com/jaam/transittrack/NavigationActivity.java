@@ -58,7 +58,7 @@ public class NavigationActivity extends AppCompatActivity {
         notifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HttpUrl url = HttpUrl.parse("https://4.205.17.106:8081/getFCM").newBuilder()
+                HttpUrl url = HttpUrl.parse("https://20.200.125.197:8081/getFCM").newBuilder()
                         .addQueryParameter("userEmail", GoogleSignIn.getLastSignedInAccount(NavigationActivity.this).getEmail())
                         .build();
                 Request request = new Request.Builder()
