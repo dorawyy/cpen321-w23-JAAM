@@ -84,6 +84,8 @@ public class FriendsListTest {
 
     private static final int LAUNCH_TIMEOUT = 5000;
     private static final String PACKAGE_NAME = "com.jaam.transittrack";
+
+    private static final String TAG = "FriendsListTest";
     private UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
     private int DEFAULT_TIMEOUT = 2000;
     @Rule
@@ -96,7 +98,7 @@ public class FriendsListTest {
     @Test
     public void testAddFriends() throws InterruptedException {
 
-        String defaultFriend1 = "bananaMongo@gmail.com";
+        String defaultFriend1 = "theprestige.soc@gmail.com";
         Espresso.onView(ViewMatchers.withId(R.id.friendEmailEditText)).perform(typeText(defaultFriend1));
 
         Espresso.closeSoftKeyboard();
@@ -105,6 +107,7 @@ public class FriendsListTest {
         if(addFriendButton != null){
             addFriendButton.click();
         }
+        Log.d(TAG, "FriendsListTest: Successfully Added Friend: "+defaultFriend1);
         sleep(10000);
 
     }
@@ -114,6 +117,7 @@ public class FriendsListTest {
     public void testRefreshFriendsList() throws InterruptedException {
 
         Espresso.onView(ViewMatchers.withId(R.id.friendsListRefreshButton)).perform(click());
+        Log.d(TAG, "FriendsListTest: Successfully Refreshed Friends");
         sleep(10000);
     }
 
