@@ -152,6 +152,6 @@ describe('/getFriendRoute, get shared route for two friends', () => {
 			.post('/getFriendRoute')
 			.send(requestData);
 		expect(response.status).toBe(500);
-		expect(JSON.parse(response.text).includes("does not exist")).toBe(true);
+		expect(response.text.includes("does not exist")).toBe(true);
 	}, 60000);
 });

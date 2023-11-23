@@ -253,6 +253,7 @@ function getRoute(startLat, startLon, endLat, endLon, endTime) {
         range *= 1.5;
     }
 
+    range = 200;
     while (endStops.length === 0) {
         endStops = Array.from(getAllStopsWithinRange(stops, range, endLat, endLon));
         range *= 1.5;
