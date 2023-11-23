@@ -187,8 +187,8 @@ describe('/getRoute, get routes between two locations', () => {
 	// Ex Output: Valid Route
 	test('get route in Richmond', async () => {
 		const requestData = {
-			startLat: 49.15587849555075,
-			startLon: -123.1143441168,
+			startLat: 49.18463450745834,
+			startLon: -123.1364838168,
 			endLat: 49.16320646193623,
 			endLon: -123.1593648985,
 			startTime: "18:00:00"
@@ -206,8 +206,8 @@ describe('/getRoute, get routes between two locations', () => {
 	// Ex Output: Valid Route
 	test('get route from Richmond to Vancouver', async () => {
 		const requestData = {
-			startLat: 49.1846533666348,
-			startLon: -123.0914190345,
+			startLat: 49.18480213975709,
+			startLon: -123.13650563,
 			endLat: 49.23436463787667,
 			endLon: -123.13977619844798,
 			startTime: "14:00:00"
