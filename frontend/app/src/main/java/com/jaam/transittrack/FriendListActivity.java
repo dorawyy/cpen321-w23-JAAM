@@ -103,8 +103,8 @@ public class FriendListActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 try {
-                    String responseString = OkHTTPHelper.sendFriendRequest(friendReqBody);
-                    if (responseString.equals("Friend not found in the database."))
+                    Response response = OkHTTPHelper.sendFriendRequest(friendReqBody);
+                    if (response.code() == 404)
                         showNewErrorAlertDialog("Friend", "Email is not registered with a user. \nPlease try a different one.");
                     else {
                         friends.add(textViewContent);
