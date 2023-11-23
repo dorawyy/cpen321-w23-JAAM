@@ -178,7 +178,7 @@ function addStopTimesToTrips(stop_times, trips) {
 // ChatGPT Usage: PARTIAL
 function getAllStopsWithinRange(stops, range, lat, long) {
     var inRange = new Set();
-    var xRange =  Math.abs(range / 111320.0);
+    var xRange =  range / 111320.0;
     var yRange = range / (111320.0 * (Math.cos(lat * Math.PI / 180)));
     var xMax = parseFloat(long + xRange);
     var xMin = parseFloat(long - xRange);
@@ -247,17 +247,18 @@ function getRoute(startLat, startLon, endLat, endLon, endTime) {
     var startStops = new Set();
     var endStops = [];
 
-    var range = 200;
+    var range = 500;
     while (startStops.size === 0) {
         startStops = getAllStopsWithinRange(stops, range, startLat, startLon);
         range *= 1.5;
     }
 
-    range = 200;
+    range = 500;
     while (endStops.length === 0) {
         endStops = Array.from(getAllStopsWithinRange(stops, range, endLat, endLon));
         range *= 1.5;
     }
+
     var paths = [];
     var reached = new Set();
     var trips_alr_indexed = new Set();
@@ -268,11 +269,25 @@ function getRoute(startLat, startLon, endLat, endLon, endTime) {
         paths[i].push([endStops[i], endTime, "End"]);
         reached.add(endStops[i]);
     }
+    
 
     var found = false;
     var start;
+    var temp = [];
+    
+    startStops.forEach(stop => {
+        if (reached.has(stop)) {
+            found = true;
+            start = stop;
+            temp.push([[stop, endTime-300, "Walk", endTime], ...paths[0]]);
+        }
+    });
+    if (found) {
+        paths = temp;
+    }
+
     while (!found) {
-        var temp = [];
+        temp = [];
         var reached_count = reached.size;
         var old_reached = new Set(reached);
         for (i = 0; i < paths.length; i++) {
@@ -283,7 +298,7 @@ function getRoute(startLat, startLon, endLat, endLon, endTime) {
 
         for (i = 0; i < paths.length; i++) {
 			if (paths[i][0][2] != "Walk") {
-				for (var distance = scan_range; distance < scan_range*5; distance += scan_range) {
+				for (var distance = scan_range; distance < scan_range*4; distance *= 2) {
 					findStopsNearStop(stops, distance, paths[i][0][0]).forEach(new_stop => {
 						if (!old_reached.has(new_stop)) {
 							temp.push([[new_stop, paths[i][0][1]-distance, "Walk", paths[i][0][1]], ...paths[i]]);
@@ -301,7 +316,7 @@ function getRoute(startLat, startLon, endLat, endLon, endTime) {
                 start = stop;
             }
         });
-         if (reached.size - reached_count < 25) {
+         if (reached.size - reached_count < 20) {
             break;
         }
     }
