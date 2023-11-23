@@ -299,17 +299,13 @@ module.exports = function(database) {
 					const result = routeEngine.getRoute(defaultLat, defaultLong, latitude, longitude, startTime);
 
 					const formattedSubtractedTimes = result.map((item) => {
-						if (item.Start && item.Start.Time) {
-							const formattedSubtractedTime = getFormattedSubtractedTime(item, subtractedMinutes);
-							return formattedSubtractedTime;
-						}
+						const formattedSubtractedTime = getFormattedSubtractedTime(item, subtractedMinutes);
+						return formattedSubtractedTime;
 					});
 
 					const filteredTimes = formattedSubtractedTimes.filter(time => time !== null);
 
-					if (filteredTimes.length > 0) {
-						res.json({ times: filteredTimes });
-					}
+					res.json({ times: filteredTimes });
 				} else {
 					res.status(404).send('User not found in the database');
 				}
