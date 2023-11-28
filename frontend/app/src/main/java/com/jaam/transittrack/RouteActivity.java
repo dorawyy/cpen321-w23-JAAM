@@ -209,7 +209,6 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
      */
     //ChatGPT usage: No
     private String getRoute(Location currLocation, String search) throws JSONException, IOException, TimeoutException {
-        Geocoder geocoder = new Geocoder(this);
         JSONObject endPoints = new JSONObject();
         endPoints.put("startLat", currLocation.getLatitude());
         endPoints.put("startLon", currLocation.getLongitude());

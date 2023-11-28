@@ -41,7 +41,6 @@ public class FriendListActivity extends AppCompatActivity {
 
     private static final String TAG = "FriendsListActivity";
     private Button addFriendButton;
-    private FloatingActionButton refreshFriendsListBtn;
 
     FriendEntryAdapter friendEntryAdapter;
 
@@ -63,7 +62,7 @@ public class FriendListActivity extends AppCompatActivity {
 
         addFriendButton = findViewById(R.id.addFriendButton);
 
-        refreshFriendsListBtn = findViewById(R.id.friendsListRefreshButton);
+        FloatingActionButton refreshFriendsListBtn = findViewById(R.id.friendsListRefreshButton);
 
         friendEmailTextView = findViewById(R.id.friendEmailEditText);
         //ChatGPT usage: No

@@ -67,9 +67,11 @@ public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, Loca
             // for ActivityCompat#requestPermissions for more details.
 
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-        this.list = list;
-        this.context = context;
+        if (gpsEnabled) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+            this.list = list;
+            this.context = context;
+        }
     }
 
     @Override
