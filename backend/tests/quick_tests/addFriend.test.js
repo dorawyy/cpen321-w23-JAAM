@@ -3,8 +3,8 @@ const makeApp = require('../../app.js');
 const mockUserDB = require('../../mockUserDB.js');
 const { describe } = require('@jest/globals');
 
-jest.mock('../mockUserDB', () => {
-  const originalModule = jest.requireActual('../mockUserDB');
+jest.mock('../../mockUserDB', () => {
+  const originalModule = jest.requireActual('../../mockUserDB');
   return {
     ...originalModule,
     connectToDatabase: jest.fn(),

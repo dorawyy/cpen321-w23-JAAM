@@ -4,12 +4,12 @@ const mockUserDB = require('../../mockUserDB.js');
 const mockChatDB = require('../../mockChatDB.js');
 
 // Mock the Message model
-jest.mock('../models/message', () => ({
+jest.mock('../../models/message', () => ({
   find: jest.fn(),
 }));
 
 jest.mock('../mockUserDB', () => ({
-  ...jest.requireActual('../mockUserDB'), // Use the actual implementation for other functions
+  ...jest.requireActual('../../mockUserDB'), // Use the actual implementation for other functions
   getChatHistory: jest.fn(), // Using mockImplementation
 }));
 

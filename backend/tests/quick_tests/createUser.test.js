@@ -12,8 +12,8 @@ const { describe } = require('@jest/globals');
 //   insertUser: jest.fn(),
 // }));
 
-jest.mock('../mockUserDB', () => {
-  const originalModule = jest.requireActual('../mockUserDB');
+jest.mock('../../mockUserDB', () => {
+  const originalModule = jest.requireActual('../../mockUserDB');
   return {
     ...originalModule,
     connectToDatabase: jest.fn(),
