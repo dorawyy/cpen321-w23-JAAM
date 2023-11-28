@@ -271,10 +271,7 @@ public class CalendarActivity extends AppCompatActivity {
         }
     }
     //ChatGPT usage: No
-    @SuppressLint("ScheduleExactAlarm")
     private void alertTransitNotification(int hours, int minutes) {
-
-//        Toast.makeText(CalendarActivity.this, "Reminder Set for "+ hours + ": " + minutes, Toast.LENGTH_SHORT).show();
         Log.d(TAG, "Reminder Set for " + hours + ": " + minutes);
 
         java.util.Calendar calendar = java.util.Calendar.getInstance();
@@ -288,7 +285,13 @@ public class CalendarActivity extends AppCompatActivity {
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         if (alarmManager != null) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                if(alarmManager.canScheduleExactAlarms())
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                else{
+                    showNewErrorAlertDialog("Permission Error", "Please give notification permissions.");
+                }
+            }
         }
     }
     //ChatGPT usage: Partial
@@ -329,5 +332,13 @@ public class CalendarActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
+    private void showNewErrorAlertDialog(String title, String message){
+        new AlertDialog.Builder(CalendarActivity.this).setTitle(title).setMessage(message)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create().show();
+    }
 }
