@@ -92,6 +92,11 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
         super.onPause();
         chatHistoryTimer.purge();
     }
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        chatHistoryTimer.purge();
+    }
 
     //ChatGPT usage: Partial
     private void sendHttpMessage(String message) {
