@@ -23,7 +23,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import androidx.test.espresso.Espresso;
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.assertion.ViewAssertions;
@@ -74,7 +73,7 @@ public class ChatInstrumentedTest {
     public void testEmptyMessage() throws InterruptedException {
         Log.d("CHAT TEST", "starting empty message test");
         try{
-            onView(ViewMatchers.withId(R.id.sendBtn))
+            onView(withId(R.id.sendBtn))
                     .check(ViewAssertions.matches(
                             withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)));
         }catch (NoMatchingViewException e){
@@ -87,9 +86,9 @@ public class ChatInstrumentedTest {
 public void testCharLimit(){
     Log.d("CHAT TEST", "starting char limit test");
         String testMessage = Strings.repeat("a",241);
-        onView(ViewMatchers.withId(R.id.messageEdit)).perform(typeText(testMessage));
+        onView(withId(R.id.messageEdit)).perform(typeText(testMessage));
         try{
-            onView(ViewMatchers.withId(R.id.sendBtn))
+            onView(withId(R.id.sendBtn))
                     .check(ViewAssertions.matches(
                             withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)));
         }catch (NoMatchingViewException e){

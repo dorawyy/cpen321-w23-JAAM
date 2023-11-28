@@ -44,7 +44,6 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class RouteInstrumentedTest {
     private UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-    private int DEFAULT_TIMEOUT = 2000;
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
@@ -62,8 +61,8 @@ public class RouteInstrumentedTest {
         Log.d("ROUTE TEST", "starting get route test");
         UiObject2 searchField = device.findObject(By.text("Search"));
         searchField.setText("UBC Bus Loop");
-        Espresso.onView((withId(R.id.searchButton))).perform(click());
-        Espresso.onData(anything()).inAdapterView(allOf(withId(R.id.stopList),isDisplayed())).atPosition(0).check(matches(isDisplayed()));
+        onView((withId(R.id.searchButton))).perform(click());
+        onData(anything()).inAdapterView(allOf(withId(R.id.stopList),isDisplayed())).atPosition(0).check(matches(isDisplayed()));
         Log.d("ROUTE TEST", "get route test pass");
     }
     @Test
@@ -72,7 +71,7 @@ public class RouteInstrumentedTest {
         Log.d("ROUTE TEST", "starting bad location route test");
         UiObject2 searchField = device.findObject(By.text("Search"));
         searchField.setText("Calgary Tower");
-        Espresso.onView((withId(R.id.searchButton))).perform(click());
+        onView((withId(R.id.searchButton))).perform(click());
         UiObject2 dialogText = device.findObject(By.text("Please enter an address covered by Translink."));
         if(dialogText == null){
             fail("Dialog not found");
@@ -83,7 +82,7 @@ public class RouteInstrumentedTest {
     public void testNoLocation(){
         Log.d("ROUTE TEST", "starting no location route test");
         //for some god forsaken reason, setting the button to not clickable doesn't work.
-        Espresso.onView((withId(R.id.searchButton))).perform(click());
+        onView((withId(R.id.searchButton))).perform(click());
         if(device.findObject(By.text("Please enter an address.")) == null){
             fail("Dialog not found");
         }
