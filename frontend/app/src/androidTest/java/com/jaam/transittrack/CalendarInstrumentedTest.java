@@ -39,6 +39,9 @@ public class CalendarInstrumentedTest {
         if(calendarButton != null){
             calendarButton.click();
         }
+        else{
+            fail();
+        }
         //wait 10 seconds for calendar to sync
         sleep(10000);
         //checks for alert dialog

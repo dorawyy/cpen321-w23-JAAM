@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import androidx.test.espresso.Espresso;
+import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
@@ -61,8 +62,8 @@ public class ChatInstrumentedTest {
     public void testSendMessage(){
         Log.d("CHAT TEST", "starting send message test");
         String testMessage = "this is an automated test message";
-        Espresso.onView(ViewMatchers.withId(R.id.messageEdit)).perform(typeText(testMessage));
-        Espresso.onView(ViewMatchers.withId(R.id.sendBtn)).perform(click());
+        onView(ViewMatchers.withId(R.id.messageEdit)).perform(typeText(testMessage));
+        onView(ViewMatchers.withId(R.id.sendBtn)).perform(click());
         UiObject2 sentMessage = device.findObject(By.text("crabapple569@gmail.com: this is an automated test message"));
         if(sentMessage == null){
             fail("Message not found");
@@ -72,9 +73,13 @@ public class ChatInstrumentedTest {
     @Test
     public void testEmptyMessage() throws InterruptedException {
         Log.d("CHAT TEST", "starting empty message test");
-        Espresso.onView(ViewMatchers.withId(R.id.sendBtn))
-                .check(ViewAssertions.matches(
-                        withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)));
+        try{
+            onView(ViewMatchers.withId(R.id.sendBtn))
+                    .check(ViewAssertions.matches(
+                            withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)));
+        }catch (NoMatchingViewException e){
+            fail();
+        }
         Log.d("CHAT TEST", "empty message test pass");
     }
 
@@ -82,10 +87,14 @@ public class ChatInstrumentedTest {
 public void testCharLimit(){
     Log.d("CHAT TEST", "starting char limit test");
         String testMessage = Strings.repeat("a",241);
-        Espresso.onView(ViewMatchers.withId(R.id.messageEdit)).perform(typeText(testMessage));
-    Espresso.onView(ViewMatchers.withId(R.id.sendBtn))
-            .check(ViewAssertions.matches(
-                    withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)));
+        onView(ViewMatchers.withId(R.id.messageEdit)).perform(typeText(testMessage));
+        try{
+            onView(ViewMatchers.withId(R.id.sendBtn))
+                    .check(ViewAssertions.matches(
+                            withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)));
+        }catch (NoMatchingViewException e){
+            fail();
+        }
     Log.d("CHAT TEST", "char limit test pass");
 }
 

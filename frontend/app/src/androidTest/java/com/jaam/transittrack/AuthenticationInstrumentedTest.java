@@ -3,7 +3,6 @@ package com.jaam.transittrack;
 
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static org.junit.Assert.fail;
-
 import static java.lang.Thread.sleep;
 
 import android.util.Log;
@@ -68,6 +67,7 @@ public class AuthenticationInstrumentedTest {
         UiObject2 signInButton = device.findObject(By.text("Sign in"));
         if(signInButton != null){
             signInButton.click();
+            fail();
         }
         else{
             Log.d("AUTHENTICATION TESTING", "Google Sign in Button Not Found");
@@ -75,6 +75,7 @@ public class AuthenticationInstrumentedTest {
         UiObject2 emailSelectorButton = device.wait(Until.findObject((By.text("crabapple569@gmail.com"))), DEFAULT_TIMEOUT);
         if(emailSelectorButton != null){
             emailSelectorButton.click();
+            fail();
         }
         else{
             Log.d("AUTHENTICATION TESTING", "Cannot find email: crabapple569@gmail.com");
@@ -90,6 +91,7 @@ public class AuthenticationInstrumentedTest {
         }
         else{
             Log.d("AUTHENTICATION TESTING", "Google Sign in Button Not Found");
+            fail();
         }
         sleep(1000);
         UiObject2 dialogText = device.findObject(By.text("Please enter a default address from where you'd like to start your journeys!"));
@@ -113,6 +115,7 @@ public class AuthenticationInstrumentedTest {
         }
         else{
             Log.d("AUTHENTICATION TESTING", "Google Sign in Button Not Found");
+            fail();
         }
         UiObject2 positiveDialogButton = device.findObject(By.text("OK"));
         if(positiveDialogButton != null){
@@ -124,80 +127,5 @@ public class AuthenticationInstrumentedTest {
         Log.d("AUTOMATED TEST", "bad address test pass");
     }
 
-//    @Test
-//    public void testBadLocation() {
-//        ViewInteraction appCompatEditText = onView(
-//                allOf(withId(R.id.addressEditText),
-//                        childAtPosition(
-//                                childAtPosition(
-//                                        withId(android.R.id.content),
-//                                        0),
-//                                3),
-//                        isDisplayed()));
-//        appCompatEditText.perform(replaceText("Calgary Tower"), closeSoftKeyboard());
-//
-//        ViewInteraction fx = onView(
-//                allOf(withText("Sign in"),
-//                        childAtPosition(
-//                                allOf(withId(R.id.sign_in_button),
-//                                        childAtPosition(
-//                                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-//                                                1)),
-//                                0),
-//                        isDisplayed()));
-//        fx.perform(click());
-//
-//        ViewInteraction textView = onView(
-//                allOf(withId(android.R.id.message), withText("Please enter an address covered by Translink."),
-//                        withParent(withParent(withId(com.google.android.material.R.id.scrollView))),
-//                        isDisplayed()));
-//        textView.check(matches(withText("Please enter an address covered by Translink.")));
-//    }
-//
-//    private static Matcher<View> childAtPosition(
-//            final Matcher<View> parentMatcher, final int position) {
-//
-//        return new TypeSafeMatcher<View>() {
-//            @Override
-//            public void describeTo(Description description) {
-//                description.appendText("Child at position " + position + " in parent ");
-//                parentMatcher.describeTo(description);
-//            }
-//
-//            @Override
-//            public boolean matchesSafely(View view) {
-//                ViewParent parent = view.getParent();
-//                return parent instanceof ViewGroup && parentMatcher.matches(parent)
-//                        && view.equals(((ViewGroup) parent).getChildAt(position));
-//            }
-//        };
-//    }
-
-//    @Before
-//    public void startMainActivityFromHomeScreen() {
-//        // Initialize UiDevice instance
-//        device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-//
-//        // Start from the home screen
-//        device.pressHome();
-//
-//        // Wait for launcher
-//        final String launcherPackage = device.getLauncherPackageName();
-//        assertThat(launcherPackage, notNullValue());
-//        device.wait(Until.hasObject(By.pkg(launcherPackage).depth(0)),
-//                LAUNCH_TIMEOUT);
-//
-//        // Launch the app
-//        Context context = ApplicationProvider.getApplicationContext();
-//        final Intent intent = context.getPackageManager()
-//                .getLaunchIntentForPackage(PACKAGE_NAME);
-//        // Clear out any previous instances
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        context.startActivity(intent);
-//
-//        // Wait for the app to appear
-//        device.wait(Until.hasObject(By.pkg(PACKAGE_NAME).depth(0)),
-//                LAUNCH_TIMEOUT);
-//    }
 
 }
