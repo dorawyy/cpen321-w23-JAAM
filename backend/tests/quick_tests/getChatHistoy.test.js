@@ -1,22 +1,31 @@
 const request = require('supertest');
-const makeApp = require('../../app.js');
-const mockUserDB = require('../../mockUserDB.js');
+const makeApp = require('../app.js');
+const mockUserDB = require('../mockUserDB.js');
+const mockChatDB = require('../mockChatDB.js');
 
 // Mock the Message model
-jest.mock('../../models/message', () => ({
+jest.mock('../models/message', () => ({
   find: jest.fn(),
 }));
 
+jest.mock('../mockUserDB', () => ({
+  ...jest.requireActual('../mockUserDB'), // Use the actual implementation for other functions
+  getChatHistory: jest.fn(), // Using mockImplementation
+}));
+
+
 const app = makeApp(mockUserDB);
 
-jest.mock('../../mockUserDB', () => ({
-    ...jest.requireActual('../../mockUserDB'),
-    getChatHistory: jest.fn(),
-  }));
+// jest.mock('../mockUserDB', () => ({
+//     ...jest.requireActual('../mockUserDB'), // Use the actual implementation for other functions
+//     getChatHistory: mockChatDB.getChatHistory,
+//   }));
 
 describe('GET /getChatHistory', () => {
   afterEach(() => {
     jest.clearAllMocks();
+    // Set up the mock implementation here
+    mockUserDB.getChatHistory.mockImplementation(mockChatDB.getChatHistory);
   });
   
   // Input: Valid sender and receiver email
@@ -26,51 +35,12 @@ describe('GET /getChatHistory', () => {
     const senderEmail = 'j.biden@example.com';
     const receiverEmail = 'c.d@example.com';
 
-    // Mocking the chat history data
-    const mockChatHistory = [
-      {
-        "_id": "1",
-        "text": "Hello, this is from biden at 7:24.",
-        "senderEmail": senderEmail,
-        "receiverEmail": receiverEmail,
-        "timestamp": "2023-11-06T03:22:57.632Z",
-        "__v": 0
-      },
-      {
-        "_id": "2",
-        "text": "Hello, this is from biden at 7:24.",
-        "senderEmail": senderEmail,
-        "receiverEmail": receiverEmail,
-        "timestamp": "2023-11-06T03:22:57.632Z",
-        "__v": 0
-      },
-      {
-        "_id": "3",
-        "text": "Hello, this is from biden at 7:24.",
-        "senderEmail": senderEmail,
-        "receiverEmail": receiverEmail,
-        "timestamp": "2023-11-06T03:22:57.632Z",
-        "__v": 0
-      },
-      {
-        "_id": "4",
-        "text": "Hello, this is from biden at 7:24.",
-        "senderEmail": senderEmail,
-        "receiverEmail": receiverEmail,
-        "timestamp": "2023-11-06T03:22:57.632Z",
-        "__v": 0
-      },
-      // Add more mock data as needed
-    ];
-
     // // Mock the find method of the Message model
     // jest.spyOn(require('./models/message'), 'find').mockReturnValue({
     //   sort: jest.fn().mockReturnValue({
     //     limit: jest.fn().mockResolvedValue(mockChatHistory),
     //   }),
     // });
-
-    mockUserDB.getChatHistory(mockChatHistory);
 
     const response = await request(app)
       .get('/api/chat/history')

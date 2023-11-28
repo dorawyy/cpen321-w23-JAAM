@@ -1,7 +1,7 @@
 const request = require('supertest');
-const makeApp = require('../../app.js');
+const makeApp = require('../app.js');
 //const database = require('./database.js');
-const mockUserDB = require('../../mockUserDB.js');
+const mockUserDB = require('../mockUserDB.js');
 const { describe } = require('@jest/globals');
 
 // jest.mock('./database', () => ({
@@ -12,8 +12,8 @@ const { describe } = require('@jest/globals');
 //   insertUser: jest.fn(),
 // }));
 
-jest.mock('../../mockUserDB', () => {
-  const originalModule = jest.requireActual('../../mockUserDB');
+jest.mock('../mockUserDB', () => {
+  const originalModule = jest.requireActual('../mockUserDB');
   return {
     ...originalModule,
     connectToDatabase: jest.fn(),
@@ -66,10 +66,14 @@ describe('POST /createUser', () => {
     // Assertions
     expect(response.statusCode).toBe(200);
     expect(response.text).toBe('New user data inserted into the database');
+    // Add more assertions as needed
 
     // Verify that database functions were called as expected
     expect(mockUserDB.connectToDatabase).toHaveBeenCalled();
     expect(mockUserDB.insertUser).toHaveBeenCalled();
+
+    // Check the arguments that insertUser was called with
+    //expect(mockUserDB.insertUser.mock.calls[0][0]).toMatchObject(userData);
 
     expect(mockUserDB.closeDatabaseConnection).toHaveBeenCalled();
   });
@@ -95,15 +99,16 @@ describe('POST /createUser', () => {
         // defaultLon: -123.063863
         _id: 5,
         email: 'test@example.com',
-        deviceToken: 'sjfhskdns26sdfsd545ssfd',
-        UUID: 'initialUUID',
-        defaultLat: 40.7128,
-        defaultLon: -74.0060,
+        deviceToken: 'cYXlnKK4S2S9hQzYqtsD17:APA91bGqH-S3w7opOQUJClftFyz82amcfjHSqmQtv6tufmF1uBQ5IAEvXi15Hg1azwa4aaWS76q95LqPnxuNOhUGcZ6TXTV_duBGib6TnIBDgS6t3Y_9U8qhVOQHIh3wQmr9jfOfkWQX',
+        UUID: '10cfdf08-0502-3c1e-9986-074414a4a6e1',
+        defaultLat: 49.221266,
+        defaultLon: -123.063863,
        });
 
     // Assertions
     expect(response.statusCode).toBe(200);
     expect(response.text).toBe('User data updated in the database');
+    // Add more assertions as needed
 
     // Verify that database functions were called as expected
     expect(mockUserDB.connectToDatabase).toHaveBeenCalled();
@@ -112,10 +117,10 @@ describe('POST /createUser', () => {
       'test@example.com',
       { _id: 5,
       email: 'test@example.com', 
-      deviceToken: 'sjfhskdns26sdfsd545ssfd',
-      UUID: 'initialUUID',
-      defaultLat: 40.7128,
-      defaultLon: -74.0060 }
+      deviceToken: 'cYXlnKK4S2S9hQzYqtsD17:APA91bGqH-S3w7opOQUJClftFyz82amcfjHSqmQtv6tufmF1uBQ5IAEvXi15Hg1azwa4aaWS76q95LqPnxuNOhUGcZ6TXTV_duBGib6TnIBDgS6t3Y_9U8qhVOQHIh3wQmr9jfOfkWQX',
+      UUID: '10cfdf08-0502-3c1e-9986-074414a4a6e1',
+      defaultLat: 49.221266,
+      defaultLon: -123.063863 }
     );
     expect(mockUserDB.closeDatabaseConnection).toHaveBeenCalled();
   });
@@ -143,6 +148,7 @@ describe('POST /createUser', () => {
     expect(response.statusCode).toBe(400);
     expect(response.body.errors).toBeDefined();
     expect(response.body.errors).toBeInstanceOf(Array);
+    // Add more assertions for specific error responses if needed
 
     // Verify that database functions were not called
     expect(mockUserDB.connectToDatabase).not.toHaveBeenCalled();
@@ -166,6 +172,7 @@ describe('POST /createUser', () => {
       defaultLon: -123.063863,
     };
 
+    // Make the request to your endpoint
     const response = await request(app)
       .post('/createUser')
       .send(userData);
@@ -189,15 +196,16 @@ describe('POST /createUser', () => {
     mockUserDB.getUserInfoByEmail.mockResolvedValueOnce({ email: 'test@example.com' });
     mockUserDB.updateUserByEmail.mockResolvedValueOnce({ modifiedCount: 0 });
   
+    // Make the request to your endpoint
     const response = await request(app)
       .post('/createUser')
       .send({
         _id: 5,
         email: 'test@example.com',
-        deviceToken: 'sjfhskdns26sdfsd545ssfd',
-        UUID: 'initialUUID',
-        defaultLat: 40.7128,
-        defaultLon: -74.0060,
+        deviceToken: 'cLXlnKK4S2S9hQzYqtsD17:APA91bGqH-S3w7opOQUJClftFyz82amcfjHSqmQtv6tufmF1uBQ5IAEvXi15Hg1azwa4aaWS76q95LqPnxuNOhUGcZ6TXTV_duBGib6TnIBDgS6t3Y_9U8qhVOQHIh3wQmr9jfOfkWQX',
+        UUID: '10cfdf08-0502-3c1e-9986-074414a4a6e1',
+        defaultLat: 49.221266,
+        defaultLon: -123.063863,
       });
   
     // Assertions
@@ -212,12 +220,123 @@ describe('POST /createUser', () => {
       {
         _id: 5,
         email: 'test@example.com',
-        deviceToken: 'sjfhskdns26sdfsd545ssfd',
-        UUID: 'initialUUID',
-        defaultLat: 40.7128,
-        defaultLon: -74.0060
+        deviceToken: 'cLXlnKK4S2S9hQzYqtsD17:APA91bGqH-S3w7opOQUJClftFyz82amcfjHSqmQtv6tufmF1uBQ5IAEvXi15Hg1azwa4aaWS76q95LqPnxuNOhUGcZ6TXTV_duBGib6TnIBDgS6t3Y_9U8qhVOQHIh3wQmr9jfOfkWQX',
+        UUID: '10cfdf08-0502-3c1e-9986-074414a4a6e1',
+        defaultLat: 49.221266,
+        defaultLon: -123.063863
       }
     );
     expect(mockUserDB.closeDatabaseConnection).toHaveBeenCalled();
   });  
+
+  test('should normalize email correctly', async () => {
+    const userDataWithNonNormalizedEmail = {
+      email: 'TEST@EXAMPLE.COM',
+      deviceToken: 'cLXlnKK4S2S9hQzYqtsD17:APA91bGqH-S3w7opOQUJClftFyz82amcfjHSqmQtv6tufmF1uBQ5IAEvXi15Hg1azwa4aaWS76q95LqPnxuNOhUGcZ6TXTV_duBGib6TnIBDgS6t3Y_9U8qhVOQHIh3wQmr9jfOfkWQX',
+      UUID: '10cfdf08-0502-3c1e-9986-074414a4a6e1',
+      defaultLat: 49.221266,
+      defaultLon: -123.063863,
+    };
+
+    mockUserDB.getUserInfoByEmail.mockResolvedValue(null);
+    mockUserDB.insertUser.mockResolvedValueOnce({ insertedId: '12345' });
+
+    // Send a request
+    const response = await request(app).post('/createUser').send(userDataWithNonNormalizedEmail);
+
+    // Check if the email was normalized in the database operation
+    expect(response.statusCode).toBe(200);
+    expect(mockUserDB.insertUser).toHaveBeenCalledWith(expect.objectContaining({
+      email: 'test@example.com', // Expected normalized email
+      deviceToken: userDataWithNonNormalizedEmail.deviceToken,
+      UUID: userDataWithNonNormalizedEmail.UUID,
+      defaultLat: userDataWithNonNormalizedEmail.defaultLat,
+      defaultLon: userDataWithNonNormalizedEmail.defaultLon
+    }));
+  });
+
+  test('should normalize email and handle user data correctly', async () => {
+    const userDataWithNonNormalizedEmail = {
+      email: 'TEST@example.com', // Email to be normalized
+      deviceToken: 'cLXlnKK4S2S9hQzYqtsD17:APA91bGqH-S3w7opOQUJClftFyz82amcfjHSqmQtv6tufmF1uBQ5IAEvXi15Hg1azwa4aaWS76q95LqPnxuNOhUGcZ6TXTV_duBGib6TnIBDgS6t3Y_9U8qhVOQHIh3wQmr9jfOfkWQX',
+      UUID: '10cfdf08-0502-3c1e-9986-074414a4a6e1',
+      defaultLat: 49.221266,
+      defaultLon: -123.063863,
+    };
+  
+    mockUserDB.getUserInfoByEmail.mockResolvedValue(null);
+    mockUserDB.insertUser.mockResolvedValueOnce({ insertedId: '12345' });
+  
+    // Send a request
+    const response = await request(app).post('/createUser').send(userDataWithNonNormalizedEmail);
+  
+    // Check if the email was normalized in the database operation
+    expect(response.statusCode).toBe(200);
+    expect(mockUserDB.insertUser).toHaveBeenCalledWith(expect.objectContaining({
+      email: 'test@example.com', // Expected normalized email
+      deviceToken: userDataWithNonNormalizedEmail.deviceToken,
+      UUID: userDataWithNonNormalizedEmail.UUID,
+      defaultLat: userDataWithNonNormalizedEmail.defaultLat,
+      defaultLon: userDataWithNonNormalizedEmail.defaultLon
+    }));
+  });
+
+  test('should handle deviceToken', async () => {
+    const userDataWithNonNormalizedEmail = {
+      email: 'test@example.com', // Email to be normalized
+      deviceToken: 2364,
+      UUID: '10cfdf08-0502-3c1e-9986-074414a4a6e1',
+      defaultLat: 49.221266,
+      defaultLon: -123.063863,
+    };
+  
+    mockUserDB.getUserInfoByEmail.mockResolvedValue(null);
+    mockUserDB.insertUser.mockResolvedValueOnce({ insertedId: '12345' });
+  
+    // Send a request
+    const response = await request(app).post('/createUser').send(userDataWithNonNormalizedEmail);
+  
+    // Check if the email was normalized in the database operation
+    expect(response.statusCode).toBe(400);
+  });
+
+  test('should handle uuid', async () => {
+    const userDataWithNonNormalizedEmail = {
+      email: 'test@example.com', // Email to be normalized
+      deviceToken: 'cLXlnKK4S2S9hQzYqtsD17:APA91bGqH-S3w7opOQUJClftFyz82amcfjHSqmQtv6tufmF1uBQ5IAEvXi15Hg1azwa4aaWS76q95LqPnxuNOhUGcZ6TXTV_duBGib6TnIBDgS6t3Y_9U8qhVOQHIh3wQmr9jfOfkWQX',
+      UUID: '12sv',
+      defaultLat: 49.221266,
+      defaultLon: -123.063863,
+    };
+  
+    mockUserDB.getUserInfoByEmail.mockResolvedValue(null);
+    mockUserDB.insertUser.mockResolvedValueOnce({ insertedId: '12345' });
+  
+    // Send a request
+    const response = await request(app).post('/createUser').send(userDataWithNonNormalizedEmail);
+  
+    // Check if the email was normalized in the database operation
+    expect(response.statusCode).toBe(400);
+  });
+
+  test('should handle latitude and longitude', async () => {
+    const userDataWithNonNormalizedEmail = {
+      email: 'test@example.com', // Email to be normalized
+      deviceToken: 'cLXlnKK4S2S9hQzYqtsD17:APA91bGqH-S3w7opOQUJClftFyz82amcfjHSqmQtv6tufmF1uBQ5IAEvXi15Hg1azwa4aaWS76q95LqPnxuNOhUGcZ6TXTV_duBGib6TnIBDgS6t3Y_9U8qhVOQHIh3wQmr9jfOfkWQX',
+      UUID: '10cfdf08-0502-3c1e-9986-074414a4a6e1',
+      defaultLat: 94.221266,
+      defaultLon: -183.063863,
+    };
+  
+    mockUserDB.getUserInfoByEmail.mockResolvedValue(null);
+    mockUserDB.insertUser.mockResolvedValueOnce({ insertedId: '12345' });
+  
+    // Send a request
+    const response = await request(app).post('/createUser').send(userDataWithNonNormalizedEmail);
+  
+    // Check if the email was normalized in the database operation
+    expect(response.statusCode).toBe(400);
+  });
+  
+
 });

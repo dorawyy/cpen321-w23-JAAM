@@ -1,10 +1,10 @@
 const request = require('supertest');
-const makeApp = require('../../app.js');
-const mockUserDB = require('../../mockUserDB.js');
+const makeApp = require('../app.js');
+const mockUserDB = require('../mockUserDB.js');
 const { describe } = require('@jest/globals');
 
-jest.mock('../../mockUserDB', () => {
-  const originalModule = jest.requireActual('../../mockUserDB');
+jest.mock('../mockUserDB', () => {
+  const originalModule = jest.requireActual('../mockUserDB');
   return {
     ...originalModule,
     connectToDatabase: jest.fn(),
@@ -202,4 +202,43 @@ describe('POST /addFriend', () => {
     expect(mockUserDB.updateUserByEmail).not.toHaveBeenCalled();
     expect(mockUserDB.closeDatabaseConnection).not.toHaveBeenCalled();
   });
+
+  test('should accept valid email formats', async () => {
+    const userData = {
+      userEmail: 'TestUser@example.com', // Valid but needs normalization
+      friendEmail: 'FriendUser@example.com', // Valid but needs normalization
+    };
+
+    // Mock database functions
+    mockUserDB.getUserInfoByEmail.mockResolvedValueOnce({ email: 'testuser@example.com' });
+    mockUserDB.getUserInfoByEmail.mockResolvedValueOnce({ email: 'frienduser@example.com' });
+    mockUserDB.updateUserByEmail.mockResolvedValueOnce({ modifiedCount: 1 });
+    mockUserDB.updateUserByEmail.mockResolvedValueOnce({ modifiedCount: 1 });
+
+    const response = await request(app).post('/addFriend').send(userData);
+    expect(response.statusCode).toBe(200);
+    // Verify email normalization
+    expect(mockUserDB.updateUserByEmail).toHaveBeenCalledWith(
+      'testuser@example.com',
+      { FriendsList: 'frienduser@example.com' }
+    );
+    expect(mockUserDB.updateUserByEmail).toHaveBeenCalledWith(
+      'frienduser@example.com',
+      { FriendsList: 'testuser@example.com' }
+    );
+  });
+
+  test('should reject invalid email formats', async () => {
+    const invalidUserData = {
+      userEmail: 'invalid_email', // Invalid email
+      friendEmail: 'also_invalid_email', // Invalid email
+    };
+
+    const response = await request(app).post('/addFriend').send(invalidUserData);
+    expect(response.statusCode).toBe(400);
+    expect(response.body.errors).toBeDefined();
+    expect(response.body.errors).toBeInstanceOf(Array);
+    // Additional assertions for specific error messages can be added here
+  });
+
 });
