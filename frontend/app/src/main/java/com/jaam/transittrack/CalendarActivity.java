@@ -206,6 +206,10 @@ public class CalendarActivity extends AppCompatActivity {
             for (Event event : items) {
                 DateTime start = event.getStart().getDateTime();
                 String loc = event.getLocation();
+                // make sure event has location
+                if(loc == null){
+                    continue;
+                }
                 List<Address> addressList = geocoder.getFromLocationName(loc, 1);
                 Address address;
                 if (addressList.size() > 0) {
@@ -221,7 +225,7 @@ public class CalendarActivity extends AppCompatActivity {
                     String time = OkHTTPHelper.sendCalendar(calendarJSON);
                     parseTimeJSON(time);
                     if(alarmHours.size() > 0 && alarmMinutes.size()>0)
-                    alertTransitNotification(alarmHours.get(0), alarmMinutes.get(0));
+                        alertTransitNotification(alarmHours.get(0), alarmMinutes.get(0));
                 }
                 if (start == null) {
                     start = event.getStart().getDate();
