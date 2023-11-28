@@ -74,6 +74,16 @@ module.exports = function(database) {
 
 	app.use('/api/chat', chatRoute)
 
+  const isLatitude = (value) => {
+		const latitude = parseFloat(value);
+		return !isNaN(latitude) && latitude >= -90 && latitude <= 90;
+	};
+
+	const isLongitude = (value) => {
+		const longitude = parseFloat(value);
+		return !isNaN(longitude) && longitude >= -180 && longitude <= 180;
+	};
+
 	app.get("/", (req, res) => {
 		res.send("Hello World!")
 	})
@@ -82,6 +92,10 @@ module.exports = function(database) {
 		'/createUser',
 		[
 			body('email').isEmail().normalizeEmail(),
+      body('deviceToken').isString().trim(),
+      body('UUID').isUUID(),
+      body('defaultLat').custom(isLatitude),
+      body('defaultLon').custom(isLongitude),
 		],
 		async (req, res) => {
 			const errors = validationResult(req);
@@ -244,19 +258,7 @@ module.exports = function(database) {
 	];
 
 
-
 	const subtractedMinutes = 10;
-
-
-	const isLatitude = (value) => {
-		const latitude = parseFloat(value);
-		return !isNaN(latitude) && latitude >= -90 && latitude <= 90;
-	};
-
-	const isLongitude = (value) => {
-		const longitude = parseFloat(value);
-		return !isNaN(longitude) && longitude >= -180 && longitude <= 180;
-	};
 
 	app.post(
 		'/getFormattedSubtractedTime',

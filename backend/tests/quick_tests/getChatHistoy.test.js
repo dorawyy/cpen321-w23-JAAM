@@ -1,7 +1,7 @@
 const request = require('supertest');
-const makeApp = require('../app.js');
-const mockUserDB = require('../mockUserDB.js');
-const mockChatDB = require('../mockChatDB.js');
+const makeApp = require('../../app.js');
+const mockUserDB = require('../../mockUserDB.js');
+const mockChatDB = require('../../mockChatDB.js');
 
 // Mock the Message model
 jest.mock('../models/message', () => ({

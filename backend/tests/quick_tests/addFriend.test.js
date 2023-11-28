@@ -1,6 +1,6 @@
 const request = require('supertest');
-const makeApp = require('../app.js');
-const mockUserDB = require('../mockUserDB.js');
+const makeApp = require('../../app.js');
+const mockUserDB = require('../../mockUserDB.js');
 const { describe } = require('@jest/globals');
 
 jest.mock('../mockUserDB', () => {
