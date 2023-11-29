@@ -194,6 +194,7 @@ async function updateUserByEmail(email, updateData) {
 let userIdCounter = 1;
 
 async function insertUser(userData) {
+  //console.log('Inserting user to the mock database')
 	try {
 		const newUser = { _id: userIdCounter++, ...userData };
 		mockDb.userDB.userInfo.push(newUser);
@@ -206,6 +207,7 @@ async function insertUser(userData) {
 }
 
 async function getUserDetails(userIdentifier) {
+  //console.log('Retrieving user information')
 	try {
 		const user = await getUserInfoByEmail(userIdentifier);
 
@@ -225,6 +227,7 @@ async function getUserDetails(userIdentifier) {
 
 
 const getChatHistory = async ({ senderEmail, receiverEmail }) => {
+  //console.log('Retrieving chat history')
 	try {
 		// Create a mock chat history
 		const mockChatHistory = [
@@ -274,6 +277,7 @@ const getChatHistory = async ({ senderEmail, receiverEmail }) => {
 };
 
 const getRoute = async ({defaultLat, defaultLong, latitude, longitude, startTime}) => {
+  //console.log('Getting route information')
 	try {
 		// Mock route data
 		const mockRouteData = [
