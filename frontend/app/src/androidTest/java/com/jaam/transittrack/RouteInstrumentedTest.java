@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -61,7 +62,11 @@ public class RouteInstrumentedTest {
         UiObject2 searchField = device.findObject(By.text("Search"));
         searchField.setText("UBC Bus Loop");
         onView((withId(R.id.searchButton))).perform(click());
+        try{
         onData(anything()).inAdapterView(allOf(withId(R.id.stopList),isDisplayed())).atPosition(0).check(matches(isDisplayed()));
+        } catch (NoMatchingViewException e){
+            fail("No route displayed");
+        }
         Log.d("ROUTE TEST", "get route test pass");
     }
     @Test

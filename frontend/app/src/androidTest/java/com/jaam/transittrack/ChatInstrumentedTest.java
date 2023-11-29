@@ -61,8 +61,8 @@ public class ChatInstrumentedTest {
     public void testSendMessage(){
         Log.d("CHAT TEST", "starting send message test");
         String testMessage = "this is an automated test message";
-        onView(ViewMatchers.withId(R.id.messageEdit)).perform(typeText(testMessage));
-        onView(ViewMatchers.withId(R.id.sendBtn)).perform(click());
+        onView(withId(R.id.messageEdit)).perform(typeText(testMessage));
+        onView(withId(R.id.sendBtn)).perform(click());
         UiObject2 sentMessage = device.findObject(By.text("crabapple569@gmail.com: this is an automated test message"));
         if(sentMessage == null){
             fail("Message not found");
