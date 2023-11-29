@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
      * }
      * });
      * ```
-     * @see GoogleSignInStatusCodes For detailed information on status codes and failure reasons.
+     * @see GoogleSignIn For detailed information on status codes and failure reasons.
      * <p>
      * Example usage:
      * ```
