@@ -1,16 +1,8 @@
 package com.jaam.transittrack;
 
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
-
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlarmManager;
-
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -28,6 +20,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
@@ -231,7 +228,7 @@ public class CalendarActivity extends AppCompatActivity {
                     start = event.getStart().getDate();
                 }
                 Log.d(TAG, event.getSummary() + " (" + start + ") @ " + loc);
-                
+
             }
             runOnUiThread(new Runnable() {
                 @Override

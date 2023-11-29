@@ -40,7 +40,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeoutException;
 
-public class RouteActivity extends AppCompatActivity implements LocationListener {
+public class RouteActivity extends AppCompatActivity implements LocationListener{
 
 
     private Location currLocation;
@@ -48,6 +48,13 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
     private static ArrayList<String> stops = new ArrayList<String>();
 
     protected LocationManager locationManager;
+    private final LocationListener locationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(@NonNull Location location) {
+            Log.d(TAG, location.toString());
+            currLocation = location;
+        }
+    };
     final static String TAG = "RouteActivity";
 
     static private String[] cityCoverage = {"University Endowment Lands","Vancouver", "West Vancouver", "North Vancouver",
@@ -72,9 +79,14 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            PermissionChecker pc = new PermissionChecker();
+            pc.checkLocationPermissions(this);
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                10000, //10-second interval
+                10, //10 meters
+                this);
 
         FloatingActionButton searchButton = findViewById(R.id.searchButton);
         searchButton.setAlpha(.5f);
@@ -152,6 +164,7 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
                     e.printStackTrace();
                     Log.d(TAG, "Could not getRoute lmao :`)");
                 } catch (TimeoutException e) {
+                    showNewErrorAlertDialog("Route", "No route found.\nPlease try again later.");
                     Toast.makeText(RouteActivity.this, "No route found", Toast.LENGTH_SHORT).show();
                 }
 
@@ -171,11 +184,6 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
             }
         }
 
-    }
-    //ChatGPT usage: No
-    @Override
-    public void onLocationChanged(@NonNull Location location) {
-        currLocation = location;
     }
 
     /**
@@ -210,6 +218,13 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
     //ChatGPT usage: No
     private String getRoute(Location currLocation, String search) throws JSONException, IOException, TimeoutException {
         JSONObject endPoints = new JSONObject();
+        if(currLocation == null){
+            try {
+                currLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            } catch (SecurityException e){
+                new PermissionChecker().checkLocationPermissions(this);
+            }
+        }
         endPoints.put("startLat", currLocation.getLatitude());
         endPoints.put("startLon", currLocation.getLongitude());
         try {
@@ -279,4 +294,8 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
         return address;
     }
 
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+        currLocation = location;
+    }
 }
