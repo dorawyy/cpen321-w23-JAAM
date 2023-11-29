@@ -1,6 +1,3 @@
-const request = require('supertest');
-const nock = require('nock');
-const https = require('https');
 const makeApp = require('../../app.js');
 //const database = require('./database.js');
 const mockUserDB = require('../../mockUserDB.js');
@@ -21,8 +18,6 @@ jest.mock('../../mockUserDB', () => {
     },
   };
 });
-// Create an instance of the app with the mockUserDB
-const app = makeApp(mockUserDB);
 
 
 
@@ -33,10 +28,6 @@ const mockUserData = {
   defaultLon: -74.0060,
 };
 
-const mockEventData = {
-  latitude: 37.7749,
-  longitude: -122.4194,
-};
 
 const mockRouteResponse = [
   { Start: { Time: '12:00' } },

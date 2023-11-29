@@ -3,7 +3,6 @@ const makeApp = require('../../app.js');
 const mockUserDB = require('../../mockUserDB.js');
 const { describe } = require('@jest/globals');
 const admin = require('firebase-admin');
-const nock = require('nock');
 const Message = require('../../models/message.js');
 
 jest.mock('mongoose');
