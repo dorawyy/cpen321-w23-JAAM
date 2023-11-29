@@ -112,6 +112,6 @@ describe('POST /sendMessage, nonfunctional, testing with many messages sent betw
 				receiverEmail: requestBody.receiverEmail,
 				timestamp: expect.any(Date),
 			});
-		}, 500);
+		}, 200);
 	}
 });
