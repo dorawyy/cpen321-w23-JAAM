@@ -15,7 +15,6 @@ const generated_trips_path = './engine/generated/trips.json';
 
 var stops;
 var trips;
-var routes_path = './engine/translink_data/routes.txt';
 // var calendar_path = './engine/translink_data/calendar.txt';
 
 // ChatGPT Usage: PARTIAL
@@ -46,6 +45,10 @@ async function init() {
 function parseGeneratedFile(path) {
     return new Promise(function(resolve, reject) {
         fs.readFile(path, 'utf8', (err, data) => {
+			if (err) {
+				console.log(err);
+				throw err;
+			}
 
             console.log("Parsing File: ", path);
             resolve(JSON.parse(data));
@@ -57,6 +60,10 @@ function parseGeneratedFile(path) {
 function parseTranslinkFile(path)  {
     return new Promise(function(resolve, reject) {
         fs.readFile(path, 'utf8', (err, data) => {
+			if (err) {
+				console.log(err);
+				throw err;
+			}
 
             console.log("Parsing File: ", path);
 
