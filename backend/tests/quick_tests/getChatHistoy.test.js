@@ -8,7 +8,7 @@ jest.mock('../../models/message', () => ({
   find: jest.fn(),
 }));
 
-jest.mock('../mockUserDB', () => ({
+jest.mock('../../mockUserDB', () => ({
   ...jest.requireActual('../../mockUserDB'), // Use the actual implementation for other functions
   getChatHistory: jest.fn(), // Using mockImplementation
 }));
