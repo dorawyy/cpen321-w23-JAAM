@@ -1,19 +1,8 @@
 const express = require("express");
-const https = require('https');
-const fs = require('fs');
 const { body, validationResult } = require('express-validator');
-const axios = require('axios');
-const SocketServer = require('websocket').server;
-const http = require('http');
-const moment = require('moment-timezone');
-const mongoose = require('mongoose');
 const chatRoute = require('./routes/chatRoute');
-const chatController = require('./controllers/chat');
 const admin = require('firebase-admin');
-const schedule = require('node-schedule');
 const routeEngine = require('./engine/routeEngine');
-const database = require('./database.js');
-const mockUserDB = require('./mockUserDB.js');
 
 
 function getFormattedSubtractedTime(dataItems, subtractMinutes) {
@@ -154,27 +143,21 @@ module.exports = function(database) {
 				const userExists = await database.getUserInfoByEmail(userEmail);
 
 				if (userExists) {
-					const userFilter = { email: userEmail };
 					const userUpdate = {
 						//$addToSet: { FriendsList: friendEmail },
 						FriendsList: friendEmail,
 					};
 
-					let userLogMessage;
-					const userResult = await database.updateUserByEmail(userEmail, userUpdate);
 
 					if (userResult.modifiedCount === 1) {
 						console.log("Friend added to the user's FriendsList.");
-						userLogMessage = "Friend added to the user's FriendsList.";
 					} else {
 						console.log("Friend already added to the user's FriendsList.");
-						userLogMessage = "Friend already added to the user's FriendsList.";
 					}
 
 					const friendExists = await database.getUserInfoByEmail(friendEmail);
 
 					if (friendExists) {
-						const friendFilter = { email: friendEmail };
 						const friendUpdate = {
 							//$addToSet: { FriendsList: userEmail },
 							FriendsList: userEmail,
@@ -232,31 +215,6 @@ module.exports = function(database) {
 			await database.closeDatabaseConnection();
 		}
 	});
-
-	const data = [
-		[
-			{
-				'Start': {
-					'Stop': 'Northbound King George Blvd @ 60 Ave',
-					'Lat': 49.112374,
-					'Long': -122.840708,
-					'Time': '22:30', // Example time in "HH:mm" format
-					'Bus': '394'
-				}
-			},
-			{
-				'Start': {
-					'Stop': 'Northbound King George Blvd @ 60 Ave',
-					'Lat': 49.112374,
-					'Long': -122.840708,
-					'Time': '08:30', // Example time in "HH:mm" format
-					'Bus': '394'
-				}
-			},
-			// Other entries...
-		]
-	];
-
 
 	const subtractedMinutes = 10;
 
@@ -370,7 +328,7 @@ module.exports = function(database) {
 					const defaultLong = userExists.defaultLon;
 
 					await routeEngine.init();
-					result = routeEngine.getPartnerRoute(startLat, startLon, defaultLat, defaultLong, endLat, endLon, endTime);
+					const result = routeEngine.getPartnerRoute(startLat, startLon, defaultLat, defaultLong, endLat, endLon, endTime);
 					console.log(result);
 					res.json({result});
 				} else {
