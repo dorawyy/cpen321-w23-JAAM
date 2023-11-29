@@ -1,4 +1,3 @@
-const makeApp = require('../../app.js');
 //const database = require('./database.js');
 const mockUserDB = require('../../mockUserDB.js');
 const { describe, expect } = require('@jest/globals');
