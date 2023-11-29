@@ -71,7 +71,7 @@ async function getUserInfoByEmail(email) {
 async function updateUserByEmail(email, updateData) {
 	try {
 		const userIndex = mockDb.userDB.userInfo.findIndex((user) => user.email === email);
-
+		var count;
 		if (userIndex !== -1) {
 			if (updateData.FriendsList) {
 				const newFriends = Array.isArray(updateData.FriendsList)
@@ -81,22 +81,22 @@ async function updateUserByEmail(email, updateData) {
 				// Check if the friend is already in the FriendsList
 				if (!newFriends.every((friend) => mockDb.userDB.userInfo[userIndex].FriendsList.includes(friend))) {
 					console.log("Friend already added to the user's FriendsList.");
-					var count = {modifiedCount: 0};
+					count = {modifiedCount: 0};
 					return count;
 				}
 
 				mockDb.userDB.userInfo[userIndex].FriendsList = [
-					...new Set([...mockDb.userDB.userInfo[userIndex].FriendsList, ...newFriends]),
+	...new Set([...mockDb.userDB.userInfo[userIndex].FriendsList, ...newFriends]),
 				];
-				var count = {modifiedCount: 1};
+				count = {modifiedCount: 1};
 				return count;
 			}
-			var count = {modifiedCount: 0};
+			count = {modifiedCount: 0};
 			return count;
 
 		} else {
 			console.warn(`User with email '${email}' not found in updateUserByEmail`);
-			var count = {modifiedCount: 0};
+			count = {modifiedCount: 0};
 			return count;
 		}
 	} catch (error) {
