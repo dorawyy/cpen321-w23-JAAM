@@ -48,13 +48,6 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
     private static ArrayList<String> stops = new ArrayList<String>();
 
     protected LocationManager locationManager;
-    private final LocationListener locationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(@NonNull Location location) {
-            Log.d(TAG, location.toString());
-            currLocation = location;
-        }
-    };
     final static String TAG = "RouteActivity";
 
     static private String[] cityCoverage = {"University Endowment Lands","Vancouver", "West Vancouver", "North Vancouver",

@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class NavigationActivity extends AppCompatActivity {
 
-    static private String TAG = "NavigationActivity";
     //ChatGPT usage: No
     @Override
     protected void onCreate(Bundle savedInstanceState) {

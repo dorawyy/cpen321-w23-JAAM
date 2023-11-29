@@ -138,7 +138,7 @@ public class CalendarActivity extends AppCompatActivity {
                                     new Runnable() {
                                         @Override
                                         public void run() {
-                                            if(synced){
+                                            if (synced) {
                                                 Toast.makeText(CalendarActivity.this, "Calendar synced successfully!", Toast.LENGTH_SHORT).show();
                                             }
                                         }
@@ -190,11 +190,11 @@ public class CalendarActivity extends AppCompatActivity {
                     .setTitle("Google Calendar")
                     .setMessage("No upcoming events, try adding events to google calendar with locations")
                     .setNeutralButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
             //System.out.println("No upcoming events found.");
         } else {
             //ChatGPT usage: Partial
@@ -204,7 +204,7 @@ public class CalendarActivity extends AppCompatActivity {
                 DateTime start = event.getStart().getDateTime();
                 String loc = event.getLocation();
                 // make sure event has location
-                if(loc == null){
+                if (loc == null) {
                     continue;
                 }
                 List<Address> addressList = geocoder.getFromLocationName(loc, 1);
@@ -221,7 +221,7 @@ public class CalendarActivity extends AppCompatActivity {
                     calendarJSON.put("time", start);
                     String time = OkHTTPHelper.sendCalendar(calendarJSON);
                     parseTimeJSON(time);
-                    if(alarmHours.size() > 0 && alarmMinutes.size()>0)
+                    if (alarmHours.size() > 0 && alarmMinutes.size() > 0)
                         alertTransitNotification(alarmHours.get(0), alarmMinutes.get(0));
                 }
                 if (start == null) {
@@ -252,9 +252,9 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     //ChatGPT usage: No
-    private void createNotificationChannel(){
+    private void createNotificationChannel() {
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "TransitTrack";
             String description = "Channel for TransitTrack";
 
@@ -267,6 +267,7 @@ public class CalendarActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }
+
     //ChatGPT usage: No
     private void alertTransitNotification(int hours, int minutes) {
         Log.d(TAG, "Reminder Set for " + hours + ": " + minutes);
@@ -281,16 +282,15 @@ public class CalendarActivity extends AppCompatActivity {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(CalendarActivity.this, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        if (alarmManager != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                if(alarmManager.canScheduleExactAlarms())
+        if (alarmManager != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (alarmManager.canScheduleExactAlarms())
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-                else{
-                    showNewErrorAlertDialog("Permission Error", "Please give notification permissions.");
-                }
+            else {
+                showNewErrorAlertDialog("Permission Error", "Please give notification permissions.");
             }
         }
     }
+
     //ChatGPT usage: Partial
     private void parseTimeJSON(String jsonString) {
         try {
@@ -329,7 +329,8 @@ public class CalendarActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-    private void showNewErrorAlertDialog(String title, String message){
+
+    private void showNewErrorAlertDialog(String title, String message) {
         new AlertDialog.Builder(CalendarActivity.this).setTitle(title).setMessage(message)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
