@@ -19,10 +19,8 @@ var trips;
 
 // ChatGPT Usage: PARTIAL
 async function init() {
-    if (fs.existsSync(generated_stops_path) && fs.existsSync(generated_trips_path)) {
-            console.log("Files exist");
-    } else {
-            console.log("Files not found");
+    if (!fs.existsSync(generated_stops_path) || !fs.existsSync(generated_trips_path)) {
+
 
         stops = await parseTranslinkFile(stops_path);
         var stop_times = await parseTranslinkFile(stop_times_path);
@@ -38,7 +36,6 @@ async function init() {
     
     stops = await parseGeneratedFile(generated_stops_path);
     trips = await parseGeneratedFile(generated_trips_path);
-    console.log("Setup Complete");
     return true;
 }
 // ChatGPT Usage: NO
@@ -48,7 +45,6 @@ function parseGeneratedFile(path) {
 			if (err) {
 				reject(err);
 			} else {
-				console.log("Parsing File: ", path);
 				resolve(JSON.parse(data));
 			}
 		});
@@ -62,7 +58,6 @@ function parseTranslinkFile(path)  {
 			if (err) {
 				reject(err);
 			} else {
-				console.log("Parsing File: ", path);
 
 
 				var output = {};

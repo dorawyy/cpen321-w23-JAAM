@@ -143,8 +143,11 @@ describe('/getRoute nonfunctional, feeding randomly chosen start / end points in
 				response.status === 200 &&
 				isValidRoute(JSON.parse(response.text))) {
 				passed++;
+			} else {
+				console.log(`Failed, with status: ${response.status} and text: ${response.text}`);
 			}
 		}
+		console.log(`Passed ${passed} tests out of ${NUM_TESTS}`);
 		expect(passed/NUM_TESTS > PASS_THRESHOLD).toBe(true);	
 	}, 1800000);
 });
