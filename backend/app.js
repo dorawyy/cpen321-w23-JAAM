@@ -192,7 +192,6 @@ module.exports = function(database) {
 	);
 
 	app.get("/getFriendList", async (req, res) => {
-		//console.log('Running getFriendList')
 		try {
 			await database.connectToDatabase();
 			const userEmail = req.query.userEmail;
@@ -291,17 +290,14 @@ module.exports = function(database) {
 		], async (req, res) => {
 			const errors = validationResult(req);
 			if (!errors.isEmpty()) {
-				console.log(errors);
 				return res.status(400).json({ errors: errors.array() });
 			}
-			console.log(req.body);
 			const { startLat, startLon, endLat, endLon, startTime } = req.body;
 
 			await database.connectToDatabase();
 			await routeEngine.init();
 
 			const result = routeEngine.getRoute(startLat, startLon, endLat, endLon, startTime);
-			console.log(result);
 
 			res.json(result);
 			await database.closeDatabaseConnection();
@@ -332,7 +328,6 @@ module.exports = function(database) {
 
 					await routeEngine.init();
 					const result = routeEngine.getPartnerRoute(startLat, startLon, defaultLat, defaultLong, endLat, endLon, endTime);
-					console.log(result);
 					res.json({result});
 				} else {
 					res.status(500).json({ error: 'User does not exist in the DB' });
@@ -342,7 +337,6 @@ module.exports = function(database) {
 			});
 
 			app.get('/getFCM', async (req, res) => {
-				//console.log('Sending fcm notification for bus time')
 				try {
 					await database.connectToDatabase();
 

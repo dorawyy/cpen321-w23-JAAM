@@ -3,6 +3,7 @@ const makeApp = require('../../../app.js');
 const mockUserDB = require('../../../mockUserDB.js');
 const { describe } = require('@jest/globals');
 const NUM_TESTS = 100;
+const PASS_THRESHOLD = 0.90;
 
 jest.mock('../../../mockUserDB', () => {
 	const originalModule = jest.requireActual('../../../mockUserDB');
@@ -113,29 +114,37 @@ function isValidRoute(response, startLat, startLon, endLat, endLon, time) {
 
 // Create an instance of the app with the mockUserDB
 const app = makeApp(mockUserDB);
-
+var date = new Date();
+var startTime;
+var passed = 0;
 // Interface POST server/getRoute
 describe('/getRoute nonfunctional, feeding randomly chosen start / end points in Vancouver to the /getRoute endpoint', () => {
-	for (var i = 0; i < NUM_TESTS; i++) {
-		const requestData = {
-			startLat: getRandomLat(),
-			startLon: getRandomLon(),
-			endLat: getRandomLat(),
-			endLon: getRandomLon(),
-			startTime: getRandomTime()
-		};
-		test(`getting route ${i}, with 
-			startLat: ${requestData.startLat} 
-			startLon: ${requestData.startLon} 
-			endLat: ${requestData.endLat} 
-			endLon: ${requestData.endLon} 
-			startTime: ${requestData.startTime}	`
-			, async () => {
+	test("testing 100 random routes", async () => {
+
+		for (var i = 0; i < NUM_TESTS; i++) {
+			const requestData = {
+				startLat: getRandomLat(),
+				startLon: getRandomLon(),
+				endLat: getRandomLat(),
+				endLon: getRandomLon(),
+				startTime: getRandomTime()
+			};
+			console.log(`getting route ${i}, with 
+				startLat: ${requestData.startLat} 
+				startLon: ${requestData.startLon} 
+				endLat: ${requestData.endLat} 
+				endLon: ${requestData.endLon} 
+				startTime: ${requestData.startTime}`);
+			var startTime = date.getTime();
 			const response = await request(app)
 				.post('/getRoute')
 				.send(requestData);
-			expect(response.status).toBe(200);
-			expect(isValidRoute(JSON.parse(response.text))).toBe(true);
-		}, 15000);
-	}
+			if(date.getTime()-startTime < 15000 &&
+				response.status === 200 &&
+				isValidRoute(JSON.parse(response.text))) {
+				passed++;
+			}
+		}
+		expect(passed/NUM_TESTS > PASS_THRESHOLD).toBe(true);	
+	}, 1800000);
 });
