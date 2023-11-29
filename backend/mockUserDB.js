@@ -60,6 +60,7 @@ async function closeDatabaseConnection() {
 }
 
 async function getUserInfoByEmail(email) {
+  //console.log('Retrieving user info from email')
 	try {
 		const user = mockDb.userDB.userInfo.find((user) => user.email === email);
 		return user;

@@ -87,6 +87,7 @@ exports.sendMessage = async (req, res) => {
 // Get chat history
 // Get chat history for all entries in the database
 exports.getChatHistory = async (req, res) => {
+  //console.log('Retrieving chat history')
   try {
     const senderEmail = req.query.senderEmail;
     const receiverEmail = req.query.receiverEmail;

@@ -341,6 +341,7 @@ module.exports = function(database) {
 			});
 
 			app.get('/getFCM', async (req, res) => {
+				//console.log('Sending fcm notification for bus time')
 				try {
 					await database.connectToDatabase();
 
