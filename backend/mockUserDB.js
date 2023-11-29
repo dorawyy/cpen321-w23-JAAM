@@ -6,8 +6,8 @@ const mockUser = [
 		email: 'test@example.com',
 		deviceToken: 'initialDeviceToken',
 		UUID: 'initialUUID',
-		defaultLat: 40.7128,
-		defaultLon: -74.0060,
+		defaultLat: 40.75,
+		defaultLon: -74.0,
 		FriendsList: []
 	},
 	{
@@ -15,8 +15,8 @@ const mockUser = [
 		email: 'another@example.com',
 		deviceToken: 'initialDeviceToken2',
 		UUID: 'initialUUID2',
-		defaultLat: 37.7749,
-		defaultLon: -122.4194,
+		defaultLat: 37.77,
+		defaultLon: -122.42,
 		FriendsList: [],
 	},
 	{
@@ -24,8 +24,8 @@ const mockUser = [
 		email: 'yetanother@example.com',
 		deviceToken: 'initialDeviceToken3',
 		UUID: 'initialUUID3',
-		defaultLat: 34.0522,
-		defaultLon: -118.2437,
+		defaultLat: 34.05,
+		defaultLon: -118.24,
 		FriendsList: []
 	},
 ];
