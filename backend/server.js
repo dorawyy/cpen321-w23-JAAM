@@ -28,7 +28,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/chatDB', {
 })
 
 async function run(){
-  console.log('Establishing connection to the app')
+  //console.log('Establishing connection to the app')
   try{
       await client.connect()
       console.log("Successfully connected to the database")

@@ -6,7 +6,7 @@ const mockUserDB = require('../mockUserDB');
 
 // Send a message
 exports.sendMessage = async (req, res) => {
-  console.log('Entering chat send message')
+  //console.log('Entering chat send message')
   try {
     const { text, senderEmail, receiverEmail } = req.body;
 

@@ -41,7 +41,7 @@ const mockClient = {
 };
 
 async function connectToDatabase() {
-  console.log('Connecting mock database connection')
+  //console.log('Connecting mock database connection')
 	try {
 		console.log('Connected to Mock MongoDB');
 	} catch (error) {
