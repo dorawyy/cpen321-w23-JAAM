@@ -33,7 +33,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -52,6 +52,7 @@ public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, Loca
             "Lions Bay", "Bowen Island", "Burnaby", "New Westminister", "Richmond", "Surrey",
             "Delta", "White Rock", "Langley", "Coquitlam", "Port Moody", "Port Coquitlam",
             "Belcarra", "Anmore", "Pitt Meadows", "Maple Ridge"};
+
     //ChatGPT usage: No
     public FriendEntryAdapter(ArrayList<String> list, Context context) {
         //TODO avoid repeating again
@@ -68,7 +69,7 @@ public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, Loca
 
         }
         if (gpsEnabled) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 10, this);
             this.list = list;
             this.context = context;
         }
@@ -100,13 +101,13 @@ public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, Loca
         }
 
         //Handle TextView and display string from your list
-        TextView tvContact= view.findViewById(R.id.emailTextView);
+        TextView tvContact = view.findViewById(R.id.emailTextView);
         tvContact.setText(list.get(position));
 
         //Handle buttons and add onClickListeners
-        Button sendMessageButton= view.findViewById(R.id.friendMessageButton);
+        Button sendMessageButton = view.findViewById(R.id.friendMessageButton);
 
-        sendMessageButton.setOnClickListener(new View.OnClickListener(){
+        sendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent chatIntent = new Intent(context, ChatActivity.class);
@@ -121,6 +122,13 @@ public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, Loca
             public void onClick(View v) {
 
                 String friendEmail = tvContact.getText().toString();
+                if (currLocation == null) {
+                    try {
+                        currLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    } catch (SecurityException e){
+                        new PermissionChecker().checkLocationPermissions(context);
+                    }
+                }
                 Double startLat1 = currLocation.getLatitude();
                 Double startLon1 = currLocation.getLongitude();
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
@@ -142,7 +150,7 @@ public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, Loca
                         }
                         Address address;
                         if(addressList.size() > 0) {
-                            if(addressList.get(0).getCountryName().equals("Canada") && Collections.singletonList(cityCoverage).contains(addressList.get(0).getLocality())) {
+                            if(addressList.get(0).getCountryName().equals("Canada") && Arrays.stream(cityCoverage).anyMatch(addressList.get(0).getLocality()::equals)) {
                                 address = addressList.get(0);
                                 Double endLat = address.getLatitude();
                                 Double endLon = address.getLongitude();
@@ -175,7 +183,7 @@ public class FriendEntryAdapter extends BaseAdapter implements ListAdapter, Loca
                                     }
                                     String routeString = combinedArray.toString();
                                     Log.d(TAG, routeString);
-                                    routeIntent.putExtra("routeString", routeString);
+                                    routeIntent.putExtra("routeString", "routeString: "+routeString);
                                     context.startActivity(routeIntent);
                                 } catch (IOException e) {
                                     e.printStackTrace();
