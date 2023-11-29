@@ -1,11 +1,9 @@
 const Message = require('../models/message');
 const express = require("express");
-const {MongoClient} = require("mongodb");
 var admin = require("firebase-admin");
 const { getUserDetails } = require('../mockUserDB');
 const mockUserDB = require('../mockUserDB');
 
-const app = express();
 
 // Send a message
 exports.sendMessage = async (req, res) => {
