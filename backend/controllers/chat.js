@@ -1,5 +1,4 @@
 const Message = require('../models/message');
-const express = require("express");
 var admin = require("firebase-admin");
 const { getUserDetails } = require('../mockUserDB');
 const mockUserDB = require('../mockUserDB');
