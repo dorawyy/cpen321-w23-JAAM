@@ -148,6 +148,7 @@ module.exports = function(database) {
 						FriendsList: friendEmail,
 					};
 
+					const userResult = await database.updateUserByEmail(userEmail, userUpdate);
 
 					if (userResult.modifiedCount === 1) {
 						console.log("Friend added to the user's FriendsList.");
