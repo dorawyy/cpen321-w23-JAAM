@@ -54,8 +54,8 @@ describe('POST /createUser', () => {
       email: 'crabapple569@gmail.com',
       deviceToken: 'cLXlnKK4S2S9hQzYqtsD17:APA91bGqH-S3w7opOQUJClftFyz82amcfjHSqmQtv6tufmF1uBQ5IAEvXi15Hg1azwa4aaWS76q95LqPnxuNOhUGcZ6TXTV_duBGib6TnIBDgS6t3Y_9U8qhVOQHIh3wQmr9jfOfkWQX',
       UUID: '10cfdf08-0502-3c1e-9986-074414a4a6e1',
-      defaultLat: 49.221266,
-      defaultLon: -123.063863
+      defaultLat: 49.22,
+      defaultLon: -123.06
     };
 
     // Make the request to your endpoint
@@ -101,8 +101,8 @@ describe('POST /createUser', () => {
         email: 'test@example.com',
         deviceToken: 'cYXlnKK4S2S9hQzYqtsD17:APA91bGqH-S3w7opOQUJClftFyz82amcfjHSqmQtv6tufmF1uBQ5IAEvXi15Hg1azwa4aaWS76q95LqPnxuNOhUGcZ6TXTV_duBGib6TnIBDgS6t3Y_9U8qhVOQHIh3wQmr9jfOfkWQX',
         UUID: '10cfdf08-0502-3c1e-9986-074414a4a6e1',
-        defaultLat: 49.221266,
-        defaultLon: -123.063863,
+        defaultLat: 49.22,
+        defaultLon: -123.06,
        });
 
     // Assertions
@@ -119,8 +119,8 @@ describe('POST /createUser', () => {
       email: 'test@example.com', 
       deviceToken: 'cYXlnKK4S2S9hQzYqtsD17:APA91bGqH-S3w7opOQUJClftFyz82amcfjHSqmQtv6tufmF1uBQ5IAEvXi15Hg1azwa4aaWS76q95LqPnxuNOhUGcZ6TXTV_duBGib6TnIBDgS6t3Y_9U8qhVOQHIh3wQmr9jfOfkWQX',
       UUID: '10cfdf08-0502-3c1e-9986-074414a4a6e1',
-      defaultLat: 49.221266,
-      defaultLon: -123.063863 }
+      defaultLat: 49.22,
+      defaultLon: -123.06}
     );
     expect(mockUserDB.closeDatabaseConnection).toHaveBeenCalled();
   });
@@ -135,8 +135,8 @@ describe('POST /createUser', () => {
       email: 'email.com', 
       deviceToken: 'klfhskdns26sdfsd545ssfd',
       UUID: '521gg',
-      defaultLat: 41.7128,
-      defaultLon: -75.0060
+      defaultLat: 41.71,
+      defaultLon: -75.01
     };
 
     // Make the request to your endpoint
@@ -168,8 +168,8 @@ describe('POST /createUser', () => {
       email: 'crabapple569@gmail.com',
       deviceToken: 'cLXlnKK4S2S9hQzYqtsD17:APA91bGqH-S3w7opOQUJClftFyz82amcfjHSqmQtv6tufmF1uBQ5IAEvXi15Hg1azwa4aaWS76q95LqPnxuNOhUGcZ6TXTV_duBGib6TnIBDgS6t3Y_9U8qhVOQHIh3wQmr9jfOfkWQX',
       UUID: '10cfdf08-0502-3c1e-9986-074414a4a6e1',
-      defaultLat: 49.221266,
-      defaultLon: -123.063863,
+      defaultLat: 49.22,
+      defaultLon: -123.06,
     };
 
     // Make the request to your endpoint
@@ -204,8 +204,8 @@ describe('POST /createUser', () => {
         email: 'test@example.com',
         deviceToken: 'cLXlnKK4S2S9hQzYqtsD17:APA91bGqH-S3w7opOQUJClftFyz82amcfjHSqmQtv6tufmF1uBQ5IAEvXi15Hg1azwa4aaWS76q95LqPnxuNOhUGcZ6TXTV_duBGib6TnIBDgS6t3Y_9U8qhVOQHIh3wQmr9jfOfkWQX',
         UUID: '10cfdf08-0502-3c1e-9986-074414a4a6e1',
-        defaultLat: 49.221266,
-        defaultLon: -123.063863,
+        defaultLat: 49.22,
+        defaultLon: -123.06,
       });
   
     // Assertions
@@ -222,8 +222,8 @@ describe('POST /createUser', () => {
         email: 'test@example.com',
         deviceToken: 'cLXlnKK4S2S9hQzYqtsD17:APA91bGqH-S3w7opOQUJClftFyz82amcfjHSqmQtv6tufmF1uBQ5IAEvXi15Hg1azwa4aaWS76q95LqPnxuNOhUGcZ6TXTV_duBGib6TnIBDgS6t3Y_9U8qhVOQHIh3wQmr9jfOfkWQX',
         UUID: '10cfdf08-0502-3c1e-9986-074414a4a6e1',
-        defaultLat: 49.221266,
-        defaultLon: -123.063863
+        defaultLat: 49.22,
+        defaultLon: -123.06
       }
     );
     expect(mockUserDB.closeDatabaseConnection).toHaveBeenCalled();
@@ -234,8 +234,8 @@ describe('POST /createUser', () => {
       email: 'TEST@EXAMPLE.COM',
       deviceToken: 'cLXlnKK4S2S9hQzYqtsD17:APA91bGqH-S3w7opOQUJClftFyz82amcfjHSqmQtv6tufmF1uBQ5IAEvXi15Hg1azwa4aaWS76q95LqPnxuNOhUGcZ6TXTV_duBGib6TnIBDgS6t3Y_9U8qhVOQHIh3wQmr9jfOfkWQX',
       UUID: '10cfdf08-0502-3c1e-9986-074414a4a6e1',
-      defaultLat: 49.221266,
-      defaultLon: -123.063863,
+      defaultLat: 49.22,
+      defaultLon: -123.06,
     };
 
     mockUserDB.getUserInfoByEmail.mockResolvedValue(null);
@@ -260,8 +260,8 @@ describe('POST /createUser', () => {
       email: 'TEST@example.com', // Email to be normalized
       deviceToken: 'cLXlnKK4S2S9hQzYqtsD17:APA91bGqH-S3w7opOQUJClftFyz82amcfjHSqmQtv6tufmF1uBQ5IAEvXi15Hg1azwa4aaWS76q95LqPnxuNOhUGcZ6TXTV_duBGib6TnIBDgS6t3Y_9U8qhVOQHIh3wQmr9jfOfkWQX',
       UUID: '10cfdf08-0502-3c1e-9986-074414a4a6e1',
-      defaultLat: 49.221266,
-      defaultLon: -123.063863,
+      defaultLat: 49.22,
+      defaultLon: -123.03,
     };
   
     mockUserDB.getUserInfoByEmail.mockResolvedValue(null);
@@ -286,8 +286,8 @@ describe('POST /createUser', () => {
       email: 'test@example.com', // Email to be normalized
       deviceToken: 2364,
       UUID: '10cfdf08-0502-3c1e-9986-074414a4a6e1',
-      defaultLat: 49.221266,
-      defaultLon: -123.063863,
+      defaultLat: 49.22,
+      defaultLon: -123.06,
     };
   
     mockUserDB.getUserInfoByEmail.mockResolvedValue(null);
@@ -305,8 +305,8 @@ describe('POST /createUser', () => {
       email: 'test@example.com', // Email to be normalized
       deviceToken: 'cLXlnKK4S2S9hQzYqtsD17:APA91bGqH-S3w7opOQUJClftFyz82amcfjHSqmQtv6tufmF1uBQ5IAEvXi15Hg1azwa4aaWS76q95LqPnxuNOhUGcZ6TXTV_duBGib6TnIBDgS6t3Y_9U8qhVOQHIh3wQmr9jfOfkWQX',
       UUID: '12sv',
-      defaultLat: 49.221266,
-      defaultLon: -123.063863,
+      defaultLat: 49.22,
+      defaultLon: -123.06,
     };
   
     mockUserDB.getUserInfoByEmail.mockResolvedValue(null);
@@ -324,8 +324,8 @@ describe('POST /createUser', () => {
       email: 'test@example.com', // Email to be normalized
       deviceToken: 'cLXlnKK4S2S9hQzYqtsD17:APA91bGqH-S3w7opOQUJClftFyz82amcfjHSqmQtv6tufmF1uBQ5IAEvXi15Hg1azwa4aaWS76q95LqPnxuNOhUGcZ6TXTV_duBGib6TnIBDgS6t3Y_9U8qhVOQHIh3wQmr9jfOfkWQX',
       UUID: '10cfdf08-0502-3c1e-9986-074414a4a6e1',
-      defaultLat: 94.221266,
-      defaultLon: -183.063863,
+      defaultLat: 94.22,
+      defaultLon: -183.06,
     };
   
     mockUserDB.getUserInfoByEmail.mockResolvedValue(null);

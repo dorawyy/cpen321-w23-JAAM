@@ -87,7 +87,7 @@ function isValidRoute(response, startLat, startLon, endLat, endLon, time) {
 			return false;
 		}
 
-		if (i != 0 && i != response.length && 
+		if (i !== 0 && i !== response.length && 
 			inbetweenStop.Stop != response[i].Start.Stop &&
 			!stopIsWithinDistance(inbetweenStop, 
 				{Lat: response[i].Start.Lat, Long: response[i].Start.Long})) {

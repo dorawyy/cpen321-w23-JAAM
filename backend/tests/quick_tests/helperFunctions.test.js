@@ -23,8 +23,8 @@ jest.mock('../../mockUserDB', () => {
 // Mock data for testing
 const mockUserData = {
   email: 'test@example.com',
-  defaultLat: 40.7128,
-  defaultLon: -74.0060,
+  defaultLat: 40.71,
+  defaultLon: -74.01,
 };
 
 
