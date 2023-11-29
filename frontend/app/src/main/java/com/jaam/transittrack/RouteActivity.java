@@ -50,6 +50,9 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
     protected LocationManager locationManager;
     final static String TAG = "RouteActivity";
 
+    private EditText searchTextView;
+    private ArrayAdapter<String> arrayAdapter;
+
     static private String[] cityCoverage = {"University Endowment Lands","Vancouver", "West Vancouver", "North Vancouver",
             "Lions Bay", "Bowen Island", "Burnaby", "New Westminister", "Richmond", "Surrey",
             "Delta", "White Rock", "Langley", "Coquitlam", "Port Moody", "Port Coquitlam",
@@ -84,13 +87,11 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
         FloatingActionButton searchButton = findViewById(R.id.searchButton);
         searchButton.setAlpha(.5f);
         searchButton.setClickable(false);
-        EditText searchTextView = findViewById(R.id.searchTextField);
+        searchTextView = findViewById(R.id.searchTextField);
         ListView stopListView = findViewById(R.id.stopList);
         findViewById(R.id.routeLoadingProgressBar).setVisibility(View.INVISIBLE);
 
-
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.route_layout, R.id.textView2, stops);
+        arrayAdapter = new ArrayAdapter<>(this, R.layout.route_layout, R.id.textView2, stops);
         stopListView.setAdapter(arrayAdapter);
 
         //ChatGPT usage: No
@@ -124,45 +125,7 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
             @Override
             public void onClick(View v) {
                 //TODO put this in its own function
-                findViewById(R.id.routeLoadingProgressBar).setVisibility(View.VISIBLE);
-                stops.clear();
-
-                String routeString = null;
-                try {
-                    if(String.valueOf(searchTextView.getText()).length() < 1){
-                        showNewErrorAlertDialog("Route", "Please enter an address.");
-                        return;
-                    }
-                    routeString = getRoute(currLocation, String.valueOf(searchTextView.getText()));
-
-                    Log.d(TAG, "Solo route string: " + routeString);
-                    if(routeString != null) {
-                        try{
-                            Log.d(TAG, "displaying route");
-                            displayRoute(routeString, arrayAdapter);
-                        }catch (JSONException e){
-                            String error = new JSONArray(routeString).getString(0);
-                            if(error.equals("Could not find Route")){
-                                throw new TimeoutException();
-                            }
-                            Toast.makeText(RouteActivity.this, "Cannot find route, please try again later", Toast.LENGTH_LONG).show();
-                        }
-
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Log.d(TAG, "Could not parse JSON");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Log.d(TAG, "Could not getRoute lmao :`)");
-                } catch (TimeoutException e) {
-                    showNewErrorAlertDialog("Route", "No route found.\nPlease try again later.");
-                    Toast.makeText(RouteActivity.this, "No route found", Toast.LENGTH_SHORT).show();
-                }
-
-
-                findViewById(R.id.routeLoadingProgressBar).setVisibility(View.INVISIBLE);
+                searchRoute();
             }
         });
 
@@ -186,7 +149,7 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
      * latitude and longitude, and then sends an HTTP request to a server to obtain a route between the current location
      * and the destination. The route information is returned as a JSON string.
      *
-     * @param currLocation The current location from which the route will start.
+     * @param currLocationFromListener The current location from which the route will start.
      * @param search       The destination address or place to which the route is needed.
      * @return A JSON string containing route information between the current location and the destination.
      * @throws JSONException If there are issues with JSON parsing.
@@ -209,9 +172,9 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
      *                       - It also assumes that the `BASE_URL` and JSON format are correctly configured in the `OkHTTPHelper` class.
      */
     //ChatGPT usage: No
-    private String getRoute(Location currLocation, String search) throws JSONException, IOException, TimeoutException {
+    private String getRoute(Location currLocationFromListener, String search) throws JSONException, IOException, TimeoutException {
         JSONObject endPoints = new JSONObject();
-        if(currLocation == null){
+        if(currLocationFromListener == null){
             try {
                 currLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             } catch (SecurityException e){
@@ -290,5 +253,41 @@ public class RouteActivity extends AppCompatActivity implements LocationListener
     @Override
     public void onLocationChanged(@NonNull Location location) {
         currLocation = location;
+    }
+    private void searchRoute(){
+        findViewById(R.id.routeLoadingProgressBar).setVisibility(View.VISIBLE);
+        stops.clear();
+
+        String routeString;
+        try {
+            if(String.valueOf(searchTextView.getText()).length() < 1){
+                showNewErrorAlertDialog("Route", "Please enter an address.");
+                return;
+            }
+            routeString = getRoute(currLocation, String.valueOf(searchTextView.getText()));
+
+            Log.d(TAG, "Solo route string: " + routeString);
+            if(routeString != null) {
+                try{
+                    Log.d(TAG, "displaying route");
+                    displayRoute(routeString, arrayAdapter);
+                }catch (JSONException e){
+                    String error = new JSONArray(routeString).getString(0);
+                    if(error.equals("Could not find Route")){
+                        throw new TimeoutException();
+                    }
+                    Toast.makeText(RouteActivity.this, "Cannot find route, please try again later", Toast.LENGTH_LONG).show();
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.d(TAG, "Could not parse JSON");
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.d(TAG, "Could not getRoute lmao :`)");
+        } catch (TimeoutException e) {
+            showNewErrorAlertDialog("Route", "No route found.\nPlease try again later.");
+        }
+        findViewById(R.id.routeLoadingProgressBar).setVisibility(View.INVISIBLE);
     }
 }
