@@ -81,19 +81,19 @@ async function updateUserByEmail(email, updateData) {
           // Check if the friend is already in the FriendsList
           if (!newFriends.every((friend) => mockDb.userDB.userInfo[userIndex].FriendsList.includes(friend))) {
             console.log("Friend already added to the user's FriendsList.");
-            return { modifiedCount: 0 };
+            return new Object({modifiedCount: 0 });
           }
   
           mockDb.userDB.userInfo[userIndex].FriendsList = [
             ...new Set([...mockDb.userDB.userInfo[userIndex].FriendsList, ...newFriends]),
           ];
-          return { modifiedCount: 1 };
+          return new Object({modifiedCount: 1});
         }
   
-        return { modifiedCount: 0 };
+        return new Object({modifiedCount: 0});
       } else {
         console.warn(`User with email '${email}' not found in updateUserByEmail`);
-        return { modifiedCount: 0 };
+        return new Object({modifiedCount: 0});
       }
     } catch (error) {
       console.error('Error updating user information: ', error);
@@ -191,7 +191,7 @@ async function insertUser(userData) {
   try {
     const newUser = { _id: userIdCounter++, ...userData };
     mockDb.userDB.userInfo.push(newUser);
-    return { insertedId: newUser._id };
+    return new Object({insertedId: newUser._id});
   } catch (error) {
     console.error('Error inserting user information: ', error);
     throw error;
@@ -203,10 +203,8 @@ async function getUserDetails(userIdentifier) {
     const user = await getUserInfoByEmail(userIdentifier);
 
     if (user) {
-      return {
-        email: user.email,
-        fcmToken: user.deviceToken,
-      };
+      return new Object({email: user.email,
+        fcmToken: user.deviceToken});
     } else {
       console.log("User not found");
       return null; // User not found
@@ -217,7 +215,6 @@ async function getUserDetails(userIdentifier) {
   }
 }
 
-const Message = require('./models/message');
 
 const getChatHistory = async ({ senderEmail, receiverEmail }) => {
   try {
