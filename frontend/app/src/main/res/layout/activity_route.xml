@@ -9,8 +9,6 @@
     tools:context=".RouteActivity">
 
 
-
-
     <ProgressBar
         android:id="@+id/routeLoadingProgressBar"
         style="?android:attr/progressBarStyle"
@@ -25,12 +23,14 @@
 
     <ListView
         android:id="@+id/stopList"
-        android:layout_width="409dp"
-        android:layout_height="774dp"
+        android:layout_width="398dp"
+        android:layout_height="655dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchTextField"
+        app:layout_constraintVertical_bias="0.5">
 
     </ListView>
 
@@ -52,12 +52,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="false"
-        android:focusable="true"
         android:contentDescription="Search Button"
+        android:focusable="true"
         app:layout_constraintBottom_toTopOf="@+id/stopList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/searchTextField"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_search_category_default" />
+
+    <Space
+        android:id="@+id/space2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/stopList"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
