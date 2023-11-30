@@ -338,6 +338,7 @@ module.exports = function(database) {
 			});
 
 			app.get('/getFCM', async (req, res) => {
+				// console.log("Getting Alert");
 				try {
 					await database.connectToDatabase();
 
