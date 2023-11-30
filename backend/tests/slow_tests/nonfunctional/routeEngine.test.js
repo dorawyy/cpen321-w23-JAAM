@@ -3,7 +3,7 @@ const makeApp = require('../../../app.js');
 const mockUserDB = require('../../../mockUserDB.js');
 const { describe } = require('@jest/globals');
 const NUM_TESTS = 100;
-const PASS_THRESHOLD = 0.9;
+const PASS_THRESHOLD = 0.95;
 
 jest.mock('../../../mockUserDB', () => {
 	const originalModule = jest.requireActual('../../../mockUserDB');
