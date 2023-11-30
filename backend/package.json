@@ -26,6 +26,11 @@
     "collectCoverageFrom": [
       "app.js",
       "**/*.js",
+	  "!database.js",
+	  "!mockChatDB.js",
+	  "!mockUserDB.js",
+	  "!server.js",
+	  "!coverage/**",
       "!node_modules/**",
       "!tests/**",
       "!**/*.test.js"
