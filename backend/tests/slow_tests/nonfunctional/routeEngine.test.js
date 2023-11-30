@@ -3,7 +3,7 @@ const makeApp = require('../../../app.js');
 const mockUserDB = require('../../../mockUserDB.js');
 const { describe } = require('@jest/globals');
 const NUM_TESTS = 100;
-const PASS_THRESHOLD = 0.90;
+const PASS_THRESHOLD = 0.9;
 
 jest.mock('../../../mockUserDB', () => {
 	const originalModule = jest.requireActual('../../../mockUserDB');
@@ -115,11 +115,11 @@ function isValidRoute(response, startLat, startLon, endLat, endLon, time) {
 // Create an instance of the app with the mockUserDB
 const app = makeApp(mockUserDB);
 var date = new Date();
-var startTime;
 var passed = 0;
 // Interface POST server/getRoute
 describe('/getRoute nonfunctional, feeding randomly chosen start / end points in Vancouver to the /getRoute endpoint', () => {
 	test("testing 100 random routes", async () => {
+		var startTime;
 
 		for (var i = 0; i < NUM_TESTS; i++) {
 			const requestData = {
@@ -135,7 +135,7 @@ describe('/getRoute nonfunctional, feeding randomly chosen start / end points in
 				endLat: ${requestData.endLat} 
 				endLon: ${requestData.endLon} 
 				startTime: ${requestData.startTime}`);
-			var startTime = date.getTime();
+			startTime = date.getTime();
 			const response = await request(app)
 				.post('/getRoute')
 				.send(requestData);
