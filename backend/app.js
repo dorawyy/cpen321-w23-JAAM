@@ -192,6 +192,7 @@ module.exports = function(database) {
 	);
 
 	app.get("/getFriendList", async (req, res) => {
+
 		try {
 			await database.connectToDatabase();
 			const userEmail = req.query.userEmail;
