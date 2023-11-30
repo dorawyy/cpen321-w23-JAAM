@@ -126,6 +126,7 @@ public class FriendsListTest {
         if(signInButton != null){
             signInButton.click();
         }
+
         UiObject2 emailSelectorButton = device.wait(Until.findObject((By.text("crabapple569@gmail.com"))), DEFAULT_TIMEOUT);
         if(emailSelectorButton != null){
             emailSelectorButton.click();
