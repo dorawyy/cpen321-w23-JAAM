@@ -98,7 +98,7 @@ public class FriendsListTest {
         device.wait(Until.hasObject(By.pkg(launcherPackage).depth(0)),
                 LAUNCH_TIMEOUT);
 
-        // Launch the app
+
         Context context = ApplicationProvider.getApplicationContext();
         final Intent intent = context.getPackageManager()
                 .getLaunchIntentForPackage(PACKAGE_NAME);
