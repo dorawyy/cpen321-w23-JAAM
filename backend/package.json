@@ -14,6 +14,8 @@
   },
   "devDependencies": {
     "jest": "^29.7.0",
+    "memfs": "^4.6.0",
+    "mock-fs": "^5.2.0",
     "supertest": "^6.3.3"
   },
   "scripts": {

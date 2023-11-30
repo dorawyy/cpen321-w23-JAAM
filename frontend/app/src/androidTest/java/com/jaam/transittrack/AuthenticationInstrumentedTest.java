@@ -67,15 +67,14 @@ public class AuthenticationInstrumentedTest {
         UiObject2 signInButton = device.findObject(By.text("Sign in"));
         if(signInButton != null){
             signInButton.click();
-            fail();
         }
         else{
             Log.d("AUTHENTICATION TESTING", "Google Sign in Button Not Found");
+            fail();
         }
         UiObject2 emailSelectorButton = device.wait(Until.findObject((By.text("crabapple569@gmail.com"))), DEFAULT_TIMEOUT);
         if(emailSelectorButton != null){
             emailSelectorButton.click();
-            fail();
         }
         else{
             Log.d("AUTHENTICATION TESTING", "Cannot find email: crabapple569@gmail.com");

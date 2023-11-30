@@ -86,16 +86,11 @@ public class ChatActivity extends AppCompatActivity implements TextWatcher {
 //        makeGetRequestForChatHistory();
 
     }
-
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onStop(){
+        super.onStop();
         chatHistoryTimer.purge();
-    }
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-        chatHistoryTimer.purge();
+        webSocket.close(1000, null);
     }
 
     //ChatGPT usage: Partial

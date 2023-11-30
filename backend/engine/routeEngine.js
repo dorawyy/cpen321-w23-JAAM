@@ -19,10 +19,8 @@ var trips;
 
 // ChatGPT Usage: PARTIAL
 async function init() {
-    if (fs.existsSync(generated_stops_path) && fs.existsSync(generated_trips_path)) {
-            console.log("Files exist");
-    } else {
-            console.log("Files not found");
+    if (!fs.existsSync(generated_stops_path) || !fs.existsSync(generated_trips_path)) {
+
 
         stops = await parseTranslinkFile(stops_path);
         var stop_times = await parseTranslinkFile(stop_times_path);
@@ -38,7 +36,6 @@ async function init() {
     
     stops = await parseGeneratedFile(generated_stops_path);
     trips = await parseGeneratedFile(generated_trips_path);
-    console.log("Setup Complete");
     return true;
 }
 // ChatGPT Usage: NO
@@ -46,13 +43,11 @@ function parseGeneratedFile(path) {
     return new Promise(function(resolve, reject) {
         fs.readFile(path, 'utf8', (err, data) => {
 			if (err) {
-				console.log(err);
-				throw err;
+				reject(err);
+			} else {
+				resolve(JSON.parse(data));
 			}
-
-            console.log("Parsing File: ", path);
-            resolve(JSON.parse(data));
-        });
+		});
     });
 }
 
@@ -61,61 +56,59 @@ function parseTranslinkFile(path)  {
     return new Promise(function(resolve, reject) {
         fs.readFile(path, 'utf8', (err, data) => {
 			if (err) {
-				console.log(err);
-				throw err;
+				reject(err);
+			} else {
+
+
+				var output = {};
+				var lines = data.split('\n');
+				lines.pop();    // Get rid of the element that results from after the last newline
+				var words;
+				var titles = lines[0].split(',');
+				var i;
+				var excludeIndex = [];
+				var includeIndex = [];
+				var excludeArray;
+
+				switch(path) {
+						// case routes_path:
+						//     excludeArray = routes_exclude;
+						//     break;
+					case trips_path:
+						excludeArray = trips_exclude;
+						break;
+					case stops_path:
+						excludeArray = stops_exclude;
+						break;
+					case stop_times_path:
+						excludeArray = stop_times_exclude;
+						break;
+						// case calendar_path:
+						//     excludeArray = calendar_exclude;
+						//     break;
+					default:
+						excludeArray = [];
+				} 
+
+				for (i = 0; i < titles.length; i++) {
+					if (excludeArray.includes(titles[i])) {
+						excludeIndex.push(i.valueOf());
+					} else {
+						includeIndex.push(i.valueOf());
+					}
+				}
+
+				for (i = 1; i < lines.length; i++) {
+					words = lines[i].split(',');
+					includeIndex.forEach(index => {
+						if (output[titles[index]] === undefined) {
+							output[titles[index]] = [];
+						}
+						output[titles[index]].push(words[index]);
+					})
+				}
+				resolve(output);
 			}
-
-            console.log("Parsing File: ", path);
-
-
-            var output = {};
-            var lines = data.split('\n');
-            lines.pop();    // Get rid of the element that results from after the last newline
-            var words;
-            var titles = lines[0].split(',');
-            var i;
-            var excludeIndex = [];
-            var includeIndex = [];
-            var excludeArray;
-
-            switch(path) {
-                // case routes_path:
-                //     excludeArray = routes_exclude;
-                //     break;
-                case trips_path:
-                    excludeArray = trips_exclude;
-                    break;
-                case stops_path:
-                    excludeArray = stops_exclude;
-                    break;
-                case stop_times_path:
-                    excludeArray = stop_times_exclude;
-                    break;
-                // case calendar_path:
-                //     excludeArray = calendar_exclude;
-                //     break;
-                default:
-                    excludeArray = [];
-              } 
-
-            for (i = 0; i < titles.length; i++) {
-                if (excludeArray.includes(titles[i])) {
-                    excludeIndex.push(i.valueOf());
-                } else {
-                    includeIndex.push(i.valueOf());
-                }
-            }
-    
-            for (i = 1; i < lines.length; i++) {
-                words = lines[i].split(',');
-                includeIndex.forEach(index => {
-                    if (output[titles[index]] === undefined) {
-                        output[titles[index]] = [];
-                    }
-                    output[titles[index]].push(words[index]);
-                })
-            }
-            resolve(output);
         });
     });
 }
@@ -386,5 +379,7 @@ function getPartnerRoute(startLat1, startLon1, startLat2, startLon2, endLat, end
 module.exports = {
     init,
     getRoute,
-    getPartnerRoute
+    getPartnerRoute,
+	parseGeneratedFile,
+	parseTranslinkFile
 };

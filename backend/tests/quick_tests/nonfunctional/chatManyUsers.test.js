@@ -119,7 +119,7 @@ describe('POST /sendMessage, nonfunctional testing with many users', () => {
 				receiverEmail: requestBody.receiverEmail,
 				timestamp: expect.any(Date),
 			});
-		}, 500);
+		}, 200);
 	}
 
 });
